@@ -22,20 +22,6 @@ public class PanelElement : MonoBehaviour, IUIElement
         _root = root;
     }
 
-    public void OnTaking()
-    {
-        if (_controller != null)
-        {
-            _controller.RequestTaking(_root);
-        }
-    }
-    public void OnPlacing()
-    {
-        if (_controller != null)
-        {
-            _controller.RequestPlacing(_root);
-        }
-    }
 
     public void SetActiveElement(GameObject element)
     {

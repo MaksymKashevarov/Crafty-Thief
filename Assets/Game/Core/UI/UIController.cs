@@ -37,65 +37,6 @@ namespace Game.Core.UI
         }
 
 
-        public List<IUIElement> AddStorageSlot(List<IUIElement> storageList)
-        {
-            if(_currentInterface != null && _slotsParent != null)
-            {
-                GameObject spawnPrefab = Instantiate(_storageSlot, _slotsParent);
-                IUIElement uiElement = spawnPrefab.GetComponent<IUIElement>();
-                if (uiElement != null)
-                {
-                    storageList.Add(uiElement);
-                    uiElement.SetController(this);
-                    Debug.Log("Element has been added");
-                    return storageList;
-                }
-                else
-                {
-                    Debug.LogWarning("EXCEPTION");
-                    Destroy(spawnPrefab);
-                    return null;
-                }
-            }
-            else
-            {
-                return null;
-            }           
-        }
-
-        public void RequestPlacing(IUIElement source)
-        {
-            Item item = source.getSlotItem();
-            if (item != null)
-            {
-                Debug.LogWarning("There is already an item in storage");
-            }
-            else
-            {
-                Image sourceImg = source.GetSlotImage();
-                _currentPlayerInterface.PlaceItemInStorage(source, item, sourceImg);
-            }
-            GameObject tmpElement = source.GetActiveElement();
-            DestroyElement(tmpElement);
-        }
-
-        public void RequestTaking(IUIElement source)
-        {
-            Item item = source.getSlotItem();
-            Image sourceImg = source.GetSlotImage();
-            if (item != null)
-            {
-                _currentPlayerInterface.TakeItemFromStorage(source, item, sourceImg);
-                source.SetSlotItem(null);
-            }
-            else
-            {
-                Debug.LogWarning("Request Denied");
-            }
-            GameObject tmpElement = source.GetActiveElement();
-            DestroyElement(tmpElement);
-        }
-
         public void DestroyElement(GameObject element)
         {
             if (element != null)
@@ -156,14 +97,9 @@ namespace Game.Core.UI
             }
         }
 
-        public void OpenStorageInterface()
+        public void OpenInventoryInterface()
         {
-            _currentInterface = Instantiate(_storageInterface, transform);
-            var storageInterface = _currentInterface.GetComponent<StorageInterfaceView>();
-            if (storageInterface != null) 
-            { 
-                _slotsParent = storageInterface.GetSlotsParent();
-            }
+            
         }
     }
 

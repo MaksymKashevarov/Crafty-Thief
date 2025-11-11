@@ -4,8 +4,6 @@ namespace Game.Core.Interactable
     {
         Item GetItem();
         bool IsInteractable();
-        Storage GetStorage();
-        StorageCore GetStorageCore();
 
     }
 

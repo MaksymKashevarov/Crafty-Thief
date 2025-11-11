@@ -33,18 +33,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Drop",
+                    "name": "Terminate",
                     "type": "Button",
-                    "id": "911f1670-3736-45d1-b75f-53e0701909b8",
+                    "id": "5f008298-55df-4909-9f0e-0cbdec99c187",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Terminate",
+                    "name": "OpenInventory",
                     "type": "Button",
-                    "id": "5f008298-55df-4909-9f0e-0cbdec99c187",
+                    "id": "49d81b52-5eb0-4de2-ae67-89e3385c29cc",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -121,22 +121,11 @@
                 {
                     "name": "",
                     "id": "b69330f3-5958-42d2-99f2-03bc603f330e",
-                    "path": "<Keyboard>/f",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "96111646-42e7-4e36-a1fb-6f80369e0a73",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Drop",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -148,6 +137,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Terminate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1207294a-5c63-4cc5-9143-fe8e2ea5303d",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenInventory",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -14,6 +14,7 @@ namespace Game.Core.UI
         private UIController _controller;
         private List<IUIElement> _currentStorage = new();
         private GlobalDriver _globalDriver;
+        private int _handsInventorySize;
         public PlayerInterface(PlayerCore player,Hands playerHands, UIController controller, GlobalDriver driver) 
         { 
             this._player = player;
@@ -22,18 +23,21 @@ namespace Game.Core.UI
             this._globalDriver = driver;
         }
 
-        private void CheckItem()
+        public bool IsInventoryFull()
         {
-                    
-        }
-        
-        private void BuildStorageSlots(int maxSlots)
-        {
-            for (int i = 0; i < maxSlots; i++)
+            List<Item> playerInventory = _playerHands.GetHandsInventory();
+            if (playerInventory.Count > _handsInventorySize) 
             {
-                _currentStorage = _controller.AddStorageSlot(_currentStorage);
+                return true;
             }
+            return false;
         }
+
+        public void SetInventorySize(int size)
+        {
+            _handsInventorySize = size;
+        }
+
 
         public void DrawCursor(bool mode)
         {
@@ -49,34 +53,6 @@ namespace Game.Core.UI
             }
         }
 
-        public void PlaceItemInStorage(IUIElement source, Item item, Image slotImg)
-        {
-            if (_playerHands != null && _playerHands.GetItem() != null)
-            {
-                Item newItem = _playerHands.TransferItem(item);
-                source.SetSlotItem(newItem);
-                _controller.SetImage(newItem.GetImage(), slotImg);
-            }
-            else
-            {
-                Debug.LogWarning("Hands are empty");
-                return;
-            }
-        }
-
-        public void TakeItemFromStorage(IUIElement source, Item item, Image slotImg)
-        {
-            if (_playerHands != null && _playerHands.GetItem() == null)
-            {
-                _playerHands.RecieveItem(item);
-                _controller.SetDefaultImage(slotImg);
-            }
-            else
-            {
-                Debug.LogWarning("Hands are holding item, cant take!");
-                return;
-            }
-        }
 
         public void TerminateInterface()
         {
@@ -107,16 +83,14 @@ namespace Game.Core.UI
             }
         }
 
-        public void AccessStorage(int maxSlots)
+        public void AccessInventory()
         {
-            _controller.OpenStorageInterface();
-            DrawCursor(true);
-            BuildStorageSlots(maxSlots);
+
         }
 
         public void Refresh()
         {
-            CheckItem();
+
         }
     }
 

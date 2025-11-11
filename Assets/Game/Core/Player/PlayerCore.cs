@@ -18,6 +18,7 @@ namespace Game.Core.Player
         [SerializeField] private LayerMask _interactMask;
         [SerializeField] private UIController _controller;
         [SerializeField] private GlobalDriver _globalDriver;
+        [SerializeField] private int _handsInventorySize;
         private Dictionary<string, float> stats = new();
         private Hands _hands;
         private PlayerInterface _playerInterface;
@@ -57,14 +58,14 @@ namespace Game.Core.Player
             _playerInterface.TerminateInterface();
         }
 
-        private void OnDrop(InputValue value)
+        private void OnOpenInventory(InputValue value)
         {
             if (value.isPressed == false)
             {
                 return;
             }
 
-            _hands.DropItem();
+
         }
 
         private void OnInteract(InputValue value)
@@ -88,22 +89,22 @@ namespace Game.Core.Player
                 Debug.Log("Interact: Ray hit " + hit.collider.name);
                 GameObject item = hit.collider.gameObject;
                 IInteractable interactable = hit.collider.GetComponent<IInteractable>();
-                Storage storage = interactable.GetStorage();
-                if (storage != null)
-                {
-                    _hands.Use(interactable, storage, _playerInterface);
-                    return;
-                }
 
                 if (interactable != null && interactable.IsInteractable())
                 {
-                    Debug.Log("Interact: IInteractable found and is interactable");
-                    _hands.Pickup(interactable, item);
-                                                        
+                    bool isInventoryFull = _playerInterface.IsInventoryFull();
+                    if (isInventoryFull)
+                    {
+                        Debug.LogWarning("Inventory is Full!");
+                        return;
+                    }
+                    else
+                    {
+                        Debug.Log("Interact: IInteractable found and is interactable");
+                        _hands.Pickup(interactable, item);
+                    }                                                        
                 }
             }
-
-            Debug.Log("Nothing to interact with");
         }
         private void Start()
         {
@@ -117,6 +118,7 @@ namespace Game.Core.Player
             }
 
             BuildCharacter();
+            _playerInterface.SetInventorySize(_handsInventorySize);
             _controller.SetPlayerInterface(_playerInterface);
             
         }
