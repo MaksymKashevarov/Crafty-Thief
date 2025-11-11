@@ -1,0 +1,95 @@
+# ——— Unity Core Cache & Temp ———
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+UserSettings/
+MemoryCaptures/
+
+# ——— OS Junk ———
+.DS_Store
+Thumbs.db
+
+# ——— IDE Files (VS, Rider, VSCode) ———
+.vs/
+.vscode/
+.idea/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# ——— Crash reports & Logs ———
+*.stackdump
+*.log
+
+# ——— Build Outputs ———
+*.apk
+*.aab
+*.obb
+*.unitypackage
+Build/
+Builds/
+dist/
+
+# ——— Lighting, Occlusion, and Generated Data ———
+[Aa]ssets/**/Lightmap-*
+[Aa]ssets/**/LightingData.asset
+[Aa]ssets/**/OcclusionCullingData.asset
+[Aa]ssets/**/ReflectionProbe-*
+
+# ——— Addressables Cache ———
+[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+
+# ——— PlasticSCM / Collaborate ———
+CollabSnapshot/
+PlasticWorkspace/
+
+# ——— JetBrains cache ———
+.idea/
+*.iml
+
+# ——— Local and Temp Config ———
+*.local
+*.meta~
+*.userprefs
+
+# ——— Unity Safe Keepers (DON’T IGNORE) ———
+!Assets/
+!Packages/
+!ProjectSettings/
+!Assets/**/*.meta
+!Packages/**/*.meta
+!ProjectSettings/**/*.meta
+
+# ——— Keep essential Unity data ———
+!Assets/**/*.unity
+!Assets/**/*.prefab
+!Assets/**/*.mat
+!Assets/**/*.anim
+!Assets/**/*.controller
+!Assets/**/*.inputactions
+!Assets/**/*.asset
+!Assets/**/*.shader
+!Assets/**/*.png
+!Assets/**/*.jpg
+!Assets/**/*.tga
+!Assets/**/*.psd
+!Assets/**/*.fbx
+!Assets/**/*.wav
+!Assets/**/*.mp3
+!Assets/**/*.ogg
+!Assets/**/*.ttf
+!Assets/**/*.otf
