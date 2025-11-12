@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1003740e92d69b408b9335a9f96be3b, type: 3}
   m_Name: JewelryBox
   m_EditorClassIdentifier: 
-  itemName: 
-  itemPrefab: {fileID: 0}
+  itemName: Jewelry Box
+  itemPrefab: {fileID: 7906931672608748313, guid: 86001e67b4fb8544a95c0c4e7fbda7b6, type: 3}
   itemImage: {fileID: 0}

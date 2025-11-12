@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1003740e92d69b408b9335a9f96be3b, type: 3}
   m_Name: CrystalVase
   m_EditorClassIdentifier: 
-  itemName: 
-  itemPrefab: {fileID: 0}
+  itemName: Crystal Vase
+  itemPrefab: {fileID: 3903301913510142930, guid: 3a95f3865691fdb458b609fd12582833, type: 3}
   itemImage: {fileID: 0}

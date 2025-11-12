@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1003740e92d69b408b9335a9f96be3b, type: 3}
   m_Name: GoldenClock
   m_EditorClassIdentifier: 
-  itemName: 
-  itemPrefab: {fileID: 0}
+  itemName: Golden Clock
+  itemPrefab: {fileID: 5246552131482243693, guid: c95a45d818d66f84ab6c75428a879d28, type: 3}
   itemImage: {fileID: 0}

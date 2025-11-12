@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1003740e92d69b408b9335a9f96be3b, type: 3}
   m_Name: VintageRadio
   m_EditorClassIdentifier: 
-  itemName: 
-  itemPrefab: {fileID: 0}
+  itemName: Vintage Radio
+  itemPrefab: {fileID: 1745173633957152914, guid: 27724f5dbb7ce4d4bada3040bb12fa7e, type: 3}
   itemImage: {fileID: 0}
