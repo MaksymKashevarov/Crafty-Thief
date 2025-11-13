@@ -17,8 +17,9 @@ namespace Game.Core
         [SerializeField] private GameObject _player;
         [SerializeField] private GameObject _canvas;
         [SerializeField] private Transform _spawnPoint;
-        private List<Item> _activeStealingList;
         private PlayerInterface _activePlayerInterface;
+        private List<Item> _activeStealingList;
+
 
         void Update()
         {

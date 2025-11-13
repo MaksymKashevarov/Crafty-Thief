@@ -128,7 +128,7 @@ namespace Game.Core.Player
             {
                 Debug.LogError("COMPONENT Missing!");
             }
-
+            _globalDriver.SetActivePlayerInterface(_playerInterface);
             _playerInterface.SetInventorySize(_handsInventorySize);
             _controller.SetPlayerInterface(_playerInterface);
             
