@@ -7,7 +7,7 @@ namespace Game.Core
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
-
+    using UnityEngine.Rendering;
 
     public class GlobalDriver : MonoBehaviour
     {
@@ -31,9 +31,9 @@ namespace Game.Core
 
         private void BuildCharacter()
         {
-            if (_player == null)
+            if (_player != null)
             {
-                GameObject readyPlayer = Instantiate(_player);
+                GameObject readyPlayer = Instantiate(_player, _spawnPoint.position, _spawnPoint.rotation);
                 PlayerCore playerCore = readyPlayer.GetComponent<PlayerCore>();
                 if (playerCore != null && _canvas != null)
                 {
@@ -45,6 +45,10 @@ namespace Game.Core
                         playerCore.SetDriver(this);
                     }
                 }
+            }
+            else
+            {
+                Debug.LogError("PLAYER MISSING!");
             }
         }
 
