@@ -1,15 +1,67 @@
 namespace Game.Core
 {
+    using Game.Core.Interactable;
+    using Game.Core.Player;
+    using Game.Core.UI;
+    using NUnit.Framework;
+    using System.Collections.Generic;
+    using System.Linq;
     using UnityEngine;
 
 
     public class GlobalDriver : MonoBehaviour
     {
         private float _logTimer;
+        [SerializeField] private List<Item> _itemsToSteal;
+        [SerializeField] private int _stealListCount;
+        [SerializeField] private GameObject _player;
+        [SerializeField] private GameObject _canvas;
+        [SerializeField] private Transform _spawnPoint;
 
         void Update()
         {
             CountTime();
+        }
+
+        private void Start()
+        {
+            GenerateStealingList();
+            BuildCharacter();
+        }
+
+        private void BuildCharacter()
+        {
+            if (_player == null)
+            {
+                GameObject readyPlayer = Instantiate(_player);
+                PlayerCore playerCore = readyPlayer.GetComponent<PlayerCore>();
+                if (playerCore != null && _canvas != null)
+                {
+                    GameObject playerCanvas = Instantiate(_canvas);
+                    UIController playerController = playerCanvas.GetComponent<UIController>();
+                    if (playerController != null)
+                    {
+                        playerCore.SetController(playerController);
+                        playerCore.SetDriver(this);
+                    }
+                }
+            }
+        }
+
+        private void GenerateStealingList()
+        {
+            List<Item> list = new List<Item>(_itemsToSteal);
+
+            list = list
+            .OrderBy(i => Random.value)
+            .Take(_stealListCount)
+            .ToList();
+
+            foreach (Item item in list)
+            {
+                string itemName = item.GetItemName();
+                Debug.Log($"Item set to list: {itemName}");
+            }
         }
 
         public void CountTime()

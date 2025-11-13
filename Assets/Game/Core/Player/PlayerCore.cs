@@ -64,8 +64,16 @@ namespace Game.Core.Player
             {
                 return;
             }
+        }
 
+        public void SetController(UIController controller)
+        {
+            _controller = controller;
+        }
 
+        public void SetDriver(GlobalDriver driver)
+        {
+            _globalDriver = driver;
         }
 
         private void OnInteract(InputValue value)
@@ -112,12 +120,15 @@ namespace Game.Core.Player
             {
                 _hands = new(_cameraPivot, this);
             }
-            if (_playerInterface == null)
+            if (_playerInterface == null && _controller != null)
             {
                 _playerInterface = new(this, _hands, _controller, _globalDriver);
             }
+            else
+            {
+                Debug.LogError("COMPONENT Missing!");
+            }
 
-            BuildCharacter();
             _playerInterface.SetInventorySize(_handsInventorySize);
             _controller.SetPlayerInterface(_playerInterface);
             

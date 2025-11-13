@@ -8,28 +8,28 @@ namespace Game.Core.UI
 
     public class UIController : MonoBehaviour
     {
-        [SerializeField] private Image _itemSlot;
-        [SerializeField] private Sprite _slotDefaultImage;
-        [SerializeField] private GameObject _storageInterface;
-        [SerializeField] private GameObject _storageSlot;
         [SerializeField] private Transform _slotsParent;
         private GameObject _currentInterface;
         private PlayerInterface _currentPlayerInterface;
 
 
-        public void SetImage(Sprite image, Image destination = null)
+        public void SetCurrentInterace(GameObject element)
         {
-            if (destination != null)
+            _currentInterface = element;
+        }
+
+        public GameObject GetCurrentInterface()
+        {
+            if (_currentInterface == null)
             {
-                destination.sprite = image;
+                Debug.LogWarning("No current element present!");
+                return null;
             }
             else
             {
-                _itemSlot.sprite = image;
+                return _currentInterface;
             }
-            
         }
-
 
         public void SetPlayerInterface(PlayerInterface playerInterface)
         {
@@ -68,18 +68,6 @@ namespace Game.Core.UI
             else
             {
                 Debug.LogWarning("Component cannot be found!");
-            }
-        }
-
-        public void SetDefaultImage(Image destination = null)
-        {
-            if (destination != null)
-            {
-                destination.sprite = _slotDefaultImage;
-            }
-            else
-            {
-                _itemSlot.sprite = _slotDefaultImage;
             }
         }
 
