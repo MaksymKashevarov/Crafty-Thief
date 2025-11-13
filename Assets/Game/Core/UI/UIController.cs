@@ -25,7 +25,7 @@ namespace Game.Core.UI
                 foreach (string itemName in stealList)
                 {
                     GameObject currentTextBox = Instantiate(textbox, panelParent);
-                    TextMeshPro text = currentTextBox.GetComponent<TextMeshPro>();
+                    TextMeshProUGUI text = currentTextBox.GetComponent<TextMeshProUGUI>();
                     if (text != null)
                     {
                         text.text = itemName;
