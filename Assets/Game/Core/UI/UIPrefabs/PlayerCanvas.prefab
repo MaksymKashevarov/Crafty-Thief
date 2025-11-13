@@ -114,4 +114,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ede886626a3c71c468a3587b74eece21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _slotsParent: {fileID: 0}
+  _canvasParent: {fileID: 4602142728166997973}
+  _stealList: {fileID: 3380307088412422700, guid: e88ebe846d5e496498c174717e4674b9, type: 3}
+  textbox: {fileID: 4742882942990773524, guid: 94373b397cf32af4584aa1ee1b204ca4, type: 3}

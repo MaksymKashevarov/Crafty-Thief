@@ -13,14 +13,12 @@ namespace Game.Core.UI
         private Hands _playerHands;
         private UIController _controller;
         private List<IUIElement> _currentStorage = new();
-        private GlobalDriver _globalDriver;
         private int _handsInventorySize;
-        public PlayerInterface(PlayerCore player,Hands playerHands, UIController controller, GlobalDriver driver) 
+        public PlayerInterface(PlayerCore player,Hands playerHands, UIController controller) 
         { 
             this._player = player;
             this._playerHands = playerHands;
             this._controller = controller;
-            this._globalDriver = driver;
         }
 
         public bool IsInventoryFull()
@@ -31,6 +29,14 @@ namespace Game.Core.UI
                 return true;
             }
             return false;
+        }
+
+        public void RequestListBuild(List<string> stealList)
+        {
+            if (stealList.Count > 0)
+            {
+                _controller.ShowStealList(stealList);
+            }
         }
 
         public void SetInventorySize(int size)
@@ -81,11 +87,6 @@ namespace Game.Core.UI
                     _controller.DestroyElement(currentElement);
                 }
             }
-        }
-
-        public void AccessInventory()
-        {
-
         }
 
         public void Refresh()

@@ -122,7 +122,7 @@ namespace Game.Core.Player
             }
             if (_playerInterface == null && _controller != null)
             {
-                _playerInterface = new(this, _hands, _controller, _globalDriver);
+                _playerInterface = new(this, _hands, _controller);
             }
             else
             {

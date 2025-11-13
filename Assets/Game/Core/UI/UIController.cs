@@ -3,15 +3,37 @@ namespace Game.Core.UI
     using Game.Core.Interactable;
     using Game.Core.Player;
     using System.Collections.Generic;
+    using TMPro;
     using UnityEngine;
     using UnityEngine.UI;
 
     public class UIController : MonoBehaviour
     {
-        [SerializeField] private Transform _slotsParent;
+        [SerializeField] private Transform _canvasParent;
+        [SerializeField] private GameObject _stealList;
+        [SerializeField] private GameObject textbox;
+        private Transform panelParent;
         private GameObject _currentInterface;
         private PlayerInterface _currentPlayerInterface;
 
+        public void ShowStealList(List<string> stealList)
+        {
+            if (_stealList != null)
+            {
+                GameObject activePanel = Instantiate(_stealList, _canvasParent);
+                panelParent = activePanel.transform;
+                foreach (string itemName in stealList)
+                {
+                    GameObject currentTextBox = Instantiate(textbox, panelParent);
+                    TextMeshPro text = currentTextBox.GetComponent<TextMeshPro>();
+                    if (text != null)
+                    {
+                        text.text = itemName;
+                    }
+
+                }
+            }
+        }
 
         public void SetCurrentInterace(GameObject element)
         {

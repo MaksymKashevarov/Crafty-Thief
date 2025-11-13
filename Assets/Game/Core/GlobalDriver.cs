@@ -18,7 +18,7 @@ namespace Game.Core
         [SerializeField] private GameObject _canvas;
         [SerializeField] private Transform _spawnPoint;
         private PlayerInterface _activePlayerInterface;
-        private List<Item> _activeStealingList = new List<Item>();
+        private List<string> _activeStealingList = new();
 
 
         void Update()
@@ -30,6 +30,19 @@ namespace Game.Core
         {
             GenerateStealingList();
             BuildCharacter();
+        }
+
+        private void ApplyActiveStealList()
+        {
+            if (_activePlayerInterface != null)
+            {
+                _activePlayerInterface.RequestListBuild(_activeStealingList);
+                Debug.Log("Requesting list build");
+            }
+            else
+            {
+                Debug.LogError("Interface missing");
+            }
         }
 
         public void SetActivePlayerInterface(PlayerInterface playerInterface)
@@ -44,6 +57,7 @@ namespace Game.Core
                 _activePlayerInterface = playerInterface;
             }
             Debug.Log("INTERFACE REINSTALLED!");
+            ApplyActiveStealList();
         }
 
         private void BuildCharacter()
@@ -80,8 +94,8 @@ namespace Game.Core
 
             foreach (Item item in list)
             {
-                _activeStealingList.Add(item);
                 string itemName = item.GetItemName();
+                _activeStealingList.Add(itemName);
                 Debug.Log($"Item set to list: {itemName}");
             }
         }
