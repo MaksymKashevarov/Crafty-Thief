@@ -10,6 +10,11 @@ namespace Game.Core.Interactable
         [SerializeField] private GameObject itemPrefab;
         [SerializeField] private Sprite itemImage;
 
+        public string GetItemName()
+        {
+            return itemName;
+        }
+
         public GameObject GetPrefab()
         {
             return itemPrefab;

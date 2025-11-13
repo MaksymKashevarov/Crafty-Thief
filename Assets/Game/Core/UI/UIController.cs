@@ -3,33 +3,55 @@ namespace Game.Core.UI
     using Game.Core.Interactable;
     using Game.Core.Player;
     using System.Collections.Generic;
+    using TMPro;
     using UnityEngine;
     using UnityEngine.UI;
 
     public class UIController : MonoBehaviour
     {
-        [SerializeField] private Image _itemSlot;
-        [SerializeField] private Sprite _slotDefaultImage;
-        [SerializeField] private GameObject _storageInterface;
-        [SerializeField] private GameObject _storageSlot;
-        [SerializeField] private Transform _slotsParent;
+        [SerializeField] private Transform _canvasParent;
+        [SerializeField] private GameObject _stealList;
+        [SerializeField] private GameObject textbox;
+        private Transform panelParent;
         private GameObject _currentInterface;
         private PlayerInterface _currentPlayerInterface;
 
-
-        public void SetImage(Sprite image, Image destination = null)
+        public void ShowStealList(List<string> stealList)
         {
-            if (destination != null)
+            if (_stealList != null)
             {
-                destination.sprite = image;
+                GameObject activePanel = Instantiate(_stealList, _canvasParent);
+                panelParent = activePanel.transform;
+                foreach (string itemName in stealList)
+                {
+                    GameObject currentTextBox = Instantiate(textbox, panelParent);
+                    TextMeshProUGUI text = currentTextBox.GetComponent<TextMeshProUGUI>();
+                    if (text != null)
+                    {
+                        text.text = itemName;
+                    }
+
+                }
+            }
+        }
+
+        public void SetCurrentInterace(GameObject element)
+        {
+            _currentInterface = element;
+        }
+
+        public GameObject GetCurrentInterface()
+        {
+            if (_currentInterface == null)
+            {
+                Debug.LogWarning("No current element present!");
+                return null;
             }
             else
             {
-                _itemSlot.sprite = image;
+                return _currentInterface;
             }
-            
         }
-
 
         public void SetPlayerInterface(PlayerInterface playerInterface)
         {
@@ -68,18 +90,6 @@ namespace Game.Core.UI
             else
             {
                 Debug.LogWarning("Component cannot be found!");
-            }
-        }
-
-        public void SetDefaultImage(Image destination = null)
-        {
-            if (destination != null)
-            {
-                destination.sprite = _slotDefaultImage;
-            }
-            else
-            {
-                _itemSlot.sprite = _slotDefaultImage;
             }
         }
 
