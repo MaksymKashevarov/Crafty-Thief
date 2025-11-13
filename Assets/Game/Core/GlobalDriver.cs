@@ -18,7 +18,7 @@ namespace Game.Core
         [SerializeField] private GameObject _canvas;
         [SerializeField] private Transform _spawnPoint;
         private PlayerInterface _activePlayerInterface;
-        private List<Item> _activeStealingList;
+        private List<Item> _activeStealingList = new List<Item>();
 
 
         void Update()
@@ -43,6 +43,7 @@ namespace Game.Core
             {
                 _activePlayerInterface = playerInterface;
             }
+            Debug.Log("INTERFACE REINSTALLED!");
         }
 
         private void BuildCharacter()
