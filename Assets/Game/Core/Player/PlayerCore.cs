@@ -66,16 +66,6 @@ namespace Game.Core.Player
             }
         }
 
-        public void SetController(UIController controller)
-        {
-            _controller = controller;
-        }
-
-        public void SetDriver(GlobalDriver driver)
-        {
-            _globalDriver = driver;
-        }
-
         private void OnInteract(InputValue value)
         {
             if (value.isPressed == false)
@@ -114,28 +104,34 @@ namespace Game.Core.Player
                 }
             }
         }
-        private void Start()
+
+        public void Initialize(UIController controller, GlobalDriver driver)
         {
+            _controller = controller;
+            _globalDriver = driver;
             if (_hands == null)
             {
                 _hands = new(_cameraPivot, this);
             }
-            if (_playerInterface == null && _controller != null)
+            if (_playerInterface == null)
             {
-                _playerInterface = new(this, _hands, _controller);
+                if (_controller != null)
+                {
+                    _playerInterface = new(this, _hands, _controller);
+                }
+                else
+                {
+                    Debug.LogError("CONTROLLER missing!");
+                    return;
+                }
             }
-            else
+            if (_globalDriver != null && _controller != null)
             {
-                Debug.LogError("COMPONENT Missing!");
-            }
-            if (_globalDriver != null)
-            {
+                _controller.SetPlayerInterface(_playerInterface);
                 _globalDriver.SetActivePlayerInterface(_playerInterface);
                 Debug.Log("Initiating callback! Interface sent!");
             }
             _playerInterface.SetInventorySize(_handsInventorySize);
-            _controller.SetPlayerInterface(_playerInterface);
-            
         }
 
         private void BuildCharacter()

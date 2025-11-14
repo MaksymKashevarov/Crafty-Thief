@@ -11,7 +11,7 @@ namespace Game.Core.UI
     {
         [SerializeField] private Transform _canvasParent;
         [SerializeField] private GameObject _stealList;
-        [SerializeField] private GameObject textbox;
+        [SerializeField] private TextBox textbox;
         private Transform panelParent;
         private GameObject _currentInterface;
         private PlayerInterface _currentPlayerInterface;
@@ -24,11 +24,10 @@ namespace Game.Core.UI
                 panelParent = activePanel.transform;
                 foreach (string itemName in stealList)
                 {
-                    GameObject currentTextBox = Instantiate(textbox, panelParent);
-                    TextMeshProUGUI text = currentTextBox.GetComponent<TextMeshProUGUI>();
-                    if (text != null)
+                    TextBox currentTextBox = Instantiate(textbox, panelParent);
+                    if (currentTextBox != null)
                     {
-                        text.text = itemName;
+                        currentTextBox.SetText(itemName);
                     }
 
                 }

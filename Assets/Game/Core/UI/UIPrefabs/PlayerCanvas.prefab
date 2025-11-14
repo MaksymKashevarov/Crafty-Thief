@@ -116,4 +116,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _canvasParent: {fileID: 4602142728166997973}
   _stealList: {fileID: 3380307088412422700, guid: e88ebe846d5e496498c174717e4674b9, type: 3}
-  textbox: {fileID: 4742882942990773524, guid: 94373b397cf32af4584aa1ee1b204ca4, type: 3}
+  textbox: {fileID: 7593562208705475403, guid: 94373b397cf32af4584aa1ee1b204ca4, type: 3}

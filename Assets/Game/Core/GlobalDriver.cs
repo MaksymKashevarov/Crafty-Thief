@@ -14,8 +14,8 @@ namespace Game.Core
         private float _logTimer;
         [SerializeField] private List<Item> _itemsToSteal;
         [SerializeField] private int _stealListCount;
-        [SerializeField] private GameObject _player;
-        [SerializeField] private GameObject _canvas;
+        [SerializeField] private PlayerCore _playerPrefab;
+        [SerializeField] private UIController _canvasPrefab;
         [SerializeField] private Transform _spawnPoint;
         private PlayerInterface _activePlayerInterface;
         private List<string> _activeStealingList = new();
@@ -62,25 +62,34 @@ namespace Game.Core
 
         private void BuildCharacter()
         {
-            if (_player != null)
+            if (_playerPrefab == null)
             {
-                GameObject readyPlayer = Instantiate(_player, _spawnPoint.position, _spawnPoint.rotation);
-                PlayerCore playerCore = readyPlayer.GetComponent<PlayerCore>();
-                if (playerCore != null && _canvas != null)
-                {
-                    GameObject playerCanvas = Instantiate(_canvas);
-                    UIController playerController = playerCanvas.GetComponent<UIController>();
-                    if (playerController != null)
-                    {
-                        playerCore.SetController(playerController);
-                        playerCore.SetDriver(this);
-                    }
-                }
+                Debug.LogError("PLAYER PREFAB MISSING!");
+                return;
             }
-            else
+
+            if (_canvasPrefab == null)
             {
-                Debug.LogError("PLAYER MISSING!");
+                Debug.LogError("CANVAS PREFAB MISSING!");
+                return;
             }
+
+            PlayerCore playerCore = Instantiate(_playerPrefab, _spawnPoint.position, _spawnPoint.rotation);
+            UIController playerController = Instantiate(_canvasPrefab);
+
+            if (playerCore == null)
+            {
+                Debug.LogError("PLAYER CORE MISSING ON PREFAB!");
+                return;
+            }
+
+            if (playerController == null)
+            {
+                Debug.LogError("UI CONTROLLER MISSING ON CANVAS PREFAB!");
+                return;
+            }
+
+            playerCore.Initialize(playerController, this);
         }
 
         private void GenerateStealingList()
