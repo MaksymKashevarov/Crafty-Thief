@@ -276,8 +276,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5132cc91f9452674fb78df55a667f7b9, type: 2}
   - {fileID: 11400000, guid: bf8f9084c4b53f945ab41c563e3837ce, type: 2}
   _stealListCount: 4
-  _player: {fileID: 7154880095141970826, guid: 7a0b348683fd49648b951da545816b52, type: 3}
-  _canvas: {fileID: 6786561320508294148, guid: 4bfa9fba35349b948ae762695f53c4d7, type: 3}
+  _playerPrefab: {fileID: 6160846651160488542, guid: 7a0b348683fd49648b951da545816b52, type: 3}
+  _canvasPrefab: {fileID: 6279072281825238927, guid: 4bfa9fba35349b948ae762695f53c4d7, type: 3}
   _spawnPoint: {fileID: 737377002}
 --- !u!4 &713225926
 Transform:
