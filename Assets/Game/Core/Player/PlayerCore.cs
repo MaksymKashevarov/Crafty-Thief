@@ -134,14 +134,6 @@ namespace Game.Core.Player
             _playerInterface.SetInventorySize(_handsInventorySize);
         }
 
-        private void BuildCharacter()
-        {
-            foreach (var entry in _stats.CharacterData)
-            {
-                stats[entry.Name] = entry.Value;
-            }
-        }
-
         private void LookUpdate()
         {
             Vector3 right = transform.right * _move.x;

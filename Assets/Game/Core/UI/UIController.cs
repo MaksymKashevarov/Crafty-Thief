@@ -55,6 +55,7 @@ namespace Game.Core.UI
         public void SetPlayerInterface(PlayerInterface playerInterface)
         {
            _currentPlayerInterface = playerInterface;
+            Debug.Log($"Interface Installed{this.name}");
         }
 
 
@@ -71,26 +72,6 @@ namespace Game.Core.UI
             }
         }
 
-        public void ShowElement(GameObject element, Transform parent, IUIElement source)
-        {
-            if (element == null) return;
-
-            _currentPlayerInterface.ClearElements(source);
-
-            GameObject instance = Instantiate(element, parent);
-            IUIElement instanceElement = instance.GetComponent<IUIElement>();
-
-            if (instanceElement != null)
-            {
-                instanceElement.SetController(this);
-                source.SetActiveElement(instance);
-                instanceElement.SetRootElement(source);
-            }
-            else
-            {
-                Debug.LogWarning("Component cannot be found!");
-            }
-        }
 
         public void TerminateCurrentInterface()
         {
