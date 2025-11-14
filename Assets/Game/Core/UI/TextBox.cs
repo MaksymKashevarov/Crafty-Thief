@@ -1,12 +1,21 @@
-using TMPro;
-using UnityEngine;
-
-public class TextBox : MonoBehaviour
+namespace Game.Core.UI
 {
-    [SerializeField] private TextMeshProUGUI _textMesh;
+    using TMPro;
+    using UnityEngine;
 
-    public void SetText(string input)
+    public class TextBox : MonoBehaviour
     {
-        _textMesh.text = input;
+        [SerializeField] private TextMeshProUGUI _textMesh;
+
+        public void SetText(string input)
+        {
+            _textMesh.text = input;
+        }
+
+        public string GetText()
+        {
+            return _textMesh.text;
+        }
     }
+
 }

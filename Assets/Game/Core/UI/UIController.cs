@@ -15,8 +15,9 @@ namespace Game.Core.UI
         private Transform panelParent;
         private GameObject _currentInterface;
         private PlayerInterface _currentPlayerInterface;
+        [SerializeField] private List<TextBox> _activeTextBoxes = new();
 
-        public void ShowStealList(List<string> stealList)
+        public void ShowStealList(List<string> stealList, List<string> activeList)
         {
             if (_stealList != null)
             {
@@ -28,8 +29,23 @@ namespace Game.Core.UI
                     if (currentTextBox != null)
                     {
                         currentTextBox.SetText(itemName);
+                        activeList.Add(itemName);
+                        _activeTextBoxes.Add(currentTextBox);
                     }
 
+                }
+            }
+        }
+
+        public void RemoveItemInList(string key)
+        {
+            for (int i = _activeTextBoxes.Count - 1; i >= 0; i--)
+            {
+                var text = _activeTextBoxes[i];
+                if (text.GetText() == key)
+                {
+                    Destroy(text.gameObject);
+                    _activeTextBoxes.RemoveAt(i);
                 }
             }
         }

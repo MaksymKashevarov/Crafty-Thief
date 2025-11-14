@@ -329,4 +329,4 @@ MonoBehaviour:
     m_Bits: 8
   _controller: {fileID: 0}
   _globalDriver: {fileID: 0}
-  _handsInventorySize: 2
+  _handsInventorySize: 4

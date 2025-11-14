@@ -38,10 +38,24 @@ namespace Game.Core
             {
                 _activePlayerInterface.RequestListBuild(_activeStealingList);
                 Debug.Log("Requesting list build");
+                _activeStealingList.Clear();
             }
             else
             {
                 Debug.LogError("Interface missing");
+            }
+        }
+        
+        public void CheckListCompletion()
+        {
+            List<string> activeList = _activePlayerInterface.GetActiveList();
+            if (activeList.Count == 0) 
+            {
+                Debug.LogWarning("Nothing to collect");
+            }
+            else
+            {
+                Debug.Log($"Items left: {activeList.Count}");
             }
         }
 

@@ -24,7 +24,17 @@ namespace Game.Core.Player
             return _itemsInHands;
         }
 
-        public void Pickup(IInteractable item, GameObject sceneItem)
+        public void Steal(IInteractable item, GameObject sceneItem)
+        {
+            Item currentItem = item.GetItem();
+
+            if (currentItem != null)
+            {                
+                Object.Destroy(sceneItem);
+            }
+        }
+
+        public void Take(IInteractable item, GameObject sceneItem)
         {
             Item currentItem = item.GetItem();
 

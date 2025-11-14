@@ -5,6 +5,8 @@ namespace Game.Core.Interactable
         Item GetItem();
         bool IsInteractable();
 
+        bool isTool();
+
     }
 
 }

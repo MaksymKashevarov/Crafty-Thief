@@ -88,19 +88,30 @@ namespace Game.Core.Player
                 GameObject item = hit.collider.gameObject;
                 IInteractable interactable = hit.collider.GetComponent<IInteractable>();
 
-                if (interactable != null && interactable.IsInteractable())
+                if (interactable != null && interactable.isTool())
                 {
-                    bool isInventoryFull = _playerInterface.IsInventoryFull();
-                    if (isInventoryFull)
+                    if (_playerInterface.IsInventoryFull())
                     {
                         Debug.LogWarning("Inventory is Full!");
                         return;
                     }
-                    else
+                    _hands.Take(interactable, item);
+                    return;
+                }
+
+                if (interactable != null && interactable.IsInteractable())
+                {
+                    if (_playerInterface.IsItemInList(interactable))
                     {
                         Debug.Log("Interact: IInteractable found and is interactable");
-                        _hands.Pickup(interactable, item);
-                    }                                                        
+                        _hands.Steal(interactable, item);
+                        _playerInterface.UpdateActiveList(interactable);
+                        _globalDriver.CheckListCompletion();
+                    }
+                    else
+                    {
+                        Debug.LogWarning("This item is not in list!");
+                    }
                 }
             }
         }
@@ -155,6 +166,7 @@ namespace Game.Core.Player
 
             transform.Rotate(0f, yawDelta, 0f);
         }
+
 
         private void Update()
         {

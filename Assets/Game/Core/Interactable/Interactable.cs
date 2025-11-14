@@ -7,15 +7,10 @@ namespace Game.Core.Interactable
         [SerializeField] private Item _item;
         [SerializeField] private bool _isInteractable;
 
-        public void Start()
-        {      
-        }
-
         public Item GetItem()
         {
             return _item;
         }
-
 
         public bool IsInteractable()
         {
@@ -29,7 +24,10 @@ namespace Game.Core.Interactable
             }
         }
 
-
+        public bool isTool()
+        {
+            return false;
+        }
     }
 
 }
