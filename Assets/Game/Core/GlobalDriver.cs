@@ -1,5 +1,6 @@
 namespace Game.Core
 {
+    using Game.Core.DI;
     using Game.Core.Interactable;
     using Game.Core.Player;
     using Game.Core.UI;
@@ -16,7 +17,6 @@ namespace Game.Core
         [SerializeField] private int _stealListCount;
         [SerializeField] private PlayerCore _playerPrefab;
         [SerializeField] private UIController _canvasPrefab;
-        [SerializeField] private Transform _spawnPoint;
         private PlayerInterface _activePlayerInterface;
         private List<string> _activeStealingList = new();
 
@@ -88,7 +88,8 @@ namespace Game.Core
                 return;
             }
 
-            PlayerCore playerCore = Instantiate(_playerPrefab, _spawnPoint.position, _spawnPoint.rotation);
+            Transform spawnPoint = Container.Resolve<Transform>();
+            PlayerCore playerCore = Instantiate(_playerPrefab, spawnPoint.position, Quaternion.identity);
             UIController playerController = Instantiate(_canvasPrefab);
 
             if (playerCore == null)

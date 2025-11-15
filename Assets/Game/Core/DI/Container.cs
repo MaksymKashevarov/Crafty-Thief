@@ -17,6 +17,11 @@ namespace Game.Core.DI
             return (T)_services[typeof(T)];
         }
 
+        public static void Clear()
+        {
+            _services.Clear();
+        }
+
     }
 
 }
