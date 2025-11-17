@@ -30,6 +30,7 @@ namespace Game.Core
         {
             GenerateStealingList();
             BuildCharacter();
+            MarkItemsToSteal();
         }
 
         private void ApplyActiveStealList()
@@ -45,11 +46,11 @@ namespace Game.Core
                 Debug.LogError("Interface missing");
             }
         }
-        
+
         public void CheckListCompletion()
         {
             List<string> activeList = _activePlayerInterface.GetActiveList();
-            if (activeList.Count == 0) 
+            if (activeList.Count == 0)
             {
                 Debug.LogWarning("Nothing to collect");
             }
@@ -72,6 +73,28 @@ namespace Game.Core
             }
             Debug.Log("INTERFACE REINSTALLED!");
             ApplyActiveStealList();
+        }
+
+        public void MarkItemsToSteal()
+        {
+            if (_activePlayerInterface != null)
+            {
+                List<IInteractable> registryList = SpawnRegistry.GetItemList();
+                List<string> activeStealList = _activePlayerInterface.GetActiveList();
+
+                if (registryList != null && activeStealList != null)
+                {
+                    foreach (IInteractable registry in registryList)
+                    {
+                        Item currentItem = registry.GetItem();
+                        if (currentItem != null && activeStealList.Contains(currentItem.GetItemName()))
+                        {
+                            registry.SetValuable(true);                            
+                        }
+                    }
+                }
+            }
+
         }
 
         private void BuildCharacter()

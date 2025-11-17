@@ -85,32 +85,21 @@ namespace Game.Core.Player
             if (Physics.Raycast(ray, out hit, _interactDistance, _interactMask))
             {
                 Debug.Log("Interact: Ray hit " + hit.collider.name);
-                GameObject item = hit.collider.gameObject;
                 IInteractable interactable = hit.collider.GetComponent<IInteractable>();
 
-                if (interactable != null && interactable.isTool())
-                {
-                    if (_playerInterface.IsInventoryFull())
-                    {
-                        Debug.LogWarning("Inventory is Full!");
-                        return;
-                    }
-                    _hands.Take(interactable, item);
-                    return;
-                }
 
                 if (interactable != null && interactable.IsInteractable())
                 {
                     if (_playerInterface.IsItemInList(interactable))
                     {
                         Debug.Log("Interact: IInteractable found and is interactable");
-                        _hands.Steal(interactable, item);
+                        _hands.Interact(interactable);
                         _playerInterface.UpdateActiveList(interactable);
                         _globalDriver.CheckListCompletion();
                     }
                     else
                     {
-                        Debug.LogWarning("This item is not in list!");
+                        _hands.Interact(interactable);
                     }
                 }
             }

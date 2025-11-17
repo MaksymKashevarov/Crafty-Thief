@@ -24,32 +24,13 @@ namespace Game.Core.Player
             return _itemsInHands;
         }
 
-        public void Steal(IInteractable item, GameObject sceneItem)
+        public void Interact(IInteractable item)
         {
-            Item currentItem = item.GetItem();
-
-            if (currentItem != null)
-            {                
-                Object.Destroy(sceneItem);
-            }
-        }
-
-        public void Take(IInteractable item, GameObject sceneItem)
-        {
-            Item currentItem = item.GetItem();
-
-            if (currentItem != null)
+            if (item != null)
             {
-                _itemsInHands.Add(currentItem);
-                Object.Destroy(sceneItem);
+                item.Interact(this);
             }
         }
-
-        public Item GetItem()
-        {
-            return _currentItem;
-        }
-
 
     }
 

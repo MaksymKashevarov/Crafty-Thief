@@ -1,4 +1,5 @@
 using Game.Core.Interactable;
+using Game.Core.Player;
 using UnityEngine;
 
 public class BobbyPin : MonoBehaviour, IInteractable
@@ -10,11 +11,6 @@ public class BobbyPin : MonoBehaviour, IInteractable
     public Item GetItem()
     {
         return _item;
-    }
-
-    public void Take()
-    {
-
     }
 
     public bool IsInteractable()
@@ -36,5 +32,20 @@ public class BobbyPin : MonoBehaviour, IInteractable
             return false;
         }
         return true;
+    }
+
+    public void SetValuable(bool flag)
+    {
+        return;
+    }
+
+    public bool GetValuable()
+    {
+        return false;
+    }
+
+    public void Interact(Hands hands)
+    {
+        Debug.Log("WIP");
     }
 }

@@ -9,6 +9,11 @@ namespace Game.Core.DI
     {
         public static readonly List<IInteractable> itemRegistry = new();
 
+        public static List<IInteractable> GetItemList()
+        {
+            return itemRegistry;
+        }
+
         public static void Clear()
         {
             itemRegistry.Clear();             
