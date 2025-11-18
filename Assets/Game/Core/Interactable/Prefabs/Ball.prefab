@@ -151,3 +151,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _item: {fileID: 11400000, guid: e5d6ebd3baa373142ac46258e512a220, type: 2}
   _isInteractable: 1
+  _isValuable: 0
+  _rigidbody: {fileID: 4924803298059857485}

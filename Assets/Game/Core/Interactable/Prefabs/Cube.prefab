@@ -124,6 +124,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _item: {fileID: 11400000, guid: 9f03dc4b7c5f7b04bad3dc15a51a2198, type: 2}
   _isInteractable: 1
+  _isValuable: 0
+  _rigidbody: {fileID: -6150395435363105217}
 --- !u!54 &-6150395435363105217
 Rigidbody:
   m_ObjectHideFlags: 0

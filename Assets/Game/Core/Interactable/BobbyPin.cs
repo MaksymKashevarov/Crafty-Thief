@@ -48,4 +48,14 @@ public class BobbyPin : MonoBehaviour, IInteractable
     {
         Debug.Log("WIP");
     }
+
+    public Rigidbody GetRigidbody()
+    {
+        return null;
+    }
+
+    public GameObject GetGameObject()
+    {
+        return gameObject;
+    }
 }

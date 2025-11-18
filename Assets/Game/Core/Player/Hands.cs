@@ -12,11 +12,22 @@ namespace Game.Core.Player
         private List<Item> _itemsInHands = new();
         private Transform _pivot;
         private PlayerCore _player;
+        private Anchor _anchor;
         
-        public Hands(Transform pivot, PlayerCore player) 
+        public Hands(Transform pivot, PlayerCore player, Anchor anchor) 
         { 
             this._pivot = pivot;
             this._player = player;
+            this._anchor = anchor;
+        }
+
+        public Anchor GetAnchor()
+        {
+            if (_anchor == null)
+            {
+                Debug.LogWarning("Anchor Missing");
+            }
+            return _anchor;
         }
 
         public List<Item> GetHandsInventory()

@@ -9,10 +9,26 @@ namespace Game.Core.Interactable
         [SerializeField] private Item _item;
         [SerializeField] private bool _isInteractable;
         [SerializeField] private bool _isValuable;
+        [SerializeField] private Rigidbody _rigidbody;
+        private bool _isAttached = false;
 
         public Item GetItem()
         {
             return _item;
+        }
+
+        public Rigidbody GetRigidbody()
+        {
+            if (_rigidbody == null)
+            {
+                Debug.LogWarning("RigidBody is Missing!");
+            }
+            return _rigidbody;
+        }
+
+        public GameObject GetGameObject()
+        {
+            return gameObject;
         }
 
         private void Awake()
@@ -39,6 +55,18 @@ namespace Game.Core.Interactable
             else
             {
                 Debug.Log("Not Main Item");
+                // DRAG LOGIC HERE
+                Anchor playerAnchor = hands.GetAnchor();
+                if (playerAnchor != null && !_isAttached)
+                {
+                    playerAnchor.Attach(this, true);
+                    _isAttached = true;
+                }
+                else
+                {
+                    playerAnchor.Attach(this, true);
+                    _isAttached = false;
+                }
             }
         }
 

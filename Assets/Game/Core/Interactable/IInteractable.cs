@@ -1,4 +1,5 @@
 using Game.Core.Player;
+using UnityEngine;
 
 namespace Game.Core.Interactable
 {
@@ -10,6 +11,8 @@ namespace Game.Core.Interactable
         bool isTool();
         bool GetValuable();
         void Interact(Hands hands);
+        Rigidbody GetRigidbody();
+        GameObject GetGameObject();
     }
 
 }

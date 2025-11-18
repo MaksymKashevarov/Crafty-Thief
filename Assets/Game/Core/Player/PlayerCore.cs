@@ -19,6 +19,7 @@ namespace Game.Core.Player
         [SerializeField] private UIController _controller;
         [SerializeField] private GlobalDriver _globalDriver;
         [SerializeField] private int _handsInventorySize;
+        [SerializeField] private Anchor _anchor;
         private Dictionary<string, float> stats = new();
         private Hands _hands;
         private PlayerInterface _playerInterface;
@@ -79,6 +80,7 @@ namespace Game.Core.Player
                 return;
             }
 
+
             Ray ray = new Ray(_cameraPivot.position, _cameraPivot.forward);
             RaycastHit hit;
 
@@ -109,9 +111,10 @@ namespace Game.Core.Player
         {
             _controller = controller;
             _globalDriver = driver;
-            if (_hands == null)
+            if (_hands == null && _anchor != null)
             {
-                _hands = new(_cameraPivot, this);
+                Debug.Log("Leg Install Success");
+                _hands = new(_cameraPivot, this, _anchor);
             }
             if (_playerInterface == null)
             {
