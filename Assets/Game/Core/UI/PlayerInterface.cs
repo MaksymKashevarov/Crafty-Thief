@@ -117,23 +117,6 @@ namespace Game.Core.UI
             }
         }
 
-        public void ClearElements(IUIElement except)
-        {
-            if (_currentStorage == null) return;
-
-            foreach (IUIElement element in _currentStorage)
-            {
-                if (element == except)
-                    continue;
-
-                GameObject currentElement = element.GetActiveElement();
-                if (currentElement != null)
-                {
-                    _controller.DestroyElement(currentElement);
-                }
-            }
-        }
-
         public void Refresh()
         {
 
