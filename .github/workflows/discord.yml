@@ -1,11 +1,6 @@
 name: PushMessage
 
-on:
-  push:
-    branches:
-      - main
-      - master
-      - dev
+on: push
 
 jobs:
   notify:
