@@ -1,0 +1,22 @@
+name: PushMessage
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - dev
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send message to Discord
+        uses: Ilshidur/action-discord@v3
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          message: |
+            📦 **New Commit in ${{ github.repository }}**
+            👤 Author: ${{ github.actor }}
+            🔧 Message: ${{ github.event.head_commit.message }}
+            🌿 Branch: ${{ github.ref }}
