@@ -10,7 +10,7 @@ namespace Game.Core.Interactable
         [SerializeField] private bool _isInteractable;
         [SerializeField] private bool _isValuable;
         [SerializeField] private Rigidbody _rigidbody;
-        private bool _isAttached = false;
+        [SerializeField] private bool _isAttached = false;
 
         public Item GetItem()
         {
@@ -59,12 +59,12 @@ namespace Game.Core.Interactable
                 Anchor playerAnchor = hands.GetAnchor();
                 if (playerAnchor != null && !_isAttached)
                 {
-                    playerAnchor.Attach(this, true);
+                    playerAnchor.Attach(this, _isAttached);
                     _isAttached = true;
                 }
                 else
                 {
-                    playerAnchor.Attach(this, true);
+                    playerAnchor.Detatch();
                     _isAttached = false;
                 }
             }

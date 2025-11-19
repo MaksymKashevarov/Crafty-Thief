@@ -8,37 +8,66 @@ namespace Game.Core.Player
         private GameObject _currentObject; 
         private GameObject _activeObject; 
         private Rigidbody _activeRb;
-        public void Attach(IInteractable obj, bool mode)
+        private float _snapRadius = 0.45f;
+        [SerializeField] private bool _activeFlag;
+        public void Attach(IInteractable obj, bool flag)
         {
-            if (mode && _currentObject == null)
+            if (_currentObject != null)
             {
-                _activeObject = obj.GetGameObject();
-                _activeRb = obj.GetRigidbody();
+                Debug.LogWarning("Already Holding Item");
+                return;
+            }
 
-                if (_activeRb != null)
-                {
-                    _activeRb.useGravity = false;
-                    _activeRb.linearVelocity = Vector3.zero;
-                    _activeRb.angularVelocity = Vector3.zero;
-                    _activeRb.isKinematic = true;
-                }
-                else
-                {
-                    return;
-                }
-            }
-            else
+            if (flag)
             {
-                if (_activeRb != null)
-                {
-                    _activeRb.useGravity = true;
-                    _activeRb.isKinematic = false;
-                }
-                _currentObject.transform.SetParent(null);
-                _currentObject = null;
-                _activeRb = null;;
-                Debug.Log("Dropping");
+                Debug.LogWarning("Item Flag is Invalid");
             }
+
+            _activeObject = obj.GetGameObject();
+            _activeRb = obj.GetRigidbody();
+
+            if (_activeRb == null)
+            {
+                Debug.LogWarning("Missing RB");
+                return;
+            }
+
+            _activeRb.useGravity = false;
+            _activeRb.linearVelocity = Vector3.zero;
+            _activeRb.angularVelocity = Vector3.zero;
+            _activeRb.isKinematic = true;
+            _activeFlag = flag;
+            _activeFlag = true;
+
+        }
+
+        public void Detatch()
+        {
+            if (_currentObject == null)
+            {
+                Debug.LogWarning("Nothing to detatch");
+                return;
+            }
+            if (!_activeFlag)
+            {
+                Debug.LogWarning("Item Flag is Invalid");
+            }
+            _activeRb.useGravity = true;
+            _activeRb.isKinematic = false;
+            _currentObject.transform.SetParent(null);
+            _currentObject = null;
+            _activeRb = null;
+            _activeFlag = false;
+
+        }
+
+        public bool IsHoldingItem()
+        {
+            if (_currentObject != null)
+            {
+                return true;
+            }
+            return false;
         }
 
 
@@ -48,7 +77,7 @@ namespace Game.Core.Player
             {
                 _activeObject.transform.position = Vector3.Lerp(_activeObject.transform.position, transform.position, Time.deltaTime * 10f);
 
-                if (Vector3.Distance(_activeObject.transform.position, transform.position) < 0.05f)
+                if (Vector3.Distance(_activeObject.transform.position, transform.position) < _snapRadius)
                 {
                     _activeObject.transform.SetParent(transform);
                     _activeObject.transform.localPosition = Vector3.zero;

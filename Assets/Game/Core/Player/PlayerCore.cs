@@ -80,6 +80,11 @@ namespace Game.Core.Player
                 return;
             }
 
+            if (_anchor != null && _anchor.IsHoldingItem())
+            {
+                _anchor.Detatch();
+                return;
+            }
 
             Ray ray = new Ray(_cameraPivot.position, _cameraPivot.forward);
             RaycastHit hit;
