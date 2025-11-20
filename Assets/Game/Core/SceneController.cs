@@ -19,7 +19,7 @@ namespace Game.Core
                 Debug.LogWarning("Spawnpoint Missing!");
                 return;
             }
-            _driver.LoadGame(spawnPoint);
+            _driver.LoadLevel(spawnPoint);
 
         }
 

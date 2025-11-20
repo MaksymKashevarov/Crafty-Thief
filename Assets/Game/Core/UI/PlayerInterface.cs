@@ -66,16 +66,6 @@ namespace Game.Core.UI
             }
         }
 
-        public bool IsInventoryFull()
-        {
-            List<Item> playerInventory = _playerHands.GetHandsInventory();
-            if (playerInventory.Count > _handsInventorySize) 
-            {
-                return true;
-            }
-            return false;
-        }
-
         public void RequestListBuild(List<string> stealList)
         {
             if (stealList.Count > 0)

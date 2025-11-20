@@ -55,6 +55,7 @@ namespace Game.Core.UI
             _currentInterface = element;
         }
 
+
         public GameObject GetCurrentInterface()
         {
             if (_currentInterface == null)

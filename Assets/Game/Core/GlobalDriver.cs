@@ -29,10 +29,11 @@ namespace Game.Core
 
         private void Awake()
         {
+            DontDestroyOnLoad(gameObject);
             BuildSceneController();
         }
 
-        public void LoadGame(SpawnPoint spawnPoint)
+        public void LoadLevel(SpawnPoint spawnPoint)
         {            
             GenerateStealingList();
             BuildCharacter(spawnPoint);
