@@ -17,6 +17,7 @@ namespace Game.Core
         [SerializeField] private int _stealListCount;
         [SerializeField] private PlayerCore _playerPrefab;
         [SerializeField] private UIController _canvasPrefab;
+        [SerializeField] private SceneController _sceneController;
         private PlayerInterface _activePlayerInterface;
         private List<string> _activeStealingList = new();
 
@@ -26,10 +27,27 @@ namespace Game.Core
             CountTime();
         }
 
+        private void Awake()
+        {
+            BuildSceneController();
+        }
+
+        public void LoadGame()
+        {
+
+        }
+
         private void Start()
         {
+            SpawnPoint spawnPoint = Container.Resolve<SpawnPoint>();
+            if (spawnPoint == null )
+            {
+                Debug.LogWarning("Spawnpoint missing! Returning to Source");
+                _sceneController.ResetScene();
+                return;
+            }
             GenerateStealingList();
-            BuildCharacter();
+            BuildCharacter(spawnPoint);
             MarkItemsToSteal();
         }
 
@@ -45,6 +63,17 @@ namespace Game.Core
             {
                 Debug.LogError("Interface missing");
             }
+        }
+
+        public void BuildSceneController()
+        {
+            if (_sceneController == null)
+            {
+                Debug.LogError("Error! Scene Controller is invalid!");
+                return;
+            }
+            Debug.Log("Loading Scene Controller!");
+            Instantiate(_sceneController);
         }
 
         public void CheckListCompletion()
@@ -97,7 +126,7 @@ namespace Game.Core
 
         }
 
-        private void BuildCharacter()
+        private void BuildCharacter(SpawnPoint spawnPoint)
         {
             if (_playerPrefab == null)
             {
@@ -111,8 +140,8 @@ namespace Game.Core
                 return;
             }
 
-            Transform spawnPoint = Container.Resolve<Transform>();
-            PlayerCore playerCore = Instantiate(_playerPrefab, spawnPoint.position, Quaternion.identity);
+            Transform spawnPointPos = spawnPoint.GetTransform();
+            PlayerCore playerCore = Instantiate(_playerPrefab, spawnPointPos.position, Quaternion.identity);
             UIController playerController = Instantiate(_canvasPrefab);
 
             if (playerCore == null)

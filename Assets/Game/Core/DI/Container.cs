@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using UnityEngine;
 
 namespace Game.Core.DI
 {
@@ -14,7 +16,11 @@ namespace Game.Core.DI
 
         public static T Resolve<T>()
         {
-            return (T)_services[typeof(T)];
+            if (_services.TryGetValue(typeof(T), out var service))
+            {              
+                return (T)service;
+            }           
+            return default;
         }
 
         public static void Clear()

@@ -7,7 +7,12 @@ namespace Game.Core
     {
         private void Awake()
         {
-            Container.Register<Transform>(transform);
+            Container.Register(this);
+        }
+        
+        public Transform GetTransform()
+        {
+            return transform;
         }
     }
 
