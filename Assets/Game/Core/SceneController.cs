@@ -1,5 +1,6 @@
 namespace Game.Core
 {
+    using Game.Core.DI;
     using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.SceneManagement;
@@ -8,10 +9,23 @@ namespace Game.Core
     {
         [SerializeField] private List<string> _scenes = new();
         [SerializeField] private string _sourceScene;
+        private GlobalDriver _driver;
 
-        private void Awake()
+        private void Start()
         {
-            
+            SpawnPoint spawnPoint = Container.Resolve<SpawnPoint>();
+            if (spawnPoint == null) 
+            {
+                Debug.LogWarning("Spawnpoint Missing!");
+                return;
+            }
+            _driver.LoadGame(spawnPoint);
+
+        }
+
+        public void SetGlobalDriver(GlobalDriver driver)
+        {
+            _driver = driver;
         }
 
         public void ResetScene()

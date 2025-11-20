@@ -30,25 +30,19 @@ namespace Game.Core
         private void Awake()
         {
             BuildSceneController();
+            _sceneController.SetGlobalDriver(this);
         }
 
-        public void LoadGame()
-        {
-
+        public void LoadGame(SpawnPoint spawnPoint)
+        {            
+            GenerateStealingList();
+            BuildCharacter(spawnPoint);
+            MarkItemsToSteal();
         }
 
         private void Start()
         {
-            SpawnPoint spawnPoint = Container.Resolve<SpawnPoint>();
-            if (spawnPoint == null )
-            {
-                Debug.LogWarning("Spawnpoint missing! Returning to Source");
-                _sceneController.ResetScene();
-                return;
-            }
-            GenerateStealingList();
-            BuildCharacter(spawnPoint);
-            MarkItemsToSteal();
+
         }
 
         private void ApplyActiveStealList()
