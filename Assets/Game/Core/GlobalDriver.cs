@@ -30,7 +30,6 @@ namespace Game.Core
         private void Awake()
         {
             BuildSceneController();
-            _sceneController.SetGlobalDriver(this);
         }
 
         public void LoadGame(SpawnPoint spawnPoint)
@@ -68,6 +67,7 @@ namespace Game.Core
             }
             Debug.Log("Loading Scene Controller!");
             Instantiate(_sceneController);
+            _sceneController.SetGlobalDriver(this);
         }
 
         public void CheckListCompletion()
