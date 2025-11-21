@@ -4,6 +4,7 @@ namespace Game.Core.UI
     using Game.Core.Player;
     using NUnit.Framework;
     using System.Collections.Generic;
+    using UnityEditor.PackageManager.Requests;
     using UnityEngine;
     using UnityEngine.UI;
 
@@ -37,6 +38,11 @@ namespace Game.Core.UI
                 }
             }
             return false;
+        }
+
+        public void RequestMenuToScreen()
+        {
+
         }
 
         public void UpdateActiveList(IInteractable item)

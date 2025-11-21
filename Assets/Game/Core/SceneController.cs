@@ -13,13 +13,33 @@ namespace Game.Core
 
         private void Start()
         {
+            if (_driver == null)
+            {
+                Debug.LogWarning("Driver Is Missing!");
+                return;
+            }
             SpawnPoint spawnPoint = Container.Resolve<SpawnPoint>();
             if (spawnPoint == null) 
             {
-                Debug.LogWarning("Spawnpoint Missing!");
+                Scene current = SceneManager.GetActiveScene();
+                string sceneName = current.name;
+
+                if (sceneName != _sourceScene)
+                {
+                    ResetScene();
+                }
+                if(_driver == null)
+                {
+                    Debug.LogError("Driver is missing!");
+                    return;
+                }
+                Transform driverT = _driver.transform;
+                _driver.LoadLevel(driverT, false);
                 return;
+
             }
-            _driver.LoadLevel(spawnPoint);
+            Transform activeSpawnPoint = spawnPoint.GetTransform();
+            _driver.LoadLevel(activeSpawnPoint, true);
 
         }
 

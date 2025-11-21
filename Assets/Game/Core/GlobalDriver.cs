@@ -16,10 +16,12 @@ namespace Game.Core
         [SerializeField] private List<Item> _itemsToSteal;
         [SerializeField] private int _stealListCount;
         [SerializeField] private PlayerCore _playerPrefab;
+        [SerializeField] private PlayerCore _ghostPlayerPrefab;
         [SerializeField] private UIController _canvasPrefab;
         [SerializeField] private SceneController _sceneController;
         private PlayerInterface _activePlayerInterface;
         private List<string> _activeStealingList = new();
+        private PlayerCore _activePlayer;
 
 
         void Update()
@@ -30,19 +32,34 @@ namespace Game.Core
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
-            BuildSceneController();
+            Debug.Log("Awake");
         }
 
-        public void LoadLevel(SpawnPoint spawnPoint)
-        {            
-            GenerateStealingList();
-            BuildCharacter(spawnPoint);
-            MarkItemsToSteal();
+        public void LoadLevel(Transform spawnPoint, bool isPlayable)
+        {
+            if (isPlayable && spawnPoint != null)
+            {
+                GenerateStealingList();
+                BuildCharacter(spawnPoint, _playerPrefab, isPlayable);
+                MarkItemsToSteal();
+                return;
+            }
+            BuildCharacter(spawnPoint, _ghostPlayerPrefab, isPlayable);
+
+            Debug.Log("Player Loaded as Ghost");
         }
 
         private void Start()
         {
-
+            Debug.Log("Start");
+            BuildSceneController();
+            _activePlayer = Container.Resolve<PlayerCore>();
+            if (_activePlayer == null)
+            {
+                Debug.LogError("Player is Missing!");
+                return;
+            }
+            Debug.Log("Player Activated");
         }
 
         private void ApplyActiveStealList()
@@ -67,8 +84,8 @@ namespace Game.Core
                 return;
             }
             Debug.Log("Loading Scene Controller!");
-            Instantiate(_sceneController);
-            _sceneController.SetGlobalDriver(this);
+            SceneController activeSC = Instantiate(_sceneController);
+            activeSC.SetGlobalDriver(this);
         }
 
         public void CheckListCompletion()
@@ -121,7 +138,7 @@ namespace Game.Core
 
         }
 
-        private void BuildCharacter(SpawnPoint spawnPoint)
+        private void BuildCharacter(Transform spawnPoint, PlayerCore player, bool Playable)
         {
             if (_playerPrefab == null)
             {
@@ -135,11 +152,10 @@ namespace Game.Core
                 return;
             }
 
-            Transform spawnPointPos = spawnPoint.GetTransform();
-            PlayerCore playerCore = Instantiate(_playerPrefab, spawnPointPos.position, Quaternion.identity);
+            PlayerCore playerInstance = Instantiate(player, spawnPoint.position, Quaternion.identity);
             UIController playerController = Instantiate(_canvasPrefab);
 
-            if (playerCore == null)
+            if (playerInstance == null)
             {
                 Debug.LogError("PLAYER CORE MISSING ON PREFAB!");
                 return;
@@ -151,7 +167,8 @@ namespace Game.Core
                 return;
             }
 
-            playerCore.Initialize(playerController, this);
+            playerInstance.Initialize(playerController, this);
+            playerInstance.SetPlayable(Playable);
         }
 
         private void GenerateStealingList()

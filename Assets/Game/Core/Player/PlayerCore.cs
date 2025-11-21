@@ -6,6 +6,7 @@ namespace Game.Core.Player
     using UnityEngine.InputSystem;
     using Game.Core.Interactable;
     using Game.Core.UI;
+    using Game.Core.DI;
 
     public class PlayerCore : MonoBehaviour
     {
@@ -24,6 +25,7 @@ namespace Game.Core.Player
         private Hands _hands;
         private PlayerInterface _playerInterface;
         private bool IsInteracting;
+        private bool _isPlayable;
 
         private Vector2 _move;
         private Vector2 _look;
@@ -73,6 +75,10 @@ namespace Game.Core.Player
             {
                 return;
             }
+            if (!_isPlayable)
+            {
+                return;
+            }
 
             if (_cameraPivot == null)
             {
@@ -112,13 +118,27 @@ namespace Game.Core.Player
             }
         }
 
+        public void SetPlayable(bool value)
+        {
+            _isPlayable = value;
+        }
+
         public void Initialize(UIController controller, GlobalDriver driver)
         {
             _controller = controller;
             _globalDriver = driver;
-            if (_hands == null && _anchor != null)
+            if (_playerInterface != null)
             {
-                Debug.Log("Leg Install Success");
+                Debug.LogError("Invalid Interface");
+                return;
+            }
+            if (_hands == null)
+            {
+                if(_anchor == null)
+                {
+                    Debug.Log("Anchor is missing!");
+                }
+                Debug.Log("hands Install Success");
                 _hands = new(_cameraPivot, this, _anchor);
             }
             if (_playerInterface == null)
@@ -135,11 +155,17 @@ namespace Game.Core.Player
             }
             if (_globalDriver != null && _controller != null)
             {
+                if (_playerInterface == null)
+                {
+                    Debug.LogError("Interface is Missing");
+                    return;
+                }
                 _controller.SetPlayerInterface(_playerInterface);
                 _globalDriver.SetActivePlayerInterface(_playerInterface);
                 Debug.Log("Initiating callback! Interface sent!");
             }
             _playerInterface.SetInventorySize(_handsInventorySize);
+            Container.Register(this);
         }
 
         private void LookUpdate()
@@ -164,13 +190,22 @@ namespace Game.Core.Player
             transform.Rotate(0f, yawDelta, 0f);
         }
 
+        private void Awake()
+        {
+        }
 
         private void Update()
         {
-            if (!isCurrentlyInteracting())
+            if (_isPlayable)
             {
                 LookUpdate();
                 _playerInterface.DrawCursor(false);
+            }
+
+            if (_playerInterface == null)
+            {
+                Debug.LogWarning("Interface Missing!");
+                return;
             }
             _playerInterface.Refresh();
         }
