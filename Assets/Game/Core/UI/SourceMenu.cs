@@ -21,6 +21,11 @@ namespace Game.Core.UI
             return gameObject;
         }
 
+        public List<IUIElement> GetChildElements()
+        {
+            return _childElements;
+        }
+
         public void CollectChildElements()
         {
             List<IUIElement> elements = Registry.GetMenuElements();
@@ -34,7 +39,7 @@ namespace Game.Core.UI
             }
             foreach (IUIElement element in elements)
             {
-
+                _childElements.Add(element);
             }
 
         }
