@@ -16,6 +16,11 @@ namespace Game.Core.DI
             return itemRegistry;
         }
 
+        public static List<IUIElement> GetMenuElements()
+        {
+            return menuElements;
+        }
+
         public static void RegisterAsMenuElement(IUIElement input)
         {
             if (menuElements.Contains(input))

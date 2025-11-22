@@ -7,6 +7,7 @@ namespace Game.Core.UI
     public interface IUIElement
     {
         void SetController(UIController controller);
+        GameObject GetObject();
     }
 
 }

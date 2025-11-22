@@ -8,6 +8,11 @@ namespace Game.Core.UI
         [SerializeField] private TextMeshProUGUI _text;
         [SerializeField] private UIController _controller;
 
+        public GameObject GetObject()
+        {
+            return gameObject;
+        }
+
         public void OnClick()
         {
             Debug.Log("Check!");
