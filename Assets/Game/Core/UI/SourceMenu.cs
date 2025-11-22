@@ -28,6 +28,11 @@ namespace Game.Core.UI
 
         public void CollectChildElements()
         {
+            if (_childElements.Count > 0)
+            {
+                _childElements.Clear();
+            }
+
             List<IUIElement> elements = Registry.GetMenuElements();
             if (elements == null) 
             { 
@@ -39,6 +44,7 @@ namespace Game.Core.UI
             }
             foreach (IUIElement element in elements)
             {
+                Debug.Log($"{element} Added from Registry");
                 _childElements.Add(element);
             }
 
@@ -50,10 +56,6 @@ namespace Game.Core.UI
             return;
         }
 
-        private void Awake()
-        {
-            Registry.RegisterAsMenuElement(this);
-        }
     }
 }
 

@@ -1,6 +1,7 @@
 namespace Game.Core.UI
 {
     using Game.Core.Interactable;
+    using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.UI;
 
@@ -8,6 +9,9 @@ namespace Game.Core.UI
     {
         void SetController(UIController controller);
         GameObject GetObject();
+        void CollectChildElements();
+        List<IUIElement> GetChildElements();
+        void Activate(); //Universal Method
     }
 
 }

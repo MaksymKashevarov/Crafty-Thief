@@ -12,7 +12,7 @@ namespace Game.Core.UI
         [SerializeField] private Transform _canvasParent;
         [SerializeField] private GameObject _stealList;
         [SerializeField] private TextBox textbox;
-        [SerializeField] private GameObject _menuScreen;
+        [SerializeField] private SourceMenu _menuScreen;
         private Transform panelParent;
         private GameObject _currentInterface;
         private PlayerInterface _currentPlayerInterface;
@@ -83,15 +83,52 @@ namespace Game.Core.UI
                 Debug.LogAssertion("Menu base is missing!");
                 return;
             }
-            Instantiate(_menuScreen, _canvasParent);
+            BuildActiveElement(_menuScreen);
 
         }
 
-        public void BuildActiveElement(IUIElement element)
+        public void BuildActiveElement(IUIElement element, Transform parent = null)
         {
             if (element == null)
             {
                 return;
+            }
+
+            GameObject elementObject = element.GetObject();
+
+            if (parent == null)
+            {
+                Instantiate(elementObject, _canvasParent);
+            }
+            else
+            {
+                Instantiate(elementObject, parent);
+            }
+
+
+            element.SetController(this);
+            element.Activate();
+
+            List<IUIElement> children = element.GetChildElements();
+            if (children.Count == 0) 
+            {
+                return;
+            }
+            if (children != null)
+            {
+                Debug.Log("List detected!");
+                foreach (IUIElement child in children)
+                {
+                    if (child == null)
+                    {
+                        Debug.LogError("List contains Null!");
+                        break;
+                    }
+                    Debug.Log($"Controller set to: {child}");
+                    child.SetController(this);
+                    Debug.Log($"Activating {child}");
+                    child.Activate();
+                }
             }
             
 

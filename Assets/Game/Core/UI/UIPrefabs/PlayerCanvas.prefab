@@ -117,5 +117,5 @@ MonoBehaviour:
   _canvasParent: {fileID: 4602142728166997973}
   _stealList: {fileID: 3380307088412422700, guid: e88ebe846d5e496498c174717e4674b9, type: 3}
   textbox: {fileID: 7593562208705475403, guid: 94373b397cf32af4584aa1ee1b204ca4, type: 3}
-  _menuScreen: {fileID: 5989421815880646387, guid: eba1ee1d3312e9045bae12904f5f0de1, type: 3}
+  _menuScreen: {fileID: 9140290953254270822, guid: eba1ee1d3312e9045bae12904f5f0de1, type: 3}
   _activeTextBoxes: []
