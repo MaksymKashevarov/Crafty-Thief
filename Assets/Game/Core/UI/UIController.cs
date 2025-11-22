@@ -12,6 +12,7 @@ namespace Game.Core.UI
         [SerializeField] private Transform _canvasParent;
         [SerializeField] private GameObject _stealList;
         [SerializeField] private TextBox textbox;
+        [SerializeField] private GameObject _menuScreen;
         private Transform panelParent;
         private GameObject _currentInterface;
         private PlayerInterface _currentPlayerInterface;
@@ -75,18 +76,36 @@ namespace Game.Core.UI
             Debug.Log($"Interface Installed{this.name}");
         }
 
+        public void DisplayMenu()
+        {
+            if (_menuScreen == null)
+            {
+                Debug.LogAssertion("Menu base is missing!");
+                return;
+            }
+            Instantiate(_menuScreen, _canvasParent);
+
+        }
+
+        public void BuildActiveElement(IUIElement element)
+        {
+            if (element == null)
+            {
+                return;
+            }
+
+        }
 
         public void DestroyElement(GameObject element)
         {
-            if (element != null)
-            {
-                Debug.Log($"Element {element} destroyed");
-                Destroy(element);
-            }
-            else
+            if (element == null)
             {
                 Debug.LogWarning("Element is missing");
+                return;
             }
+
+            Debug.Log($"Element {element} destroyed");
+            Destroy(element);
         }
 
 

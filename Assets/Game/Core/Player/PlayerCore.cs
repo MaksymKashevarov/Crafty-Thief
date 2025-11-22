@@ -207,6 +207,7 @@ namespace Game.Core.Player
                 Debug.LogWarning("Interface Missing!");
                 return;
             }
+            _playerInterface.DrawCursor(true);
             _playerInterface.Refresh();
         }
 

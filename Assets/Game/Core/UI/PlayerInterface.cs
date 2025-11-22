@@ -40,8 +40,9 @@ namespace Game.Core.UI
             return false;
         }
 
-        public void RequestMenuToScreen()
+        public void RequestMenuBuild()
         {
+            _controller.DisplayMenu();
 
         }
 

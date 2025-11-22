@@ -53,13 +53,16 @@ namespace Game.Core
         {
             Debug.Log("Start");
             BuildSceneController();
-            _activePlayer = Container.Resolve<PlayerCore>();
-            if (_activePlayer == null)
+        }
+
+        public void RequestSScreenBuild()
+        {
+            if (_activePlayerInterface == null)
             {
-                Debug.LogError("Player is Missing!");
+                Debug.LogAssertion("PlayerInterface is Missing!");
                 return;
             }
-            Debug.Log("Player Activated");
+            _activePlayerInterface.RequestMenuBuild();
         }
 
         private void ApplyActiveStealList()
@@ -120,7 +123,7 @@ namespace Game.Core
         {
             if (_activePlayerInterface != null)
             {
-                List<IInteractable> registryList = SpawnRegistry.GetItemList();
+                List<IInteractable> registryList = Registry.GetItemList();
                 List<string> activeStealList = _activePlayerInterface.GetActiveList();
 
                 if (registryList != null && activeStealList != null)

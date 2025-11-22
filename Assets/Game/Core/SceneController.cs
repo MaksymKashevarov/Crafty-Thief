@@ -35,6 +35,7 @@ namespace Game.Core
                 }
                 Transform driverT = _driver.transform;
                 _driver.LoadLevel(driverT, false);
+                _driver.RequestSScreenBuild();
                 return;
 
             }

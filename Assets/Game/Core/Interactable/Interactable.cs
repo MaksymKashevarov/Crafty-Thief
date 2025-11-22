@@ -33,7 +33,7 @@ namespace Game.Core.Interactable
 
         private void Awake()
         {
-            SpawnRegistry.itemRegistry.Add(this);
+            Registry.itemRegistry.Add(this);
         }
 
         public void SetValuable(bool flag)
