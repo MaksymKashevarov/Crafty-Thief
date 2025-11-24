@@ -8,6 +8,7 @@ namespace Game.Core
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
+    using UnityEngine.EventSystems;
     using UnityEngine.Rendering;
 
     public class GlobalDriver : MonoBehaviour
@@ -19,6 +20,7 @@ namespace Game.Core
         [SerializeField] private PlayerCore _ghostPlayerPrefab;
         [SerializeField] private UIController _canvasPrefab;
         [SerializeField] private SceneController _sceneController;
+        [SerializeField] private EventSystem _eventSystem;
         private PlayerInterface _activePlayerInterface;
         private List<string> _activeStealingList = new();
         private PlayerCore _activePlayer;
@@ -49,9 +51,19 @@ namespace Game.Core
             Debug.Log("Player Loaded as Ghost");
         }
 
+        public void BuildEventSystem()
+        {
+            Instantiate(_eventSystem);
+        }
+
         private void Start()
         {
             Debug.Log("Start");
+            if (_eventSystem == null)
+            {
+                return;
+            }
+            BuildEventSystem();
             BuildSceneController();
         }
 

@@ -190,23 +190,22 @@ namespace Game.Core.Player
             transform.Rotate(0f, yawDelta, 0f);
         }
 
-        private void Awake()
-        {
-        }
 
         private void Update()
         {
-            if (_isPlayable)
-            {
-                LookUpdate();
-                _playerInterface.DrawCursor(false);
-            }
-
             if (_playerInterface == null)
             {
                 Debug.LogWarning("Interface Missing!");
                 return;
             }
+
+            if (_isPlayable)
+            {
+                LookUpdate();
+                _playerInterface.DrawCursor(false);
+                return;
+            }
+
             _playerInterface.DrawCursor(true);
             _playerInterface.Refresh();
         }
