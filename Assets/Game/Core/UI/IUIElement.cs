@@ -14,6 +14,8 @@ namespace Game.Core.UI
         void Activate(); //Universal Method
         void SetParent(IUIElement element);
         void Terminate();
+        void SetInstance(GameObject instance);
+        public GameObject GetInstance();
     }
 
 }

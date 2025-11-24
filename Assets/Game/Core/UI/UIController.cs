@@ -1,5 +1,6 @@
 namespace Game.Core.UI
 {
+    using Game.Core.DI;
     using Game.Core.Interactable;
     using Game.Core.Player;
     using System.Collections.Generic;
@@ -94,19 +95,20 @@ namespace Game.Core.UI
                 return;
             }
 
-            GameObject elementObject = element.GetObject();
+            GameObject prefab = element.GetObject();
+            GameObject instance;
 
             if (parent == null)
             {
-                Instantiate(elementObject, _canvasParent);
+                instance = Instantiate(prefab, _canvasParent);
             }
             else
             {
-                Instantiate(elementObject, parent);
+                instance = Instantiate(prefab, parent);
             }
 
-
             element.SetController(this);
+            element.SetInstance(instance);
             element.Activate();
 
             List<IUIElement> children = element.GetChildElements();
@@ -134,6 +136,16 @@ namespace Game.Core.UI
             }            
         }
 
+        public void DestroyElement(IUIElement element)
+        {
+            if (element == null)
+            {
+                return;
+            }
+            Debug.Log($"Destroying: {element}");
+            Destroy(element.GetInstance());
+        }
+
         public void DestroyElementAsParent(IUIElement element)
         {
             Debug.Log("Deleting");
@@ -154,6 +166,9 @@ namespace Game.Core.UI
                         Debug.LogError("List contains Null!");
                         break;
                     }
+                    Debug.Log($"Unregistering: {child}");
+                    Registry.menuRegisrtry.Unregister(child);
+                    Debug.Log($"Deleting: {child}");
                     child.Terminate();
                 
                 }

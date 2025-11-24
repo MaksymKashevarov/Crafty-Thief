@@ -9,6 +9,7 @@ namespace Game.Core.UI
         [SerializeField] private GameObject _playButton;
         private List<IUIElement> _childElements = new();
         private UIController _controller;
+        private GameObject _instance;
 
 
         public void SetController(UIController controller)
@@ -33,7 +34,7 @@ namespace Game.Core.UI
                 _childElements.Clear();
             }
 
-            List<IUIElement> elements = Registry.GetMenuElements();
+            List<IUIElement> elements = Registry.menuRegisrtry.GetRegistryList();
             if (elements == null) 
             { 
                 return;
@@ -63,7 +64,19 @@ namespace Game.Core.UI
 
         public void Terminate()
         {
-            Destroy(gameObject);
+            _childElements.Clear();
+            _childElements = null;
+            _controller.DestroyElement(this);
+        }
+
+        public void SetInstance(GameObject instance)
+        {
+            _instance = instance;
+        }
+
+        public GameObject GetInstance()
+        {
+            return _instance;
         }
     }
 }

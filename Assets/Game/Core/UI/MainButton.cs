@@ -10,6 +10,7 @@ namespace Game.Core.UI
         [SerializeField] private TextMeshProUGUI _text;
         [SerializeField] private UIController _controller;
         private IUIElement _parent;
+        private GameObject _instance;
 
         public void Activate()
         {
@@ -22,7 +23,7 @@ namespace Game.Core.UI
 
         private void Awake()
         {
-            Registry.RegisterAsMenuElement(this);
+            Registry.menuRegisrtry.Register(this);
         }
 
         public void CollectChildElements()
@@ -62,8 +63,18 @@ namespace Game.Core.UI
         }
 
         public void Terminate()
-        {            
-            Destroy(gameObject);
+        {
+            _controller.DestroyElement(this);
+        }
+
+        public void SetInstance(GameObject instance)
+        {
+            _instance = instance;
+        }
+
+        public GameObject GetInstance()
+        {
+            return _instance;
         }
     }
 }
