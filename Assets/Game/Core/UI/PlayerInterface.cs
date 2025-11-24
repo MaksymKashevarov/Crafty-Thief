@@ -102,18 +102,6 @@ namespace Game.Core.UI
         }
 
 
-        public void TerminateInterface()
-        {
-            if (_player.isCurrentlyInteracting())
-            {
-                Debug.Log("Requesting termination of interface");
-                _controller.TerminateCurrentInterface();
-                _currentStorage?.Clear();
-                _currentStorage = new List<IUIElement>();
-                _player.SetInteraction(false);
-            }
-        }
-
         public void Refresh()
         {
 

@@ -12,6 +12,8 @@ namespace Game.Core.UI
         void CollectChildElements();
         List<IUIElement> GetChildElements();
         void Activate(); //Universal Method
+        void SetParent(IUIElement element);
+        void Terminate();
     }
 
 }

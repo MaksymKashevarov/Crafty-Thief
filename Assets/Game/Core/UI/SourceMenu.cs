@@ -56,6 +56,15 @@ namespace Game.Core.UI
             return;
         }
 
+        public void SetParent(IUIElement element)
+        {
+            return;
+        }
+
+        public void Terminate()
+        {
+            Destroy(gameObject);
+        }
     }
 }
 

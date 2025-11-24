@@ -9,6 +9,7 @@ namespace Game.Core.UI
     {
         [SerializeField] private TextMeshProUGUI _text;
         [SerializeField] private UIController _controller;
+        private IUIElement _parent;
 
         public void Activate()
         {
@@ -34,19 +35,35 @@ namespace Game.Core.UI
             return null;
         }
 
+        public void SetParent(IUIElement element)
+        {
+            Debug.Log($"Parent set {element}");
+            _parent = element;
+        }
+
         public GameObject GetObject()
         {
             return gameObject;
         }
 
         public void OnClick()
-        {
+        {            
             Debug.Log("Check!");
+            if ( _parent == null )
+            {
+                return;
+            }
+            _controller.DestroyElementAsParent(_parent);
         }
 
         public void SetController(UIController controller)
         {
             _controller = controller;
+        }
+
+        public void Terminate()
+        {            
+            Destroy(gameObject);
         }
     }
 }

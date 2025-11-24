@@ -57,8 +57,6 @@ namespace Game.Core.Player
             {
                 return;
             }
-            Debug.Log("Check");
-            _playerInterface.TerminateInterface();
         }
 
         private void OnOpenInventory(InputValue value)

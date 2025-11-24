@@ -126,45 +126,41 @@ namespace Game.Core.UI
                     }
                     Debug.Log($"Controller set to: {child}");
                     child.SetController(this);
+                    Debug.Log($"Setting Parent: {element}");
+                    child.SetParent(element);
                     Debug.Log($"Activating {child}");
                     child.Activate();
                 }
-            }
-            
-
+            }            
         }
 
-        public void DestroyElement(GameObject element)
+        public void DestroyElementAsParent(IUIElement element)
         {
-            if (element == null)
+            Debug.Log("Deleting");
+
+            List<IUIElement> children = element.GetChildElements();
+            if (children.Count == 0)
             {
-                Debug.LogWarning("Element is missing");
                 return;
             }
 
-            Debug.Log($"Element {element} destroyed");
-            Destroy(element);
-        }
-
-
-        public void TerminateCurrentInterface()
-        {
-            if (_currentInterface != null)
+            if (children != null)
             {
-                DestroyElement(_currentInterface);
-                _currentInterface = null;
-                Debug.Log("Success");
+                Debug.Log("List detected!");
+                foreach (IUIElement child in children)
+                {
+                    if (child == null)
+                    {
+                        Debug.LogError("List contains Null!");
+                        break;
+                    }
+                    child.Terminate();
+                
+                }
             }
-            else
-            {
-                Debug.LogError("No interface present!");
-            }
+            element.Terminate();
         }
 
-        public void OpenInventoryInterface()
-        {
-            
-        }
     }
 
 }
