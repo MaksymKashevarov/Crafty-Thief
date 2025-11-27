@@ -131,6 +131,10 @@ PrefabInstance:
       propertyPath: _eventSystem
       value: 
       objectReference: {fileID: 2056551307487805703, guid: a83144096d3164b4fa448d572507a4cc, type: 3}
+    - target: {fileID: 2529075470714179554, guid: 7758e8350a4240f409c44067f7beaba8, type: 3}
+      propertyPath: _sceneDatabase
+      value: 
+      objectReference: {fileID: 11400000, guid: a577199a8251b2347ade08a6a2bbc08a, type: 2}
     - target: {fileID: 3095310707627865038, guid: 7758e8350a4240f409c44067f7beaba8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.2252407

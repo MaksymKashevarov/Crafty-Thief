@@ -12,9 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
   m_Name: DevMaps
   m_EditorClassIdentifier: 
-  m_GroupName: Packed Assets
+  m_GroupName: DevMaps
   m_GUID: b217aace5f2d71d4fbd252b16a4b96d8
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 663a218437718bc42b74c9f992087981
+    m_Address: Assets/Scenes/Test1.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 74b220706d3d0e547924cf9f3408042c
+    m_Address: Assets/Scenes/MainScene.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 0bc30b5ad0267064eb561fabf9c967a9, type: 2}
   m_SchemaSet:

@@ -13,7 +13,18 @@ MonoBehaviour:
   m_Name: SceneBase
   m_EditorClassIdentifier: 
   _sourceScene:
-    m_AssetGUID: 
+    m_AssetGUID: 06dc06f8928ea73408dbfc3269d1f5ef
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _devScenes:
+  - m_AssetGUID: 74b220706d3d0e547924cf9f3408042c
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 663a218437718bc42b74c9f992087981
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 
