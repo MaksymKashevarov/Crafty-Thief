@@ -9,6 +9,7 @@ namespace Game.Core
     {
         [SerializeField] private List<string> _scenes = new();
         [SerializeField] private string _sourceScene;
+        private SceneDatabase _database;
         private GlobalDriver _driver;
 
         private void Start()
@@ -42,6 +43,11 @@ namespace Game.Core
             Transform activeSpawnPoint = spawnPoint.GetTransform();
             _driver.LoadLevel(activeSpawnPoint, true);
 
+        }
+
+        public void SetDataBase(SceneDatabase database)
+        {
+            _database = database;
         }
 
         public void SetGlobalDriver(GlobalDriver driver)

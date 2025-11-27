@@ -21,6 +21,7 @@ namespace Game.Core
         [SerializeField] private UIController _canvasPrefab;
         [SerializeField] private SceneController _sceneController;
         [SerializeField] private EventSystem _eventSystem;
+        [SerializeField] private SceneDatabase _sceneDatabase;
         private PlayerInterface _activePlayerInterface;
         private List<string> _activeStealingList = new();
         private PlayerCore _activePlayer;
@@ -56,6 +57,20 @@ namespace Game.Core
             Instantiate(_eventSystem);
         }
 
+        public void BuildSceneController()
+        {
+            if (_sceneController == null)
+            {
+                Debug.LogError("Error! Scene Controller is invalid!");
+                return;
+            }
+            Debug.Log("Loading Scene Controller!");
+            SceneController activeSC = Instantiate(_sceneController);
+            activeSC.SetGlobalDriver(this);
+            activeSC.SetDataBase(_sceneDatabase);
+        }
+
+
         private void Start()
         {
             Debug.Log("Start");
@@ -89,18 +104,6 @@ namespace Game.Core
             {
                 Debug.LogError("Interface missing");
             }
-        }
-
-        public void BuildSceneController()
-        {
-            if (_sceneController == null)
-            {
-                Debug.LogError("Error! Scene Controller is invalid!");
-                return;
-            }
-            Debug.Log("Loading Scene Controller!");
-            SceneController activeSC = Instantiate(_sceneController);
-            activeSC.SetGlobalDriver(this);
         }
 
         public void CheckListCompletion()
