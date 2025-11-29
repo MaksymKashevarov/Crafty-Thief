@@ -57,6 +57,12 @@ namespace Game.Core
             Instantiate(_eventSystem);
         }
 
+        public void LoadComponents()
+        {
+            
+
+        }
+
         public void BuildSceneController()
         {
             if (_sceneController == null)

@@ -3,6 +3,7 @@ namespace Game.Core
     using Game.Core.DI;
     using System.Collections.Generic;
     using UnityEngine;
+    using UnityEngine.AddressableAssets;
     using UnityEngine.SceneManagement;
 
     public class SceneController : MonoBehaviour
@@ -12,36 +13,19 @@ namespace Game.Core
         private SceneDatabase _database;
         private GlobalDriver _driver;
 
-        private void Start()
+        private void Awake()
         {
-            if (_driver == null)
+            DontDestroyOnLoad(this);
+        }
+
+        public void LoadMenu()
+        {
+            AssetReference menuScene = _database.GetSourceScene();
+            if (menuScene == null)
             {
-                Debug.LogWarning("Driver Is Missing!");
                 return;
             }
-            SpawnPoint spawnPoint = Container.Resolve<SpawnPoint>();
-            if (spawnPoint == null) 
-            {
-                Scene current = SceneManager.GetActiveScene();
-                string sceneName = current.name;
-
-                if (sceneName != _sourceScene)
-                {
-                    ResetScene();
-                }
-                if(_driver == null)
-                {
-                    Debug.LogError("Driver is missing!");
-                    return;
-                }
-                Transform driverT = _driver.transform;
-                _driver.LoadLevel(driverT, false);
-                _driver. RequestSScreenBuild();
-                return;
-
-            }
-            Transform activeSpawnPoint = spawnPoint.GetTransform();
-            _driver.LoadLevel(activeSpawnPoint, true);
+            Addressables.LoadSceneAsync(menuScene);
 
         }
 
