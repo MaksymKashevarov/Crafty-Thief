@@ -3,6 +3,7 @@ namespace Game.Core
     using Game.Core.DI;
     using Game.Core.Interactable;
     using Game.Core.Player;
+    using Game.Core.SceneControl;
     using Game.Core.UI;
     using NUnit.Framework;
     using System.Collections.Generic;

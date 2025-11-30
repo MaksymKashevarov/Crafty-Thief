@@ -55,7 +55,6 @@ namespace Game.Core.Interactable
             else
             {
                 Debug.Log("Not Main Item");
-                // DRAG LOGIC HERE
                 Anchor playerAnchor = hands.GetAnchor();
                 if (playerAnchor != null && !_isAttached)
                 {

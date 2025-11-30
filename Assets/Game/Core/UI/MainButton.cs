@@ -9,6 +9,7 @@ namespace Game.Core.UI
     {
         [SerializeField] private TextMeshProUGUI _text;
         [SerializeField] private UIController _controller;
+        [SerializeField] private MapSelectionScreen _mSScreen;
         
         private IUIElement _parent;
         private GameObject _instance;
@@ -55,7 +56,7 @@ namespace Game.Core.UI
             {
                 return;
             }
-            _controller.BuildActiveElement(_sceneSelectionPanel);
+            _controller.BuildActiveElement(_mSScreen);
             _controller.DestroyElementAsParent(_parent);
         }
 

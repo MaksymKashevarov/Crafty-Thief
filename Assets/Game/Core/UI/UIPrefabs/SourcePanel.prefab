@@ -284,6 +284,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _text: {fileID: 4520075670960775679}
   _controller: {fileID: 0}
+  _mSScreen: {fileID: -137575413582708991, guid: 8864e2ae61c91af43b25ea37f8252efe, type: 3}
 --- !u!1 &5989421815880646387
 GameObject:
   m_ObjectHideFlags: 0
@@ -373,4 +374,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6149da12e27a6f409491ade380afea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playButton: {fileID: 5105634613669924459}

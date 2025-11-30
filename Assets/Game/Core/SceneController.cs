@@ -1,6 +1,7 @@
 namespace Game.Core
 {
     using Game.Core.DI;
+    using Game.Core.SceneControl;
     using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
@@ -20,12 +21,13 @@ namespace Game.Core
 
         public async void LoadMenu()
         {
-            AssetReference menuScene = _database.GetSourceScene();
+            SceneData menuScene = _database.GetSourceScene();
+            AssetReference sceneReference = menuScene.GetScene();
             if (menuScene == null)
             {
                 return;
             }
-            var load = Addressables.LoadSceneAsync(menuScene);
+            var load = Addressables.LoadSceneAsync(sceneReference);
             Debug.Log("Waiting!");
             await load.Task;
             Debug.Log("Completed!");
@@ -57,18 +59,6 @@ namespace Game.Core
             _driver.BuildEventSystem();
         }
 
-        //               Change paramether for proper method call (Depends)
-        public void RequestSceneLoad(string input)
-        {
-            foreach (var scene in _scenes)
-            {
-                if (scene == input)
-                {
-                    SceneManager.LoadScene(scene);
-                    break;
-                }
-            }
-        }
     }
 }
 
