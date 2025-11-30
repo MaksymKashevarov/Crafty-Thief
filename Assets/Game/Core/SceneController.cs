@@ -15,18 +15,26 @@ namespace Game.Core
 
         private void Awake()
         {
-            DontDestroyOnLoad(this);
+            DontDestroyOnLoad(gameObject);
         }
 
-        public void LoadMenu()
+        public async void LoadMenu()
         {
             AssetReference menuScene = _database.GetSourceScene();
             if (menuScene == null)
             {
                 return;
             }
-            Addressables.LoadSceneAsync(menuScene);
-
+            var load = Addressables.LoadSceneAsync(menuScene);
+            Debug.Log("Waiting!");
+            await load.Task;
+            Debug.Log("Completed!");
+            if (_driver == null)
+            {
+                return;
+            }
+            _driver.RequestSScreenBuild();
+            ReloadSceneContent();
         }
 
         public void SetDataBase(SceneDatabase database)
@@ -39,18 +47,14 @@ namespace Game.Core
             _driver = driver;
         }
 
-        public void ResetScene()
+        public void ReloadSceneContent()
         {
-            Scene current = SceneManager.GetActiveScene();
-            string sceneName = current.name;
-            Debug.Log($"Name: {sceneName}");
-            if (sceneName == _sourceScene)
+            if (_driver == null)
             {
-                Debug.LogWarning("Scene is already source");
+                Debug.LogAssertion("Missing Driver!");
                 return;
             }
-
-            SceneManager.LoadScene(_sourceScene);
+            _driver.BuildEventSystem();
         }
 
         //               Change paramether for proper method call (Depends)

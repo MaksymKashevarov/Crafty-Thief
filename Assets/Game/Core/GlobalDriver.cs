@@ -38,42 +38,29 @@ namespace Game.Core
             Debug.Log("Awake");
         }
 
-        public void LoadLevel(Transform spawnPoint, bool isPlayable)
-        {
-            if (isPlayable && spawnPoint != null)
-            {
-                GenerateStealingList();
-                BuildCharacter(spawnPoint, _playerPrefab, isPlayable);
-                MarkItemsToSteal();
-                return;
-            }
-            BuildCharacter(spawnPoint, _ghostPlayerPrefab, isPlayable);
-
-            Debug.Log("Player Loaded as Ghost");
-        }
 
         public void BuildEventSystem()
         {
             Instantiate(_eventSystem);
         }
 
-        public void LoadComponents()
-        {
-            
-
-        }
-
-        public void BuildSceneController()
+        private void BuildSceneController()
         {
             if (_sceneController == null)
             {
                 Debug.LogError("Error! Scene Controller is invalid!");
                 return;
             }
+            if (_sceneDatabase == null)
+            {
+                return;
+            }
+
             Debug.Log("Loading Scene Controller!");
             SceneController activeSC = Instantiate(_sceneController);
             activeSC.SetGlobalDriver(this);
             activeSC.SetDataBase(_sceneDatabase);
+            activeSC.LoadMenu();
         }
 
 
@@ -89,7 +76,8 @@ namespace Game.Core
         }
 
         public void RequestSScreenBuild()
-        {
+        {  
+            BuildCharacter(null, _ghostPlayerPrefab, false);
             if (_activePlayerInterface == null)
             {
                 Debug.LogAssertion("PlayerInterface is Missing!");
@@ -174,6 +162,11 @@ namespace Game.Core
             {
                 Debug.LogError("CANVAS PREFAB MISSING!");
                 return;
+            }
+
+            if (spawnPoint == null)
+            {
+                spawnPoint = gameObject.transform;
             }
 
             PlayerCore playerInstance = Instantiate(player, spawnPoint.position, Quaternion.identity);
