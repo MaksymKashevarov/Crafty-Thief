@@ -11,6 +11,7 @@ namespace Game.Core.DI
     {
         public static readonly List<IInteractable> itemRegistry = new();
         public static readonly MenuRegisrtry menuRegisrtry = new MenuRegisrtry();
+        public static readonly MSRegistry mSRegistry = new MSRegistry(); 
 
         public static List<IInteractable> GetItemList()
         {

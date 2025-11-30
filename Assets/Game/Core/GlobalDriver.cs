@@ -71,6 +71,12 @@ namespace Game.Core
             {
                 return;
             }
+            if(_sceneDatabase == null)
+            {
+                Debug.LogAssertion("Data base is Invalid!");
+                return;
+            }
+            _sceneDatabase.AssembleDataBase();
             BuildEventSystem();
             BuildSceneController();
         }

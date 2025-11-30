@@ -3,27 +3,16 @@ namespace Game.Core.UI
     using Game.Core.DI;
     using System.Collections.Generic;
     using UnityEngine;
+    using UnityEngine.InputSystem.XR;
 
-    public class SourceMenu : MonoBehaviour, IUIElement
+    public class MapSelectionScreen : MonoBehaviour, IUIElement
     {
         private List<IUIElement> _childElements = new();
         private UIController _controller;
         private GameObject _instance;
-
-
-        public void SetController(UIController controller)
+        public void Activate()
         {
-            _controller = controller;           
-        }
-        
-        public GameObject GetObject()
-        {
-            return gameObject;
-        }
-
-        public List<IUIElement> GetChildElements()
-        {
-            return _childElements;
+            CollectChildElements();
         }
 
         public void CollectChildElements()
@@ -33,9 +22,9 @@ namespace Game.Core.UI
                 _childElements.Clear();
             }
 
-            List<IUIElement> elements = Registry.menuRegisrtry.GetRegistryList();
-            if (elements == null) 
-            { 
+            List<IUIElement> elements = Registry.mSRegistry.GetRegistryList();
+            if (elements == null)
+            {
                 return;
             }
             if (elements.Count == 0)
@@ -47,13 +36,31 @@ namespace Game.Core.UI
                 Debug.Log($"{element} Added from Registry");
                 _childElements.Add(element);
             }
-
         }
 
-        public void Activate()
+        public List<IUIElement> GetChildElements()
         {
-            CollectChildElements();
-            return;
+            return _childElements;
+        }
+
+        public GameObject GetInstance()
+        {
+            return _instance;
+        }
+
+        public GameObject GetObject()
+        {
+            return gameObject;
+        }
+
+        public void SetController(UIController controller)
+        {
+            _controller = controller;
+        }
+
+        public void SetInstance(GameObject instance)
+        {
+            _instance = instance;
         }
 
         public void SetParent(IUIElement element)
@@ -67,16 +74,6 @@ namespace Game.Core.UI
             _childElements = null;
             _controller.DestroyElement(this);
         }
-
-        public void SetInstance(GameObject instance)
-        {
-            _instance = instance;
-        }
-
-        public GameObject GetInstance()
-        {
-            return _instance;
-        }
     }
-}
 
+}
