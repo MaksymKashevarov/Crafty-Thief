@@ -35,8 +35,8 @@ namespace Game.Core
             {
                 return;
             }
-            _driver.RequestSScreenBuild();
             ReloadSceneContent();
+            _driver.RequestSScreenBuild();
         }
 
         public void SetDataBase(SceneDatabase database)
@@ -56,6 +56,7 @@ namespace Game.Core
                 Debug.LogAssertion("Missing Driver!");
                 return;
             }
+            
             _driver.BuildEventSystem();
         }
 

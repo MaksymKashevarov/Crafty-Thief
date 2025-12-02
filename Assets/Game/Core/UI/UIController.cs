@@ -75,6 +75,7 @@ namespace Game.Core.UI
         {
            _currentPlayerInterface = playerInterface;
             Debug.Log($"Interface Installed{this.name}");
+            Debug.Log(gameObject.scene.name);
         }
 
         public void DisplayMenu()
@@ -86,6 +87,19 @@ namespace Game.Core.UI
             }
             BuildActiveElement(_menuScreen);
 
+        }
+
+        public void BuildInactiveElement(GameObject element, Transform parent = null)
+        {
+            if (element == null)
+            {
+                return;
+            }
+            if (parent == null)
+            {
+                parent = _canvasParent.transform;
+            }
+            GameObject instance = Instantiate(element, parent);
         }
 
         public void BuildActiveElement(IUIElement element, Transform parent = null)

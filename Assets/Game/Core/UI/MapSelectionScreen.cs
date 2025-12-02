@@ -7,11 +7,13 @@ namespace Game.Core.UI
 
     public class MapSelectionScreen : MonoBehaviour, IUIElement
     {
+        [SerializeField] private GameObject _mapDisplay;
         private List<IUIElement> _childElements = new();
         private UIController _controller;
         private GameObject _instance;
         public void Activate()
         {
+            BuildSelection();
             CollectChildElements();
         }
 
@@ -36,6 +38,12 @@ namespace Game.Core.UI
                 Debug.Log($"{element} Added from Registry");
                 _childElements.Add(element);
             }
+        }
+
+        private void BuildSelection()
+        {
+            Debug.Log("Building!");
+            _controller.BuildInactiveElement(_mapDisplay, gameObject.transform);
         }
 
         public List<IUIElement> GetChildElements()

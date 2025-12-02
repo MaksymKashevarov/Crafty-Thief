@@ -52,6 +52,7 @@ namespace Game.Core.UI
 
         public void Activate()
         {
+            Debug.Log(gameObject.scene.name);
             CollectChildElements();
             return;
         }

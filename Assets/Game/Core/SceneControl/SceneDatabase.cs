@@ -47,6 +47,11 @@ namespace Game.Core.SceneControl
         {
             return _sourceScene;
         }
+
+        public Dictionary<string, List<SceneData>> GetReferenceBundle()
+        {
+            return _referenceBundle;
+        }
     }
 }
 

@@ -78,7 +78,6 @@ namespace Game.Core
                 return;
             }
             _sceneDatabase.AssembleDataBase();
-            BuildEventSystem();
             BuildSceneController();
         }
 

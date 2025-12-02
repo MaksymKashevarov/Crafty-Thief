@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: SourceScene
   m_EditorClassIdentifier: 
   _scene:
-    m_AssetGUID: 
+    m_AssetGUID: 06dc06f8928ea73408dbfc3269d1f5ef
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
-  _sceneName: 
+  _sceneName: Source Scene
