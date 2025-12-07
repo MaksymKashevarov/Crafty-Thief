@@ -3,10 +3,12 @@ namespace Game.Core.UI
     using Game.Core.DI;
     using Game.Core.Interactable;
     using Game.Core.Player;
+    using System.Collections;
     using System.Collections.Generic;
     using TMPro;
     using UnityEngine;
     using UnityEngine.UI;
+    using static UnityEditor.Rendering.FilterWindow;
 
     public class UIController : MonoBehaviour
     {
@@ -75,7 +77,6 @@ namespace Game.Core.UI
         {
            _currentPlayerInterface = playerInterface;
             Debug.Log($"Interface Installed{this.name}");
-            Debug.Log(gameObject.scene.name);
         }
 
         public void DisplayMenu()
@@ -89,44 +90,11 @@ namespace Game.Core.UI
 
         }
 
-        public void BuildInactiveElement(GameObject element, Transform parent = null)
+        public void CallbackActivation(IUIElement element)
         {
-            if (element == null)
-            {
-                return;
-            }
-            if (parent == null)
-            {
-                parent = _canvasParent.transform;
-            }
-            GameObject instance = Instantiate(element, parent);
-        }
-
-        public void BuildActiveElement(IUIElement element, Transform parent = null)
-        {
-            if (element == null)
-            {
-                return;
-            }
-
-            GameObject prefab = element.GetObject();
-            GameObject instance;
-
-            if (parent == null)
-            {
-                instance = Instantiate(prefab, _canvasParent);
-            }
-            else
-            {
-                instance = Instantiate(prefab, parent);
-            }
-
-            element.SetController(this);
-            element.SetInstance(instance);
             element.Activate();
-
             List<IUIElement> children = element.GetChildElements();
-            if (children.Count == 0) 
+            if (children.Count == 0)
             {
                 return;
             }
@@ -147,7 +115,28 @@ namespace Game.Core.UI
                     Debug.Log($"Activating {child}");
                     child.Activate();
                 }
-            }            
+            }
+
+        }
+
+
+        public void BuildActiveElement(IUIElement element, Transform parent = null)
+        {
+            if (element == null)
+            {
+                return;
+            }
+            if (parent == null)
+            {
+                parent = _canvasParent;
+            }
+
+            GameObject prefab = element.GetObject();
+            GameObject instance;
+            instance = Instantiate(prefab, parent);
+            element.SetInstance(instance);
+            Debug.Log("setting controller!");
+            element.SetController(this);
         }
 
         public void DestroyElement(IUIElement element)

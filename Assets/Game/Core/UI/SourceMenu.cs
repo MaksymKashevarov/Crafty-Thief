@@ -13,7 +13,15 @@ namespace Game.Core.UI
 
         public void SetController(UIController controller)
         {
-            _controller = controller;           
+            Debug.Log("Controller set");
+            _controller = controller;
+            if (_controller == null)
+            {
+                Debug.LogAssertion("Missing Controller");
+                return;
+            }
+            Debug.Log("[CALLBACK]");
+            _controller.CallbackActivation(this);
         }
         
         public GameObject GetObject()
@@ -52,7 +60,6 @@ namespace Game.Core.UI
 
         public void Activate()
         {
-            Debug.Log(gameObject.scene.name);
             CollectChildElements();
             return;
         }
@@ -78,6 +85,8 @@ namespace Game.Core.UI
         {
             return _instance;
         }
+
+
     }
 }
 

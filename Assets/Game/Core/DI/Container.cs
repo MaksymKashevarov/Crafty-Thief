@@ -8,6 +8,7 @@ namespace Game.Core.DI
     public static class Container
     {
         private static readonly Dictionary<Type, object> _services = new();
+        public static readonly CElements cElements = new CElements();
 
         public static void Register<T>(T instance)
         {

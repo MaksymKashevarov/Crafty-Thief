@@ -15,7 +15,8 @@ namespace Game.Core.UI
         void SetParent(IUIElement element);
         void Terminate();
         void SetInstance(GameObject instance);
-        public GameObject GetInstance();
+        GameObject GetInstance();
+
     }
 
 }
