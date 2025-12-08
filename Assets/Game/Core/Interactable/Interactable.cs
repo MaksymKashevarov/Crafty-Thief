@@ -1,6 +1,6 @@
 namespace Game.Core.Interactable
 {
-    using Game.Core.DI;
+    using Game.Core.ServiceLocating;
     using Game.Core.Player;
     using UnityEngine;
 

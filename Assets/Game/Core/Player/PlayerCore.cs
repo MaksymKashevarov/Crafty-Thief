@@ -6,7 +6,7 @@ namespace Game.Core.Player
     using UnityEngine.InputSystem;
     using Game.Core.Interactable;
     using Game.Core.UI;
-    using Game.Core.DI;
+    using Game.Core.ServiceLocating;
 
     public class PlayerCore : MonoBehaviour
     {

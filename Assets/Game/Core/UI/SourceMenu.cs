@@ -1,13 +1,13 @@
 namespace Game.Core.UI
 {
-    using Game.Core.DI;
+    using Game.Core.ServiceLocating;
     using System.Collections.Generic;
     using UnityEngine;
 
     public class SourceMenu : MonoBehaviour, IUIElement
     {
         private List<IUIElement> _childElements = new();
-        private UIController _controller;
+        [SerializeField] private UIController _controller;
         private GameObject _instance;
 
 
@@ -20,8 +20,8 @@ namespace Game.Core.UI
                 Debug.LogAssertion("Missing Controller");
                 return;
             }
-            Debug.Log("[CALLBACK]");
-            _controller.CallbackActivation(this);
+            //Debug.Log("[CALLBACK]");
+            //_controller.CallbackActivation(this);
         }
         
         public GameObject GetObject()
@@ -84,6 +84,11 @@ namespace Game.Core.UI
         public GameObject GetInstance()
         {
             return _instance;
+        }
+        public void Awake()
+        {
+            Debug.Log("Registering");
+            Container.tContainer.RegisterAsTemporary(this);
         }
 
 

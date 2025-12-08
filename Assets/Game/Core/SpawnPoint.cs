@@ -1,6 +1,6 @@
 namespace Game.Core
 {
-    using Game.Core.DI;
+    using Game.Core.ServiceLocating;
     using UnityEngine;
 
     public class SpawnPoint : MonoBehaviour

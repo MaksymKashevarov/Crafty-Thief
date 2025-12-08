@@ -1,6 +1,6 @@
 namespace Game.Core
 {
-    using Game.Core.DI;
+    using Game.Core.ServiceLocating;
     using Game.Core.Interactable;
     using Game.Core.Player;
     using Game.Core.SceneControl;
@@ -189,6 +189,11 @@ namespace Game.Core
                 Debug.LogError("UI CONTROLLER MISSING ON CANVAS PREFAB!");
                 return;
             }
+            if (_sceneDatabase == null)
+            {
+                return;
+            }
+            playerController.SetDatabase(_sceneDatabase);
 
             playerInstance.Initialize(playerController, this);
             playerInstance.SetPlayable(Playable);

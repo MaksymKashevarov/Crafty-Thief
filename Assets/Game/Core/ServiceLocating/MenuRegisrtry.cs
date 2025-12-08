@@ -1,4 +1,4 @@
-namespace Game.Core.DI
+namespace Game.Core.ServiceLocating
 {
     using Game.Core.UI;
     using System.Collections.Generic;

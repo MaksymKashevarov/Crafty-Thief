@@ -1,7 +1,7 @@
 using Game.Core.UI;
 using System.Collections.Generic;
 
-namespace Game.Core.DI
+namespace Game.Core.ServiceLocating
 {
     ///MAP SELECTION REGISTRY///
     public class MSRegistry

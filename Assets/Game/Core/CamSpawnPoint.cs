@@ -1,4 +1,4 @@
-using Game.Core.DI;
+using Game.Core.ServiceLocating;
 using UnityEngine;
 
 public class CamSpawnPoint : MonoBehaviour

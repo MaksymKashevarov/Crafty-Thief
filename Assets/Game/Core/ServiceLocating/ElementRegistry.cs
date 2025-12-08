@@ -2,7 +2,7 @@ using Game.Core.UI;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Game.Core.DI
+namespace Game.Core.ServiceLocating
 {
     public class ElementRegistry
     {

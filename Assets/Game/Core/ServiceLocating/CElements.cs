@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Game.Core.DI
+namespace Game.Core.ServiceLocating
 {
     public class CElements
     {

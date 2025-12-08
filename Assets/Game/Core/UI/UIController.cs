@@ -1,8 +1,9 @@
 namespace Game.Core.UI
 {
-    using Game.Core.DI;
+    using Game.Core.ServiceLocating;
     using Game.Core.Interactable;
     using Game.Core.Player;
+    using Game.Core.SceneControl;
     using System.Collections;
     using System.Collections.Generic;
     using TMPro;
@@ -16,6 +17,7 @@ namespace Game.Core.UI
         [SerializeField] private GameObject _stealList;
         [SerializeField] private TextBox textbox;
         [SerializeField] private SourceMenu _menuScreen;
+        private SceneDatabase _sceneDatabase;
         private Transform panelParent;
         private GameObject _currentInterface;
         private PlayerInterface _currentPlayerInterface;
@@ -59,6 +61,14 @@ namespace Game.Core.UI
             _currentInterface = element;
         }
 
+        public void SetDatabase(SceneDatabase input)
+        {
+            _sceneDatabase = input;
+        }
+        public SceneDatabase GetDatabase()
+        {
+            return _sceneDatabase;
+        }
 
         public GameObject GetCurrentInterface()
         {
@@ -92,8 +102,18 @@ namespace Game.Core.UI
 
         public void CallbackActivation(IUIElement element)
         {
+            if (element == null)
+            {
+                Debug.LogAssertion("Element is invalid");
+                return;
+            }
             element.Activate();
             List<IUIElement> children = element.GetChildElements();
+            if (children == null)
+            {
+                Debug.LogWarning("No children list present");
+                return;
+            }
             if (children.Count == 0)
             {
                 return;
@@ -117,10 +137,21 @@ namespace Game.Core.UI
                 }
             }
 
+        }       
+
+        public IEnumerator BuildActive(IUIElement element, Transform parent)
+        {
+            GameObject prefab = element.GetObject();
+            GameObject instance;
+            Debug.Log("Building");
+            instance = Instantiate(prefab, parent);
+            yield return new WaitForSeconds(2);
+            Debug.Log("Done");
+            element.SetController(this);
+            Debug.Log("Element Found");
         }
 
-
-        public void BuildActiveElement(IUIElement element, Transform parent = null)
+        public void BuildActiveElement(IUIElement element, Transform parent = null, IUIElement elementParent = null)
         {
             if (element == null)
             {
@@ -130,13 +161,16 @@ namespace Game.Core.UI
             {
                 parent = _canvasParent;
             }
-
             GameObject prefab = element.GetObject();
-            GameObject instance;
-            instance = Instantiate(prefab, parent);
-            element.SetInstance(instance);
-            Debug.Log("setting controller!");
-            element.SetController(this);
+            Instantiate(prefab, parent);
+            IUIElement currentElement = Container.tContainer.Resolve();
+            if (currentElement == null)
+            {
+                Debug.LogAssertion("Missing element");
+                return;
+            }
+            Debug.Log($"Recieved: {currentElement}");
+            currentElement.SetController(this);
         }
 
         public void DestroyElement(IUIElement element)

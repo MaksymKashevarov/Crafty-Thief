@@ -1,6 +1,6 @@
 namespace Game.Core.UI
 {
-    using Game.Core.DI;
+    using Game.Core.ServiceLocating;
     using System.Collections.Generic;
     using TMPro;
     using UnityEngine;
