@@ -5,7 +5,7 @@ namespace Game.Core.UI
     using TMPro;
     using UnityEngine;
 
-    public class MainButton : MonoBehaviour, IUIElement
+    public class MainButton : MonoBehaviour, IUIElement, IButton
     {
         [SerializeField] private TextMeshProUGUI _text;
         [SerializeField] private UIController _controller;
@@ -13,7 +13,7 @@ namespace Game.Core.UI
         
         private IUIElement _parent;
         private GameObject _instance;
-
+        private bool _isClicked = false;
         public void Activate()
         {
             if (_controller == null)
@@ -26,6 +26,7 @@ namespace Game.Core.UI
         private void Awake()
         {
             Registry.menuRegisrtry.Register(this);
+            Container.tContainer.RegisterAsTButton(this);
         }
 
         public void CollectChildElements()
@@ -50,13 +51,22 @@ namespace Game.Core.UI
         }
 
         public void OnClick()
-        {            
+        {
+            if ( _isClicked )
+            {
+                return;
+            }
             Debug.Log("Check!");
             if ( _parent == null )
             {
                 return;
             }
+            _isClicked = true;
             _controller.BuildActiveElement(_mSScreen);
+            if (_parent == null)
+            {
+                Debug.LogWarning("No Parent");
+            }
             _controller.DestroyElementAsParent(_parent);
         }
 
@@ -67,6 +77,7 @@ namespace Game.Core.UI
 
         public void Terminate()
         {
+            Registry.menuRegisrtry.Unregister(this);
             _controller.DestroyElement(this);
         }
 
@@ -78,6 +89,16 @@ namespace Game.Core.UI
         public GameObject GetInstance()
         {
             return _instance;
+        }
+
+        public void SetText(string text)
+        {
+            _text.text = text;
+        }
+
+        public TextMeshProUGUI GetText()
+        {
+            return _text;
         }
     }
 }

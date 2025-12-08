@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class CategoryButton : MonoBehaviour, IUIElement
+public class CategoryButton : MonoBehaviour, IUIElement, IButton
 {
     [SerializeField] private TextMeshProUGUI _categoryText;
+    private string _categoryTextString;
     private UIController _controller;
     private GameObject _instance;
     private IUIElement _parent;
@@ -14,18 +15,47 @@ public class CategoryButton : MonoBehaviour, IUIElement
     public void Activate()
     {
         Debug.Log("Check");
+        Debug.LogWarning(gameObject.scene.name);
     }
     public void SetText(string input)
     {
-        if (_categoryText == null)
-        {
-            return;
-        }
-        _categoryText.text = input;
+        _categoryTextString = input;
+
+        if (_categoryText != null)
+            _categoryText.text = input;
+
+        Debug.Log($"[{name}] SetText called: {input}");
     }
     public void CollectChildElements()
     {
         return;
+    }
+
+    private void Awake()
+    {
+        Container.tContainer.RegisterAsTElement(this);
+    }
+
+    private void Start()
+    {
+        /*
+        if (_categoryText == null)
+        {
+            Debug.LogAssertion($"[{this.name}] Missing Category Text");
+            return;
+        }
+        if (_categoryTextString == null)
+        {
+            Debug.LogAssertion($"[{this.name}] Missing string");
+            return;
+        }
+        if (_categoryTextString.Length == 0)
+        {
+            Debug.LogAssertion($"[{this.name}] text is empty");
+            return;
+        }
+        _categoryText.text = _categoryTextString;
+        */
     }
 
     public List<IUIElement> GetChildElements()
@@ -50,7 +80,6 @@ public class CategoryButton : MonoBehaviour, IUIElement
         {
             return;
         }
-        _controller.CallbackActivation(this);
     }
 
     public void SetInstance(GameObject instance)
@@ -67,5 +96,10 @@ public class CategoryButton : MonoBehaviour, IUIElement
     public void Terminate()
     {
         _controller.DestroyElement(this);
+    }
+
+    public TextMeshProUGUI GetText()
+    {
+        return _categoryText;
     }
 }

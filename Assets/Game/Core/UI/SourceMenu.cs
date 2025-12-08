@@ -31,6 +31,17 @@ namespace Game.Core.UI
 
         public List<IUIElement> GetChildElements()
         {
+            Debug.Log($"[{this.name}] Returning ChildElements");
+            if (_childElements == null)
+            {
+                Debug.LogWarning("Missing Child Elements");
+                return null;
+            }
+            if (_childElements.Count == 0)
+            {
+                Debug.LogWarning("List is empty");
+                return null;
+            }
             return _childElements;
         }
 
@@ -48,6 +59,7 @@ namespace Game.Core.UI
             }
             if (elements.Count == 0)
             {
+                Debug.LogWarning("No child elements present");
                 return;
             }
             foreach (IUIElement element in elements)
@@ -88,7 +100,7 @@ namespace Game.Core.UI
         public void Awake()
         {
             Debug.Log("Registering");
-            Container.tContainer.RegisterAsTemporary(this);
+            Container.tContainer.RegisterAsTElement(this);
         }
 
 

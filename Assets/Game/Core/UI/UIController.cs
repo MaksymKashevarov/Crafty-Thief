@@ -98,58 +98,7 @@ namespace Game.Core.UI
             }
             BuildActiveElement(_menuScreen);
 
-        }
-
-        public void CallbackActivation(IUIElement element)
-        {
-            if (element == null)
-            {
-                Debug.LogAssertion("Element is invalid");
-                return;
-            }
-            element.Activate();
-            List<IUIElement> children = element.GetChildElements();
-            if (children == null)
-            {
-                Debug.LogWarning("No children list present");
-                return;
-            }
-            if (children.Count == 0)
-            {
-                return;
-            }
-            if (children != null)
-            {
-                Debug.Log("List detected!");
-                foreach (IUIElement child in children)
-                {
-                    if (child == null)
-                    {
-                        Debug.LogError("List contains Null!");
-                        break;
-                    }
-                    Debug.Log($"Controller set to: {child}");
-                    child.SetController(this);
-                    Debug.Log($"Setting Parent: {element}");
-                    child.SetParent(element);
-                    Debug.Log($"Activating {child}");
-                    child.Activate();
-                }
-            }
-
-        }       
-
-        public IEnumerator BuildActive(IUIElement element, Transform parent)
-        {
-            GameObject prefab = element.GetObject();
-            GameObject instance;
-            Debug.Log("Building");
-            instance = Instantiate(prefab, parent);
-            yield return new WaitForSeconds(2);
-            Debug.Log("Done");
-            element.SetController(this);
-            Debug.Log("Element Found");
-        }
+        } 
 
         public void BuildActiveElement(IUIElement element, Transform parent = null, IUIElement elementParent = null)
         {
@@ -163,39 +112,35 @@ namespace Game.Core.UI
             }
             GameObject prefab = element.GetObject();
             Instantiate(prefab, parent);
-            IUIElement currentElement = Container.tContainer.Resolve();
+            IUIElement currentElement = Container.tContainer.ResolveTElement();
+            Debug.Log($"[{this.name}]: {currentElement}");
             if (currentElement == null)
             {
                 Debug.LogAssertion("Missing element");
                 return;
             }
             Debug.Log($"Recieved: {currentElement}");
-            currentElement.SetController(this);
-        }
-
-        public void DestroyElement(IUIElement element)
-        {
-            if (element == null)
+            if (elementParent != null)
             {
+                currentElement.SetParent(elementParent);
+            }
+            currentElement.SetController(this);
+
+            currentElement.Activate();
+
+            List<IUIElement> children = currentElement.GetChildElements();
+            if (children == null)
+            {
+                Debug.LogWarning("No children list present");
                 return;
             }
-            Debug.Log($"Destroying: {element}");
-            Destroy(element.GetInstance());
-        }
-
-        public void DestroyElementAsParent(IUIElement element)
-        {
-            Debug.Log("Deleting");
-
-            List<IUIElement> children = element.GetChildElements();
             if (children.Count == 0)
             {
                 return;
             }
-
             if (children != null)
             {
-                Debug.Log("List detected!");
+                Debug.Log($"[{this.name}]: List detected: {children}");
                 foreach (IUIElement child in children)
                 {
                     if (child == null)
@@ -203,14 +148,61 @@ namespace Game.Core.UI
                         Debug.LogError("List contains Null!");
                         break;
                     }
-                    Debug.Log($"Unregistering: {child}");
-                    Registry.menuRegisrtry.Unregister(child);
-                    Debug.Log($"Deleting: {child}");
-                    child.Terminate();
+                    Debug.Log($"[{this}] Controller set to: {child}");
+                    child.SetController(this);
+                    Debug.Log($"[{this}] Setting Parent: {currentElement}");
+                    child.SetParent(currentElement);
+                    Debug.Log($"[{this}] Activating {child}");
+                    child.Activate();
+                }
                 
+            }
+        }
+
+        public void DestroyElement(IUIElement element)
+        {
+            if (element == null)
+            {
+                Debug.LogAssertion("Missing Element");
+                return;
+            }
+            Debug.Log($"Destroying: {element}");
+            Destroy(element.GetObject());
+        }
+
+        public void DestroyElementAsParent(IUIElement element)
+        {
+            if (element == null)
+            {
+                Debug.LogAssertion("Missing Parent");
+                return;
+            }
+            Debug.Log("Deleting");
+
+            List<IUIElement> children = element.GetChildElements();
+            if (children == null)
+            {
+                Debug.LogWarning("Missing Children");
+                element.Terminate();
+                return;
+            }
+            if (children.Count > 0)
+            {
+                Debug.Log("List detected!");
+                foreach (IUIElement child in children)
+                {
+                    if (child == null)
+                    {
+                        Debug.LogError($"[{this}] List contains Null!");
+                        break;
+                    }
+                    Debug.Log($"[{this}] Deleting: {child}");
+                    child.Terminate();
+
                 }
             }
             element.Terminate();
+            Debug.Log("DONE");
         }
 
     }

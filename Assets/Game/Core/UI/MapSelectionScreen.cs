@@ -5,19 +5,19 @@ namespace Game.Core.UI
     using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.InputSystem.XR;
+    using TMPro;
 
     public class MapSelectionScreen : MonoBehaviour, IUIElement
     {
         [SerializeField] private CategoryButton _categoryButton;
         [SerializeField] private Transform _categoryParent;
         private List<IUIElement> _childElements = new();
-        private UIController _controller;
+        [SerializeField] private UIController _controller;
         private GameObject _instance;
-        private List<CategoryButton> _buttons = new();
+        private List<IButton> _buttons = new();
         public void Activate()
         {
             CollectChildElements();
-            Debug.Log("check!");
         }
 
         public void CollectChildElements()
@@ -43,14 +43,36 @@ namespace Game.Core.UI
             }
         }
 
+        private void Awake()
+        {
+            Container.tContainer.RegisterAsTElement(this);
+        }
         private void Start()
         {
-            if (_controller == null)
-            {
-                Debug.LogAssertion("Missing Controller In Set!");
-                return;
-            }
+            Debug.Log("DISPLAYING");
             DisplayMapSelection();
+            Debug.Log("END");
+
+        }
+        private void BuildSelection(SceneDatabase dataBase, Dictionary<string, List<SceneData>> sceneData)
+        {
+            Debug.Log("Creating base map selection...");
+                        
+            for (int i = 0; i < sceneData.Count; i++)
+            {
+                _controller.BuildActiveElement(_categoryButton, _categoryParent);
+                IButton button = Container.tContainer.ResolveTButton();
+                Debug.Log($"[{this.name}] Adding [{button}]");
+                _buttons.Add(button);
+            }
+        }
+
+        private void ApplyCategoryText(SceneDatabase dataBase, Dictionary<string, List<SceneData>> sceneData)
+        {
+            foreach (IButton button in _buttons)
+            {
+                Debug.Log(button);
+            }
         }
 
         public void DisplayMapSelection()
@@ -60,22 +82,11 @@ namespace Game.Core.UI
                 Debug.LogAssertion("Missing Controller");
                 return;
             }
-            Debug.Log("Creating base map selection...");
             SceneDatabase dataBase = _controller.GetDatabase();
             Dictionary<string, List<SceneData>> sceneData = dataBase.GetReferenceBundle();
-            for (int i = 0; i < sceneData.Count; i++)
-            {
-                Debug.Log(i);
-            }
-            foreach (string key in sceneData.Keys)
-            {
-                if (key == null)
-                {
-                    Debug.LogAssertion("Missing Key!");
-                    break;
-                }
-                _controller.BuildActiveElement(_categoryButton, _categoryParent);
-            }
+            BuildSelection(dataBase, sceneData);
+            ApplyCategoryText(dataBase, sceneData);
+
         }
 
         public List<IUIElement> GetChildElements()
@@ -102,7 +113,6 @@ namespace Game.Core.UI
                 return;
             }
             Debug.Log($"Controller set: {_controller}");
-            _controller.CallbackActivation(this);
         }
 
         public void SetInstance(GameObject instance)

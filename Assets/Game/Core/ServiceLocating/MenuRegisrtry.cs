@@ -10,6 +10,7 @@ namespace Game.Core.ServiceLocating
 
         public void Register(IUIElement element)
         {
+            Debug.Log($"[{this}] Registering {element}....");
             if (_menuElements.Contains(element))
             {
                 return;
