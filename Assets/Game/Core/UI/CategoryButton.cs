@@ -7,7 +7,7 @@ using UnityEngine;
 public class CategoryButton : MonoBehaviour, IUIElement, IButton
 {
     [SerializeField] private TextMeshProUGUI _categoryText;
-    private string _categoryTextString;
+    private string _categoryTextString = string.Empty;
     [SerializeField] private UIController _controller;
     private GameObject _instance;
     private IUIElement _parent;
@@ -35,6 +35,7 @@ public class CategoryButton : MonoBehaviour, IUIElement, IButton
     private void Start()
     {
         Debug.LogWarning($"[{this.name}] Parent: [{_parent}]");
+        _categoryText.text = _categoryTextString;   
     }
 
     public List<IUIElement> GetChildElements()
