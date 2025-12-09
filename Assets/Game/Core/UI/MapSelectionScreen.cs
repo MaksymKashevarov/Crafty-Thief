@@ -6,6 +6,7 @@ namespace Game.Core.UI
     using UnityEngine;
     using UnityEngine.InputSystem.XR;
     using TMPro;
+    using System.Linq;
 
     public class MapSelectionScreen : MonoBehaviour, IUIElement
     {
@@ -60,7 +61,7 @@ namespace Game.Core.UI
                         
             for (int i = 0; i < sceneData.Count; i++)
             {
-                _controller.BuildActiveElement(_categoryButton, _categoryParent);
+                _controller.BuildActiveElement(_categoryButton, _categoryParent, this);
                 IButton button = Container.tContainer.ResolveTButton();
                 Debug.Log($"[{this.name}] Adding [{button}]");
                 _buttons.Add(button);
@@ -69,9 +70,37 @@ namespace Game.Core.UI
 
         private void ApplyCategoryText(SceneDatabase dataBase, Dictionary<string, List<SceneData>> sceneData)
         {
-            foreach (IButton button in _buttons)
+            if (dataBase == null)
             {
-                Debug.Log(button);
+                Debug.LogAssertion($"[{this.name}] DataBase Missing");
+                return;
+            }
+            if (sceneData == null)
+            {
+                Debug.LogAssertion($"[{this.name}] Dictionary Missing");
+                return;
+            }
+            if(sceneData.Count == 0) 
+            {
+                Debug.LogAssertion($"[{this.name}] No elements in Dictionary");
+                return; 
+            }
+            if (_buttons.Count == 0)
+            {
+                Debug.LogAssertion($"[{this.name}] No elements in List");
+            }
+            List<string> keysList = sceneData.Keys.ToList();
+            for (int i = 0; i < _buttons.Count; i++)
+            {
+                Debug.Log($"Setting text {_buttons[i]} Text: [{keysList[i]}]");
+                TextMeshProUGUI textComponent = _buttons[i].GetTextComponent();
+                if(textComponent == null)
+                {
+                    Debug.LogAssertion("Components is Invalid");
+                    break;
+                }
+                Debug.Log($"[{this.name}]");
+                _buttons[i].SetText(keysList[i]);
             }
         }
 
@@ -85,7 +114,7 @@ namespace Game.Core.UI
             SceneDatabase dataBase = _controller.GetDatabase();
             Dictionary<string, List<SceneData>> sceneData = dataBase.GetReferenceBundle();
             BuildSelection(dataBase, sceneData);
-            ApplyCategoryText(dataBase, sceneData);
+            //ApplyCategoryText(dataBase, sceneData);
 
         }
 

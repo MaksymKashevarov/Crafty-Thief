@@ -100,6 +100,11 @@ namespace Game.Core.UI
         {
             return _text;
         }
+
+        public TextMeshProUGUI GetTextComponent()
+        {
+            return _text;
+        }
     }
 }
 

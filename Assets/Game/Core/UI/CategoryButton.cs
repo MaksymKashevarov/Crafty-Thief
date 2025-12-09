@@ -8,7 +8,7 @@ public class CategoryButton : MonoBehaviour, IUIElement, IButton
 {
     [SerializeField] private TextMeshProUGUI _categoryText;
     private string _categoryTextString;
-    private UIController _controller;
+    [SerializeField] private UIController _controller;
     private GameObject _instance;
     private IUIElement _parent;
 
@@ -19,12 +19,8 @@ public class CategoryButton : MonoBehaviour, IUIElement, IButton
     }
     public void SetText(string input)
     {
-        _categoryTextString = input;
-
-        if (_categoryText != null)
-            _categoryText.text = input;
-
-        Debug.Log($"[{name}] SetText called: {input}");
+        Debug.Log($"[{this.name}] Setting text: [{input}] To:");
+       _categoryTextString = input;
     }
     public void CollectChildElements()
     {
@@ -34,28 +30,11 @@ public class CategoryButton : MonoBehaviour, IUIElement, IButton
     private void Awake()
     {
         Container.tContainer.RegisterAsTElement(this);
+        Debug.Log(_categoryTextString);
     }
-
     private void Start()
     {
-        /*
-        if (_categoryText == null)
-        {
-            Debug.LogAssertion($"[{this.name}] Missing Category Text");
-            return;
-        }
-        if (_categoryTextString == null)
-        {
-            Debug.LogAssertion($"[{this.name}] Missing string");
-            return;
-        }
-        if (_categoryTextString.Length == 0)
-        {
-            Debug.LogAssertion($"[{this.name}] text is empty");
-            return;
-        }
-        _categoryText.text = _categoryTextString;
-        */
+        Debug.LogWarning($"[{this.name}] Parent: [{_parent}]");
     }
 
     public List<IUIElement> GetChildElements()
@@ -89,7 +68,7 @@ public class CategoryButton : MonoBehaviour, IUIElement, IButton
 
     public void SetParent(IUIElement element)
     {
-        Debug.Log($"Recieved Parent: {element}");
+        Debug.LogWarning($"[{this.name}] Recieved Parent: {element}");
         _parent = element;
     }
 
@@ -100,6 +79,12 @@ public class CategoryButton : MonoBehaviour, IUIElement, IButton
 
     public TextMeshProUGUI GetText()
     {
+        return _categoryText;
+    }
+
+    public TextMeshProUGUI GetTextComponent()
+    {
+        Debug.Log($"[{this.name}] Returning Text Component: [{_categoryText}]");
         return _categoryText;
     }
 }
