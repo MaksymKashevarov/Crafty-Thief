@@ -4,6 +4,7 @@ namespace Game.Core.UI
     using Game.Core.Player;
     using NUnit.Framework;
     using System.Collections.Generic;
+    using UnityEditor.PackageManager.Requests;
     using UnityEngine;
     using UnityEngine.UI;
 
@@ -39,6 +40,12 @@ namespace Game.Core.UI
             return false;
         }
 
+        public void RequestMenuBuild()
+        {
+            _controller.DisplayMenu();
+
+        }
+
         public void UpdateActiveList(IInteractable item)
         {
             Item currentItem = item.GetItem();
@@ -64,16 +71,6 @@ namespace Game.Core.UI
                 Debug.LogWarning("List is empty");
                 return null;
             }
-        }
-
-        public bool IsInventoryFull()
-        {
-            List<Item> playerInventory = _playerHands.GetHandsInventory();
-            if (playerInventory.Count > _handsInventorySize) 
-            {
-                return true;
-            }
-            return false;
         }
 
         public void RequestListBuild(List<string> stealList)
@@ -104,18 +101,6 @@ namespace Game.Core.UI
             }
         }
 
-
-        public void TerminateInterface()
-        {
-            if (_player.isCurrentlyInteracting())
-            {
-                Debug.Log("Requesting termination of interface");
-                _controller.TerminateCurrentInterface();
-                _currentStorage?.Clear();
-                _currentStorage = new List<IUIElement>();
-                _player.SetInteraction(false);
-            }
-        }
 
         public void Refresh()
         {

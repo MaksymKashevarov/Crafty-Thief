@@ -1,17 +1,24 @@
 namespace Game.Core.UI
 {
+    using Game.Core.ServiceLocating;
     using Game.Core.Interactable;
     using Game.Core.Player;
+    using Game.Core.SceneControl;
+    using System.Collections;
     using System.Collections.Generic;
     using TMPro;
     using UnityEngine;
     using UnityEngine.UI;
+    using static UnityEditor.Rendering.FilterWindow;
+    using Game.Core.Factory;
 
     public class UIController : MonoBehaviour
     {
         [SerializeField] private Transform _canvasParent;
         [SerializeField] private GameObject _stealList;
         [SerializeField] private TextBox textbox;
+        [SerializeField] private SourceMenu _menuScreen;
+        private SceneDatabase _sceneDatabase;
         private Transform panelParent;
         private GameObject _currentInterface;
         private PlayerInterface _currentPlayerInterface;
@@ -55,6 +62,15 @@ namespace Game.Core.UI
             _currentInterface = element;
         }
 
+        public void SetDatabase(SceneDatabase input)
+        {
+            _sceneDatabase = input;
+        }
+        public SceneDatabase GetDatabase()
+        {
+            return _sceneDatabase;
+        }
+
         public GameObject GetCurrentInterface()
         {
             if (_currentInterface == null)
@@ -74,39 +90,145 @@ namespace Game.Core.UI
             Debug.Log($"Interface Installed{this.name}");
         }
 
-
-        public void DestroyElement(GameObject element)
+        public void DisplayMenu()
         {
-            if (element != null)
+            if (_menuScreen == null)
             {
-                Debug.Log($"Element {element} destroyed");
-                Destroy(element);
+                Debug.LogAssertion("Menu base is missing!");
+                return;
             }
-            else
+            BuildActiveElement(_menuScreen);
+
+        } 
+
+        public IUIElement BuildActiveElement(IUIElement element, Transform parent = null, IUIElement elementParent = null)
+        {
+            if (element == null)
             {
-                Debug.LogWarning("Element is missing");
+                return null;
             }
+            if (parent == null)
+            {
+                parent = _canvasParent;
+            }
+            IUIElement currentElement = UIFactory.BuildElement(element, parent);
+            Debug.Log($"[{this.name}]: {currentElement}");
+            if (currentElement == null)
+            {
+                Debug.LogAssertion("Missing element");
+                return null;
+            }
+            Debug.Log($"Recieved: {currentElement}");
+            if (elementParent != null)
+            {
+                currentElement.SetParent(elementParent);
+            }
+            currentElement.SetController(this);
+
+            currentElement.Activate();
+
+            List<IUIElement> children = currentElement.GetChildElements();
+            if (children == null)
+            {
+                Debug.LogWarning("No children list present");
+                return currentElement;
+            }
+            if (children.Count == 0)
+            {
+                return currentElement;
+            }
+            if (children != null)
+            {
+                Debug.Log($"[{this.name}]: List detected: {children}");
+                foreach (IUIElement child in children)
+                {
+                    if (child == null)
+                    {
+                        Debug.LogError("List contains Null!");
+                        break;
+                    }
+                    Debug.Log($"[{this}] Controller set to: {child}");
+                    child.SetController(this);
+                    Debug.Log($"[{this}] Setting Parent: {currentElement}");
+                    child.SetParent(currentElement);
+                    Debug.Log($"[{this}] Activating {child}");
+                    child.Activate();
+                }
+                
+            }
+            return currentElement;
         }
 
-
-        public void TerminateCurrentInterface()
+        public IButton BuildButton(IUIElement element, Transform parent = null, IUIElement elementParent = null)
         {
-            if (_currentInterface != null)
+            if (element == null)
             {
-                DestroyElement(_currentInterface);
-                _currentInterface = null;
-                Debug.Log("Success");
+                return null;
             }
-            else
+            if (parent == null)
             {
-                Debug.LogError("No interface present!");
+                parent = _canvasParent;
             }
+            IButton button = UIFactory.BuildButton(element, parent);
+            if (button == null)
+            {
+                Debug.LogAssertion("Missing element");
+                return null;
+            }
+            if (elementParent != null)
+            {
+                button.SetParent(elementParent);
+            }
+            button.SetController(this);
+            return button;
         }
 
-        public void OpenInventoryInterface()
+        public void DestroyElement(IUIElement element)
         {
-            
+            if (element == null)
+            {
+                Debug.LogAssertion("Missing Element");
+                return;
+            }
+            Debug.Log($"Destroying: {element}");
+            Destroy(element.GetObject());
         }
+
+        public void DestroyElementAsParent(IUIElement element)
+        {
+            if (element == null)
+            {
+                Debug.LogAssertion("Missing Parent");
+                return;
+            }
+            Debug.Log("Deleting");
+
+            List<IUIElement> children = element.GetChildElements();
+            if (children == null)
+            {
+                Debug.LogWarning("Missing Children");
+                element.Terminate();
+                return;
+            }
+            if (children.Count > 0)
+            {
+                Debug.Log("List detected!");
+                foreach (IUIElement child in children)
+                {
+                    if (child == null)
+                    {
+                        Debug.LogError($"[{this}] List contains Null!");
+                        break;
+                    }
+                    Debug.Log($"[{this}] Deleting: {child}");
+                    child.Terminate();
+
+                }
+            }
+            element.Terminate();
+            Debug.Log("DONE");
+        }
+
     }
 
 }

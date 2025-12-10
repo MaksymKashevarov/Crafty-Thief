@@ -1,19 +1,22 @@
-using Game.Core.Interactable;
-using UnityEngine;
-using UnityEngine.UI;
-
 namespace Game.Core.UI
 {
+    using Game.Core.Interactable;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using UnityEngine.UI;
+
     public interface IUIElement
     {
         void SetController(UIController controller);
-        void OnClicked();
-        void SetActiveElement(GameObject element);
-        Item getSlotItem();
-        GameObject GetActiveElement();
-        void SetRootElement(IUIElement root);
-        void SetSlotItem(Item item);
-        Image GetSlotImage();
+        GameObject GetObject();
+        void CollectChildElements();
+        List<IUIElement> GetChildElements();
+        void Activate(); //Universal Method
+        void SetParent(IUIElement element);
+        void Terminate();
+        void SetInstance(GameObject instance);
+        GameObject GetInstance();
+
     }
 
 }
