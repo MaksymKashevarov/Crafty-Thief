@@ -10,6 +10,7 @@ namespace Game.Core.UI
     using UnityEngine;
     using UnityEngine.UI;
     using static UnityEditor.Rendering.FilterWindow;
+    using Game.Core.Factory;
 
     public class UIController : MonoBehaviour
     {
@@ -100,24 +101,22 @@ namespace Game.Core.UI
 
         } 
 
-        public void BuildActiveElement(IUIElement element, Transform parent = null, IUIElement elementParent = null)
+        public IUIElement BuildActiveElement(IUIElement element, Transform parent = null, IUIElement elementParent = null)
         {
             if (element == null)
             {
-                return;
+                return null;
             }
             if (parent == null)
             {
                 parent = _canvasParent;
             }
-            GameObject prefab = element.GetObject();
-            Instantiate(prefab, parent);
-            IUIElement currentElement = Container.tContainer.ResolveTElement();
+            IUIElement currentElement = UIFactory.BuildElement(element, parent);
             Debug.Log($"[{this.name}]: {currentElement}");
             if (currentElement == null)
             {
                 Debug.LogAssertion("Missing element");
-                return;
+                return null;
             }
             Debug.Log($"Recieved: {currentElement}");
             if (elementParent != null)
@@ -132,11 +131,11 @@ namespace Game.Core.UI
             if (children == null)
             {
                 Debug.LogWarning("No children list present");
-                return;
+                return currentElement;
             }
             if (children.Count == 0)
             {
-                return;
+                return currentElement;
             }
             if (children != null)
             {
@@ -157,6 +156,31 @@ namespace Game.Core.UI
                 }
                 
             }
+            return currentElement;
+        }
+
+        public IButton BuildButton(IUIElement element, Transform parent = null, IUIElement elementParent = null)
+        {
+            if (element == null)
+            {
+                return null;
+            }
+            if (parent == null)
+            {
+                parent = _canvasParent;
+            }
+            IButton button = UIFactory.BuildButton(element, parent);
+            if (button == null)
+            {
+                Debug.LogAssertion("Missing element");
+                return null;
+            }
+            if (elementParent != null)
+            {
+                button.SetParent(elementParent);
+            }
+            button.SetController(this);
+            return button;
         }
 
         public void DestroyElement(IUIElement element)

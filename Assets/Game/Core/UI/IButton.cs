@@ -6,7 +6,8 @@ namespace Game.Core.UI
     {
         void SetText(string text);
         TextMeshProUGUI GetTextComponent();
-
+        void SetParent(IUIElement element);
+        void SetController(UIController controller);
     }
 
 }

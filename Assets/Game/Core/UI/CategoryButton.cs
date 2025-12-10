@@ -7,7 +7,7 @@ using UnityEngine;
 public class CategoryButton : MonoBehaviour, IUIElement, IButton
 {
     [SerializeField] private TextMeshProUGUI _categoryText;
-    private string _categoryTextString = string.Empty;
+    private string _categoryTextString;
     [SerializeField] private UIController _controller;
     private GameObject _instance;
     private IUIElement _parent;
@@ -15,27 +15,15 @@ public class CategoryButton : MonoBehaviour, IUIElement, IButton
     public void Activate()
     {
         Debug.Log("Check");
-        Debug.LogWarning(gameObject.scene.name);
     }
     public void SetText(string input)
     {
         Debug.Log($"[{this.name}] Setting text: [{input}] To:");
-       _categoryTextString = input;
+       _categoryText.text = input;
     }
     public void CollectChildElements()
     {
         return;
-    }
-
-    private void Awake()
-    {
-        Container.tContainer.RegisterAsTElement(this);
-        Debug.Log(_categoryTextString);
-    }
-    private void Start()
-    {
-        Debug.LogWarning($"[{this.name}] Parent: [{_parent}]");
-        _categoryText.text = _categoryTextString;   
     }
 
     public List<IUIElement> GetChildElements()

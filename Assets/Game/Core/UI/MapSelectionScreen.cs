@@ -53,6 +53,7 @@ namespace Game.Core.UI
         {
             Debug.Log("DISPLAYING");
             DisplayMapSelection();
+            Debug.Log($"[{this.name}] Map Display Built");
             Debug.Log("END");
 
         }
@@ -62,10 +63,12 @@ namespace Game.Core.UI
                         
             for (int i = 0; i < sceneData.Count; i++)
             {
-                _controller.BuildActiveElement(_categoryButton, _categoryParent, this);
-                IButton button = Container.tContainer.ResolveTButton();
+                IButton button = _controller.BuildButton(_categoryButton, _categoryParent, this);
                 Debug.Log($"[{this.name}] Adding [{button}]");
                 _buttons.Add(button);
+                TextMeshProUGUI textComponent = button.GetTextComponent();
+                Debug.Log($"Button component: {textComponent.text}");
+                button.SetText(textComponent.text);
             }
         }
 
@@ -100,7 +103,7 @@ namespace Game.Core.UI
                     Debug.LogAssertion("Components is Invalid");
                     break;
                 }
-                Debug.Log($"[{this.name}]");
+                Debug.Log($"[{this.name}] Setting text to [{_buttons[i]}] Source: [{textComponent.text}] Text: [{keysList[i]}]");
                 _buttons[i].SetText(keysList[i]);
             }
         }
@@ -115,7 +118,7 @@ namespace Game.Core.UI
             SceneDatabase dataBase = _controller.GetDatabase();
             Dictionary<string, List<SceneData>> sceneData = dataBase.GetReferenceBundle();
             BuildSelection(dataBase, sceneData);
-            //ApplyCategoryText(dataBase, sceneData);
+            ApplyCategoryText(dataBase, sceneData);
 
         }
 
