@@ -105,6 +105,11 @@ namespace Game.Core.UI
         {
             return _text;
         }
+
+        public void SetAsChild(IUIElement element)
+        {
+            return;
+        }
     }
 }
 

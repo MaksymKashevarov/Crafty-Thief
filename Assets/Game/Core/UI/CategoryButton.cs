@@ -59,6 +59,7 @@ public class CategoryButton : MonoBehaviour, IUIElement, IButton
     {
         Debug.LogWarning($"[{this.name}] Recieved Parent: {element}");
         _parent = element;
+        _parent.SetAsChild(this);
     }
 
     public void Terminate()
@@ -75,5 +76,10 @@ public class CategoryButton : MonoBehaviour, IUIElement, IButton
     {
         Debug.Log($"[{this.name}] Returning Text Component: [{_categoryText}]");
         return _categoryText;
+    }
+
+    public void SetAsChild(IUIElement element)
+    {
+        return;
     }
 }

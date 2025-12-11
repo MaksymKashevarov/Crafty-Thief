@@ -103,7 +103,15 @@ namespace Game.Core.UI
             Container.tContainer.RegisterAsTElement(this);
         }
 
-
+        public void SetAsChild(IUIElement element)
+        {
+            if (_childElements.Contains(element))
+            {
+                Debug.LogWarning("Already In List");
+                return;
+            }
+            _childElements.Add(element);
+        }
     }
 }
 

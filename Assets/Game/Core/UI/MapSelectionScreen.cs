@@ -127,11 +127,6 @@ namespace Game.Core.UI
             return _childElements;
         }
 
-        public GameObject GetInstance()
-        {
-            return _instance;
-        }
-
         public GameObject GetObject()
         {
             return gameObject;
@@ -148,11 +143,6 @@ namespace Game.Core.UI
             Debug.Log($"Controller set: {_controller}");
         }
 
-        public void SetInstance(GameObject instance)
-        {
-            _instance = instance;
-        }
-
         public void SetParent(IUIElement element)
         {
             return;
@@ -163,6 +153,22 @@ namespace Game.Core.UI
             _childElements.Clear();
             _childElements = null;
             _controller.DestroyElement(this);
+        }
+
+        public void SetAsChild(IUIElement element)
+        {
+            if (_childElements.Contains(element))
+            {
+                Debug.LogWarning("Already In List");
+                return;
+            }
+            Debug.Log($"Setting child [{element}] in list");
+            _childElements.Add(element);
+            Debug.Log("List contains:");
+            foreach (IUIElement child in _childElements)
+            {
+                Debug.Log(child);
+            }
         }
     }
 
