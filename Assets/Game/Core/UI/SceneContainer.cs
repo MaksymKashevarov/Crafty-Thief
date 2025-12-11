@@ -9,10 +9,21 @@ namespace Game.Core.UI
     {
         [SerializeField] private UIController _controller;
         [SerializeField] private TextMeshProUGUI _mapText;
+        [SerializeField] private SceneData _map;
         private IUIElement _parent;
         public void Activate()
         {
             return;
+        }
+
+        public void AssignScene(SceneData scene)
+        {
+            _map = scene;
+        }
+
+        public SceneData GetAssignedScene()
+        {
+            return _map;
         }
 
         public void CollectChildElements()
