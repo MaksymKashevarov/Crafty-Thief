@@ -1,3 +1,5 @@
+using Game.Core.SceneControl;
+using System.Collections.Generic;
 using TMPro;
 
 namespace Game.Core.UI
@@ -8,6 +10,9 @@ namespace Game.Core.UI
         TextMeshProUGUI GetTextComponent();
         void SetParent(IUIElement element);
         void SetController(UIController controller);
+        void SetList(List<SceneData> list);
+        void OnClick();
+        void Terminate();
     }
 
 }

@@ -1,5 +1,6 @@
 namespace Game.Core.UI
 {
+    using Game.Core.SceneControl;
     using Game.Core.ServiceLocating;
     using System.Collections.Generic;
     using TMPro;
@@ -107,6 +108,11 @@ namespace Game.Core.UI
         }
 
         public void SetAsChild(IUIElement element)
+        {
+            return;
+        }
+
+        public void SetList(List<SceneData> list)
         {
             return;
         }

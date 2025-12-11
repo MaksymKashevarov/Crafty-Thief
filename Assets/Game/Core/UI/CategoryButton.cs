@@ -1,3 +1,4 @@
+using Game.Core.SceneControl;
 using Game.Core.ServiceLocating;
 using Game.Core.UI;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ public class CategoryButton : MonoBehaviour, IUIElement, IButton
     [SerializeField] private UIController _controller;
     private GameObject _instance;
     private IUIElement _parent;
+    [SerializeField] private List<SceneData> _scenes;
+    [SerializeField] private MapHolder _mapHolder;
 
     public void Activate()
     {
@@ -31,10 +34,6 @@ public class CategoryButton : MonoBehaviour, IUIElement, IButton
         return null;
     }
 
-    public GameObject GetInstance()
-    {
-        return _instance;
-    }
 
     public GameObject GetObject()
     {
@@ -50,9 +49,30 @@ public class CategoryButton : MonoBehaviour, IUIElement, IButton
         }
     }
 
-    public void SetInstance(GameObject instance)
+    public void SetList(List<SceneData> list)
     {
-        _instance = instance;
+        if(list == null)
+        {
+            Debug.LogAssertion($"[{this.name}] List is Null");
+            return;
+        }
+        if (list.Count == 0)
+        {
+            Debug.LogAssertion($"[{this.name}] List is empty");
+            return;
+        }
+        _scenes.Clear();
+        foreach (SceneData data in list)
+        {
+            if (data == null)
+            {
+                Debug.LogAssertion($"[{this.name}] Data is null");
+                break;
+            }
+            Debug.Log($"[{this.name}] Adding [{data}]");
+            _scenes.Add(data);
+
+        }
     }
 
     public void SetParent(IUIElement element)
@@ -60,6 +80,7 @@ public class CategoryButton : MonoBehaviour, IUIElement, IButton
         Debug.LogWarning($"[{this.name}] Recieved Parent: {element}");
         _parent = element;
         _parent.SetAsChild(this);
+        _mapHolder = Container.Resolve<MapHolder>();
     }
 
     public void Terminate()
@@ -81,5 +102,16 @@ public class CategoryButton : MonoBehaviour, IUIElement, IButton
     public void SetAsChild(IUIElement element)
     {
         return;
+    }
+
+    public void OnClick()
+    {
+        Debug.Log("Displaying Maps");
+        if (_mapHolder == null)
+        {
+            Debug.LogAssertion($"[{this.name}] Missing MapHolder");
+            return;
+        }
+        _mapHolder.DisplaySelection(_scenes);
     }
 }

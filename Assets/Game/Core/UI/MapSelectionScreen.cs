@@ -57,23 +57,24 @@ namespace Game.Core.UI
             Debug.Log("END");
 
         }
-        private void BuildSelection(SceneDatabase dataBase, Dictionary<string, List<SceneData>> sceneData)
+        private void BuildSelection()
         {
             Debug.Log("Creating base map selection...");
-                        
+
+            SceneDatabase dataBase = _controller.GetDatabase();
+            Dictionary<string, List<SceneData>> sceneData = dataBase.GetReferenceBundle();
             for (int i = 0; i < sceneData.Count; i++)
             {
                 IButton button = _controller.BuildButton(_categoryButton, _categoryParent, this);
                 Debug.Log($"[{this.name}] Adding [{button}]");
                 _buttons.Add(button);
-                TextMeshProUGUI textComponent = button.GetTextComponent();
-                Debug.Log($"Button component: {textComponent.text}");
-                button.SetText(textComponent.text);
             }
         }
 
-        private void ApplyCategoryText(SceneDatabase dataBase, Dictionary<string, List<SceneData>> sceneData)
+        private void ApplyCategoryText()
         {
+            SceneDatabase dataBase = _controller.GetDatabase();
+            Dictionary<string, List<SceneData>> sceneData = dataBase.GetReferenceBundle();
             if (dataBase == null)
             {
                 Debug.LogAssertion($"[{this.name}] DataBase Missing");
@@ -108,15 +109,36 @@ namespace Game.Core.UI
             }
         }
 
-        private void SetupButtons(Dictionary<string, List<SceneData>> sceneData)
+        private void SetupButtons()
         {
-            foreach(var pair in sceneData)
+            SceneDatabase dataBase = _controller.GetDatabase();
+            Dictionary<string, List<SceneData>> sceneData = dataBase.GetReferenceBundle();
+            if (sceneData == null)
             {
-                
-                
-                
+                Debug.LogAssertion("Missing SceneData");
+                return;
             }
+            Debug.Log($"[{this.name}] Validating SceneData....");
+            foreach(var data in sceneData)
+            {
+                if (data.Value == null)
+                {
+                    Debug.LogAssertion($"[{this.name}] Data is null");                    
+                    return;
+                }
+                Debug.Log($"[{this.name}] Validating data: [{data.Value}]");
 
+            }
+            Debug.Log($"[{this.name}] Validation Complete!");
+            foreach (IButton button in _buttons) 
+            {
+                string text = button.GetTextComponent().text;
+                if (sceneData.ContainsKey(text))
+                {
+                    List <SceneData> sceneList = sceneData[text];
+                    button.SetList(sceneList);
+                }
+            }
         }
 
         public void DisplayMapSelection()
@@ -125,12 +147,10 @@ namespace Game.Core.UI
             {
                 Debug.LogAssertion("Missing Controller");
                 return;
-            }
-            SceneDatabase dataBase = _controller.GetDatabase();
-            Dictionary<string, List<SceneData>> sceneData = dataBase.GetReferenceBundle();
-            BuildSelection(dataBase, sceneData);
-            ApplyCategoryText(dataBase, sceneData);
-            SetupButtons(sceneData);
+            };
+            BuildSelection();   
+            ApplyCategoryText();
+            SetupButtons();
 
         }
 
