@@ -108,6 +108,17 @@ namespace Game.Core.UI
             }
         }
 
+        private void SetupButtons(Dictionary<string, List<SceneData>> sceneData)
+        {
+            foreach(var pair in sceneData)
+            {
+                
+                
+                
+            }
+
+        }
+
         public void DisplayMapSelection()
         {
             if (_controller == null)
@@ -119,6 +130,7 @@ namespace Game.Core.UI
             Dictionary<string, List<SceneData>> sceneData = dataBase.GetReferenceBundle();
             BuildSelection(dataBase, sceneData);
             ApplyCategoryText(dataBase, sceneData);
+            SetupButtons(sceneData);
 
         }
 
