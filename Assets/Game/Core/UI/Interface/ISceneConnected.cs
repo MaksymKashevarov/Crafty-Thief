@@ -1,16 +1,13 @@
-using UnityEngine;
-
-public class ISceneConnected : MonoBehaviour
+namespace Game.Core.UI
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    using Game.Core.SceneControl;
+    using UnityEngine;
+
+    public interface ISceneConnected
     {
-        
+        void AssignScene(SceneData scene);
+        SceneData GetAssignedScene();
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

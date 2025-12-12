@@ -13,6 +13,7 @@ namespace Game.Core.UI
         void SetList(List<SceneData> list);
         void OnClick();
         void Terminate();
+        IUIElement GetUIElement();
     }
 
 }

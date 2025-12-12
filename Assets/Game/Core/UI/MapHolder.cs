@@ -43,8 +43,27 @@ namespace Game.Core.UI
             {
                 Debug.LogAssertion($"[{this.name}] Building");
                 IButton button = _controller.BuildButton(_container, gameObject.transform, this);
+                if (button == null)
+                {
+                    Debug.LogAssertion("Missing Button");
+                    return;
+                }
                 _buttons.Add(button);
                 button.SetText(sceneData.GetSceneName());
+                IUIElement element = button.GetUIElement();
+                if (element == null)
+                {
+                    Debug.LogAssertion("Missing element");
+                    return;
+                }
+                ISceneConnected sceneButton = element.GetSceneConnection();
+                if (sceneButton == null)
+                {
+                    Debug.LogAssertion("Missing Scene connection");
+                    return;
+                }
+                sceneButton.AssignScene(sceneData);
+
             }
         }
 
@@ -98,6 +117,11 @@ namespace Game.Core.UI
         {
             Registry.mSRegistry.Unregister(this);
             _controller.DestroyElement(this);
+        }
+
+        public ISceneConnected GetSceneConnection()
+        {
+            return null;
         }
     }
 

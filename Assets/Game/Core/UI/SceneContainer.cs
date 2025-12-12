@@ -5,7 +5,7 @@ namespace Game.Core.UI
     using TMPro;
     using UnityEngine;
 
-    public class SceneContainer : MonoBehaviour, IUIElement, IButton
+    public class SceneContainer : MonoBehaviour, IUIElement, IButton, ISceneConnected
     {
         [SerializeField] private UIController _controller;
         [SerializeField] private TextMeshProUGUI _mapText;
@@ -48,7 +48,7 @@ namespace Game.Core.UI
 
         public void OnClick()
         {
-
+            Debug.Log(_map.name);
         }
 
         public void SetAsChild(IUIElement element)
@@ -79,6 +79,16 @@ namespace Game.Core.UI
         public void Terminate()
         {
             _controller.DestroyElement(this);
+        }
+
+        public IUIElement GetUIElement()
+        {
+            return this;
+        }
+
+        public ISceneConnected GetSceneConnection()
+        {
+            return this;
         }
     }
 

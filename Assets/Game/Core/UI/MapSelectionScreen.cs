@@ -202,6 +202,10 @@ namespace Game.Core.UI
                 Debug.Log(child);
             }
         }
+        public ISceneConnected GetSceneConnection()
+        {
+            return null;
+        }
     }
 
 }
