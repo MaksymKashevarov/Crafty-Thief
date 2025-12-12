@@ -46,7 +46,7 @@ namespace Game.Core.UI
                 if (button == null)
                 {
                     Debug.LogAssertion("Missing Button");
-                    return;
+                    break;
                 }
                 _buttons.Add(button);
                 button.SetText(sceneData.GetSceneName());
@@ -54,13 +54,13 @@ namespace Game.Core.UI
                 if (element == null)
                 {
                     Debug.LogAssertion("Missing element");
-                    return;
+                    break;
                 }
                 ISceneConnected sceneButton = element.GetSceneConnection();
                 if (sceneButton == null)
                 {
                     Debug.LogAssertion("Missing Scene connection");
-                    return;
+                    break;
                 }
                 sceneButton.AssignScene(sceneData);
 
