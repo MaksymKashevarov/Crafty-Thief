@@ -30,6 +30,15 @@ namespace Game.Core.ServiceLocating
             _services.Clear();
         }
 
+        public static void Unregister<T>(T instance)
+        {
+            if ( _services.TryGetValue(typeof(T),out var service))
+            {
+                _services.Remove(typeof(T));
+                return;
+            }
+        }
+
     }
 
 }

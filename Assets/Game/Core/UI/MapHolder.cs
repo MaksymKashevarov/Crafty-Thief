@@ -12,6 +12,7 @@ namespace Game.Core.UI
         private IUIElement _parent;
         [SerializeField] private SceneContainer _container;
         [SerializeField] private List<IButton> _buttons = new();
+        [SerializeField] private IButton _loadButton;
         public void Activate()
         {
             Debug.Log("Working");
@@ -21,6 +22,42 @@ namespace Game.Core.UI
         {
             Registry.mSRegistry.Register(this);
             Container.Register(this);
+        }
+
+        public void SetCurrentLoadButton(IButton button, IUIElement buttonElement)
+        {
+            if (button == null)
+            {
+                Debug.LogAssertion("Missing Button");
+                return;
+            }
+            if (_loadButton != null)
+            {
+                IUIElement element = _loadButton.GetUIElement();
+                if (element == null)
+                {
+                    Debug.LogAssertion("Missing Interface");
+                    return;
+                }
+                element.Terminate();
+                _loadButton = null;
+            }
+            IUIElement tmpElement = button.GetUIElement();
+            IButton newButton = _controller.BuildButton(tmpElement, _parent.GetObject().transform, this);
+            _loadButton = newButton;
+            if (_loadButton == null)
+            {
+                Debug.LogAssertion("Button is invalid");
+                return;
+            }
+            ISceneConnected connectedButton = buttonElement.GetSceneConnection();
+            if (connectedButton == null)
+            {
+                Debug.LogAssertion("Missing Connection");
+                return;
+            }
+            SceneData data = connectedButton.GetAssignedScene();
+            _loadButton.SetText($"Enter Location: {data.GetSceneName()}");
         }
 
         private void BuildContainers()
@@ -35,13 +72,13 @@ namespace Game.Core.UI
                 Debug.LogWarning($"[{this.name}] Terminating existing display");
                 for (int i = _buttons.Count - 1; i >= 0; i--)
                 {
-                    _buttons[i].Terminate();
+                    IUIElement button = _buttons[i].GetUIElement();
+                    button.Terminate();
                     _buttons.RemoveAt(i);
                 }
             }
             foreach (SceneData sceneData in _sceneData)
             {
-                Debug.LogAssertion($"[{this.name}] Building");
                 IButton button = _controller.BuildButton(_container, gameObject.transform, this);
                 if (button == null)
                 {
@@ -116,6 +153,7 @@ namespace Game.Core.UI
         public void Terminate()
         {
             Registry.mSRegistry.Unregister(this);
+            Container.Unregister(this);
             _controller.DestroyElement(this);
         }
 

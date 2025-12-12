@@ -7,74 +7,83 @@ namespace Game.Core.UI
 
     public class SceneLoadButton : MonoBehaviour, IUIElement, IButton
     {
+        [SerializeField] private UIController _controller;
+        [SerializeField] private TextMeshProUGUI _text;
+        private IUIElement _parent;
+        private ISceneConnected _connectedParent;
         public void Activate()
         {
-            throw new System.NotImplementedException();
+            return;
         }
 
         public void CollectChildElements()
         {
-            throw new System.NotImplementedException();
+            return;
         }
 
         public List<IUIElement> GetChildElements()
         {
-            throw new System.NotImplementedException();
+            return null;
         }
 
         public GameObject GetObject()
         {
-            throw new System.NotImplementedException();
+            return gameObject;
         }
 
         public ISceneConnected GetSceneConnection()
         {
-            throw new System.NotImplementedException();
+            return null;
         }
 
         public TextMeshProUGUI GetTextComponent()
         {
-            throw new System.NotImplementedException();
+            return _text;
         }
 
         public IUIElement GetUIElement()
         {
-            throw new System.NotImplementedException();
+            return this;
         }
 
         public void OnClick()
         {
-            throw new System.NotImplementedException();
+            
         }
 
         public void SetAsChild(IUIElement element)
         {
-            throw new System.NotImplementedException();
+            return;
         }
 
         public void SetController(UIController controller)
         {
-            throw new System.NotImplementedException();
+            _controller = controller;
         }
 
         public void SetList(List<SceneData> list)
         {
-            throw new System.NotImplementedException();
+            return;
         }
 
         public void SetParent(IUIElement element)
         {
-            throw new System.NotImplementedException();
+            _parent = element;
+            if (_parent == null)
+            {
+                return;
+            }
+            _connectedParent = _parent.GetSceneConnection();
         }
 
         public void SetText(string text)
         {
-            throw new System.NotImplementedException();
+            _text.text = text;
         }
 
         public void Terminate()
         {
-            throw new System.NotImplementedException();
+            _controller.DestroyElement(this);
         }
     }
 

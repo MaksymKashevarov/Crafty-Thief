@@ -12,7 +12,6 @@ namespace Game.Core.UI
         void SetController(UIController controller);
         void SetList(List<SceneData> list);
         void OnClick();
-        void Terminate();
         IUIElement GetUIElement();
     }
 

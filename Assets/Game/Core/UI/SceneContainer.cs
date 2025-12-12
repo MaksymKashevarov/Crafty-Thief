@@ -1,6 +1,7 @@
 namespace Game.Core.UI
 {
     using Game.Core.SceneControl;
+    using Game.Core.ServiceLocating;
     using System.Collections.Generic;
     using TMPro;
     using UnityEngine;
@@ -11,6 +12,8 @@ namespace Game.Core.UI
         [SerializeField] private TextMeshProUGUI _mapText;
         [SerializeField] private SceneData _map;
         private IUIElement _parent;
+        [SerializeField] private MapHolder _mapHolder;
+        [SerializeField] private SceneLoadButton _loadButton;
         public void Activate()
         {
             return;
@@ -49,6 +52,7 @@ namespace Game.Core.UI
         public void OnClick()
         {
             Debug.Log(_map.name);
+            _mapHolder.SetCurrentLoadButton(_loadButton, this);
         }
 
         public void SetAsChild(IUIElement element)
@@ -69,6 +73,11 @@ namespace Game.Core.UI
         public void SetParent(IUIElement element)
         {
             _parent = element;
+            _mapHolder = Container.Resolve<MapHolder>();
+            if (_mapHolder != null )
+            {
+                Debug.Log($"Recieved: {_mapHolder}");
+            }
         }
 
         public void SetText(string text)
