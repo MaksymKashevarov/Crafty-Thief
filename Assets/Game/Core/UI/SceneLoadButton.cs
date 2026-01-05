@@ -9,6 +9,7 @@ namespace Game.Core.UI
     {
         [SerializeField] private UIController _controller;
         [SerializeField] private TextMeshProUGUI _text;
+        [SerializeField] private LevelPanel _levelPanel;
         private IUIElement _parent;
         private ISceneConnected _connectedParent;
         public void Activate()
@@ -48,7 +49,13 @@ namespace Game.Core.UI
 
         public void OnClick()
         {
-            
+            if (_controller == null)
+            {
+                Debug.LogAssertion("Missing Controller");
+                return;
+            }
+            Debug.Log($"Building: {_levelPanel.name}");
+            _controller.BuildActiveElement(_levelPanel, null, this);            
         }
 
         public void SetAsChild(IUIElement element)

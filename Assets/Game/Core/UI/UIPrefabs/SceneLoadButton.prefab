@@ -257,7 +257,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8624302441143098161}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4796210970587424652}
+        m_TargetAssemblyTypeName: Game.Core.UI.SceneLoadButton, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &4796210970587424652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,3 +284,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _controller: {fileID: 0}
   _text: {fileID: 3926229599792053935}
+  _levelPanel: {fileID: 1283830970727911235, guid: 8ac0ea9350b28524ebc0e78d8d0a63f2, type: 3}

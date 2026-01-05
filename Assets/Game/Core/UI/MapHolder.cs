@@ -33,14 +33,7 @@ namespace Game.Core.UI
             }
             if (_loadButton != null)
             {
-                IUIElement element = _loadButton.GetUIElement();
-                if (element == null)
-                {
-                    Debug.LogAssertion("Missing Interface");
-                    return;
-                }
-                element.Terminate();
-                _loadButton = null;
+                TerminateLoadButton();
             }
             IUIElement tmpElement = button.GetUIElement();
             IButton newButton = _controller.BuildButton(tmpElement, _parent.GetObject().transform, this);
@@ -53,11 +46,26 @@ namespace Game.Core.UI
             ISceneConnected connectedButton = buttonElement.GetSceneConnection();
             if (connectedButton == null)
             {
-                Debug.LogAssertion("Missing Connection");
+                Debug.LogWarning("Missing Connection");
                 return;
             }
             SceneData data = connectedButton.GetAssignedScene();
             _loadButton.SetText($"Enter Location: {data.GetSceneName()}");
+        }
+
+        private void TerminateLoadButton()
+        {
+            if (_loadButton != null)
+            {
+                IUIElement element = _loadButton.GetUIElement();
+                if (element == null)
+                {
+                    Debug.LogAssertion("Missing Interface");
+                    return;
+                }
+                element.Terminate();
+                _loadButton = null;
+            }
         }
 
         private void BuildContainers()
@@ -106,6 +114,7 @@ namespace Game.Core.UI
 
         public void DisplaySelection(List<SceneData> sceneData)
         {
+            TerminateLoadButton();
             Debug.Log("Displaying Data...");
             if (_sceneData.Count > 0)
             {
