@@ -1,21 +1,33 @@
 namespace Game.Core.UI
 {
+    using Game.Core.SceneControl;
     using Game.Core.ServiceLocating;
     using System.Collections.Generic;
     using UnityEngine;
 
-    public class LevelPanel : MonoBehaviour, IUIElement
+    public class LevelPanel : MonoBehaviour, IUIElement, ISceneConnected
     {
         [SerializeField] private UIController _controller;
+        [SerializeField] private SceneData _sceneData;
         private IUIElement _parent;
         public void Activate()
         {
-            
+            return;
+        }
+
+        public void AssignScene(SceneData scene)
+        {
+            _sceneData = scene;
         }
 
         public void CollectChildElements()
         {
-            
+            return;
+        }
+
+        public SceneData GetAssignedScene()
+        {
+            throw new System.NotImplementedException();
         }
 
         public List<IUIElement> GetChildElements()
@@ -30,12 +42,12 @@ namespace Game.Core.UI
 
         public ISceneConnected GetSceneConnection()
         {
-            return null;
+            return this;
         }
 
         public void SetAsChild(IUIElement element)
         {
-            
+            return;
         }
 
         public void SetController(UIController controller)
@@ -51,13 +63,8 @@ namespace Game.Core.UI
 
         public void Terminate()
         {
-            Container.Unregister(this);
             _controller.DestroyElement(this);
 
-        }
-        private void Awake()
-        {
-            Container.Register(this);
         }
     }
 

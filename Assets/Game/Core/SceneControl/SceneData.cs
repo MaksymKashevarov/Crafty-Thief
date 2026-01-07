@@ -1,14 +1,21 @@
 namespace Game.Core.SceneControl
 {
-
+    using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
+    public enum DifficultyLevel
+    {
+        Low,
+        Medium,
+        High
+    }
 
     [CreateAssetMenu(menuName = "Config/Scene Data")]
     public class SceneData : ScriptableObject
     {
         [SerializeField] private AssetReference _scene;
         [SerializeField] private string _sceneName;
+        [SerializeField] private List<DifficultyLevel> _levelList = new();
 
         public AssetReference GetScene()
         {
@@ -20,7 +27,15 @@ namespace Game.Core.SceneControl
             return _sceneName;
         }
 
+        public List<DifficultyLevel> GetDifficulity()
+        {
+            if (_levelList.Count == 0)
+            {
+                return null;
+            }
+            return _levelList;
+        }
+
+
     }
-
-
 }

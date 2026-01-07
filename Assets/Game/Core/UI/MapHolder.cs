@@ -36,7 +36,7 @@ namespace Game.Core.UI
                 TerminateLoadButton();
             }
             IUIElement tmpElement = button.GetUIElement();
-            IButton newButton = _controller.BuildButton(tmpElement, _parent.GetObject().transform, this);
+            IButton newButton = _controller.BuildButton(tmpElement, _parent.GetObject().transform, buttonElement);
             _loadButton = newButton;
             if (_loadButton == null)
             {
@@ -157,6 +157,7 @@ namespace Game.Core.UI
         public void SetParent(IUIElement element)
         {
             _parent = element;
+            Debug.LogWarning($"PARENT: {_parent}");
         }
 
         public void Terminate()

@@ -11,7 +11,7 @@ namespace Game.Core.UI
         [SerializeField] private TextMeshProUGUI _text;
         [SerializeField] private LevelPanel _levelPanel;
         private IUIElement _parent;
-        private ISceneConnected _connectedParent;
+        private List<IUIElement> _children = new();
         public void Activate()
         {
             return;
@@ -24,7 +24,7 @@ namespace Game.Core.UI
 
         public List<IUIElement> GetChildElements()
         {
-            return null;
+            return _children;
         }
 
         public GameObject GetObject()
@@ -55,7 +55,28 @@ namespace Game.Core.UI
                 return;
             }
             Debug.Log($"Building: {_levelPanel.name}");
-            _controller.BuildActiveElement(_levelPanel, null, this);            
+            IUIElement element = _controller.BuildActiveElement(_levelPanel, null, this);
+            ISceneConnected connectedParent = _parent.GetSceneConnection();
+            if (connectedParent == null)
+            {
+                Debug.LogAssertion("Missing Connected Parent");
+                return;
+            }
+            ISceneConnected connectedElement = element.GetSceneConnection();
+            if (connectedElement == null)
+            {
+                Debug.LogAssertion("Missing Connected Element");
+                return;
+            }
+            SceneData sceneData = connectedParent.GetAssignedScene();
+            if (sceneData == null)
+            {
+                Debug.LogAssertion("Missing SceneData");
+                return;
+            }
+
+            connectedElement.AssignScene(sceneData);
+            _children.Add(element);
         }
 
         public void SetAsChild(IUIElement element)
@@ -76,11 +97,12 @@ namespace Game.Core.UI
         public void SetParent(IUIElement element)
         {
             _parent = element;
+            Debug.LogWarning($"Current Parent: {_parent}");
             if (_parent == null)
             {
+                Debug.LogAssertion("Missing Parent");
                 return;
             }
-            _connectedParent = _parent.GetSceneConnection();
         }
 
         public void SetText(string text)
@@ -90,7 +112,7 @@ namespace Game.Core.UI
 
         public void Terminate()
         {
-            _controller.DestroyElement(this);
+            _controller.DestroyElementAsParent(this);
         }
     }
 
