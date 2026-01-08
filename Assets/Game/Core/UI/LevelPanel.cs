@@ -107,7 +107,7 @@ namespace Game.Core.UI
 
         public SceneData GetAssignedScene()
         {
-            throw new System.NotImplementedException();
+            return null;
         }
 
         public List<IUIElement> GetChildElements()

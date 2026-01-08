@@ -11,6 +11,7 @@ namespace Game.Core.UI
         [SerializeField] private UIController _controller;
         [SerializeField] private TextMeshProUGUI _text;
         [SerializeField] private DifficultyDisplayButton _button;
+        private List<DifficultyDisplayButton> _buttons = new();
         private IUIElement _parent;
 
         public void Activate()
@@ -87,9 +88,14 @@ namespace Game.Core.UI
                 _controller.DestroyElement(button.GetUIElement());
                 return null;
             }
+            _buttons.Add(currentButton);
             return currentButton;
         }
 
+        public List<DifficultyDisplayButton> GetButtons()
+        {
+            return _buttons;
+        }
 
 
         public void SetAsChild(IUIElement element)
