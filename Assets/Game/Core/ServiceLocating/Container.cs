@@ -10,6 +10,7 @@ namespace Game.Core.ServiceLocating
         private static readonly Dictionary<Type, object> _services = new();
         public static readonly CElements cElements = new CElements();
         public static readonly TContainer tContainer = new TContainer();
+        public static readonly DDRegistry dDRegistry = new DDRegistry();
 
         public static void Register<T>(T instance)
         {
