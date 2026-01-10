@@ -1,13 +1,18 @@
 namespace Game.Core
 {
-    using Game.Core.DI;
+    using Game.Core.ServiceLocating;
     using UnityEngine;
 
     public class SpawnPoint : MonoBehaviour
     {
         private void Awake()
         {
-            Container.Register<Transform>(transform);
+            Container.Register(this);
+        }
+        
+        public Transform GetTransform()
+        {
+            return transform;
         }
     }
 

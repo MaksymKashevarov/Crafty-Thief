@@ -1,0 +1,117 @@
+using Game.Core.SceneControl;
+using Game.Core.ServiceLocating;
+using Game.Core.UI;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+
+public class CategoryButton : MonoBehaviour, IUIElement, IButton
+{
+    [SerializeField] private TextMeshProUGUI _categoryText;
+    private string _categoryTextString;
+    [SerializeField] private UIController _controller;
+    private GameObject _instance;
+    private IUIElement _parent;
+    [SerializeField] private List<SceneData> _scenes;
+    [SerializeField] private MapHolder _mapHolder;
+
+    public void Activate()
+    {
+        Debug.Log("Check");
+    }
+    public void SetText(string input)
+    {
+        Debug.Log($"[{this.name}] Setting text: [{input}] To:");
+       _categoryText.text = input;
+    }
+    public void CollectChildElements()
+    {
+        return;
+    }
+
+    public List<IUIElement> GetChildElements()
+    {
+        return null;
+    }
+
+
+    public GameObject GetObject()
+    {
+        return gameObject;
+    }
+
+    public void SetController(UIController controller)
+    {
+        _controller = controller;
+        if (_controller == null)
+        {
+            return;
+        }
+    }
+
+    public void SetList(List<SceneData> list)
+    {
+        if(list == null)
+        {
+            Debug.LogAssertion($"[{this.name}] List is Null");
+            return;
+        }
+        if (list.Count == 0)
+        {
+            Debug.LogAssertion($"[{this.name}] List is empty");
+            return;
+        }
+        _scenes.Clear();
+        foreach (SceneData data in list)
+        {
+            if (data == null)
+            {
+                Debug.LogAssertion($"[{this.name}] Data is null");
+                break;
+            }
+            Debug.Log($"[{this.name}] Adding [{data}]");
+            _scenes.Add(data);
+
+        }
+    }
+
+    public void SetParent(IUIElement element)
+    {
+        Debug.LogWarning($"[{this.name}] Recieved Parent: {element}");
+        _parent = element;
+        _parent.SetAsChild(this);
+        _mapHolder = Container.Resolve<MapHolder>();
+    }
+
+    public void Terminate()
+    {
+        _controller.DestroyElement(this);
+    }
+
+    public TextMeshProUGUI GetText()
+    {
+        return _categoryText;
+    }
+
+    public TextMeshProUGUI GetTextComponent()
+    {
+        Debug.Log($"[{this.name}] Returning Text Component: [{_categoryText}]");
+        return _categoryText;
+    }
+
+    public void SetAsChild(IUIElement element)
+    {
+        return;
+    }
+
+    public void OnClick()
+    {
+        Debug.Log("Displaying Maps");
+        if (_mapHolder == null)
+        {
+            Debug.LogAssertion($"[{this.name}] Missing MapHolder");
+            return;
+        }
+        _mapHolder.DisplaySelection(_scenes);
+    }
+}

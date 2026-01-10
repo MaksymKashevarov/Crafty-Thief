@@ -1,6 +1,6 @@
 namespace Game.Core.Interactable
 {
-    using Game.Core.DI;
+    using Game.Core.ServiceLocating;
     using Game.Core.Player;
     using UnityEngine;
 
@@ -33,7 +33,7 @@ namespace Game.Core.Interactable
 
         private void Awake()
         {
-            SpawnRegistry.itemRegistry.Add(this);
+            Registry.itemRegistry.Add(this);
         }
 
         public void SetValuable(bool flag)
@@ -55,7 +55,6 @@ namespace Game.Core.Interactable
             else
             {
                 Debug.Log("Not Main Item");
-                // DRAG LOGIC HERE
                 Anchor playerAnchor = hands.GetAnchor();
                 if (playerAnchor != null && !_isAttached)
                 {
