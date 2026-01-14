@@ -4,14 +4,20 @@ namespace Game.Core.UI
     using Game.Core.ServiceLocating;
     using System.Collections.Generic;
     using TMPro;
+    using Unity.VisualScripting;
     using UnityEngine;
 
-    public class DifficultyDisplay : MonoBehaviour, IUIElement, IButton
+    public class DifficultyDisplay : MonoBehaviour, IUIElement, IButton, ISceneConnected
     {
         [SerializeField] private UIController _controller;
         [SerializeField] private TextMeshProUGUI _text;
         [SerializeField] private DifficultyDisplayButton _button;
-        private List<DifficultyDisplayButton> _buttons = new();
+        [SerializeField] private Transform _rTransform;
+        [SerializeField] private Transform _lTransform;
+        private List<IButton> _buttons = new();
+        private SceneData _sceneData;
+        [SerializeField] private List<DifficultyLevel> _levels = new List<DifficultyLevel>();
+
         private IUIElement _parent;
 
         public void Activate()
@@ -36,7 +42,7 @@ namespace Game.Core.UI
 
         public ISceneConnected GetSceneConnection()
         {
-            return null;
+            return this;
         }
 
         public TextMeshProUGUI GetTextComponent()
@@ -52,49 +58,6 @@ namespace Game.Core.UI
         public void OnClick()
         {
             return;
-        }
-
-        public void ShowButtons(bool lSide = false, bool rSide = false)
-        {
-            if (lSide)
-            {
-                DifficultyDisplayButton button = SetupButton();
-                if (button == null)
-                {
-                    Debug.LogAssertion("Missing Button");
-                    return;
-                }
-                button.SetSide(ButtonSide.left);
-            }
-            if (rSide)
-            {
-                DifficultyDisplayButton button = SetupButton();
-                if (button == null)
-                {
-                    Debug.LogAssertion("Missing Button");
-                    return;
-                }
-                button.SetSide(ButtonSide.right);
-            }
-        }
-
-        private DifficultyDisplayButton SetupButton()
-        {
-            IButton button = _controller.BuildButton(_button, this.transform, this);
-            DifficultyDisplayButton currentButton = Container.dDRegistry.ResolveDifficultyButton();
-            if (currentButton == null)
-            {
-                Debug.LogAssertion("Missing Button");
-                _controller.DestroyElement(button.GetUIElement());
-                return null;
-            }
-            _buttons.Add(currentButton);
-            return currentButton;
-        }
-
-        public List<DifficultyDisplayButton> GetButtons()
-        {
-            return _buttons;
         }
 
 
@@ -132,6 +95,106 @@ namespace Game.Core.UI
         {
             Container.Register<DifficultyDisplay>(this);
 
+        }
+        private void Start()
+        {
+            if (_sceneData == null)
+            {
+                return;
+            }
+            _levels = _sceneData.GetDifficulity();
+            if ( _levels.Count == 0)
+            {
+                return;
+            }
+            SetText(_levels[0].ToString());
+            RequestButtons();
+            
+        }
+
+        private void RequestBuildButton(ButtonSide side, Transform tParent)
+        {
+            IButton currentButton = _controller.BuildButton(_button, tParent, this);
+            DifficultyDisplayButton button = Container.dDRegistry.ResolveDifficultyButton();
+            Container.dDRegistry.ClearRegirstry();
+            button.SetSide(side);
+            _buttons.Add(currentButton);
+        }
+
+        private void RequestButton(ButtonSide side)
+        {
+            if (_button == null)
+            {
+                Debug.LogAssertion("Missing Button");
+                return;
+            }
+
+            if (side == ButtonSide.right)
+            {
+                RequestBuildButton(side, _rTransform);
+            }
+            if (side == ButtonSide.left)
+            {
+                RequestBuildButton(side, _lTransform);
+            }
+        }
+
+        public void SwitchDifficulty(DifficultyDisplayButton button)
+        {
+            ButtonSide side = button.GetSide();
+                for (int i = 0; i < _levels.Count; i++)
+                {
+                    if (_levels[i].ToString() == _text.text)
+                    {
+                        if (side == ButtonSide.right)
+                        {
+                            DifficultyLevel level = _levels[i] + 1;
+                            SetText(level.ToString());
+                        }
+                        if (side == ButtonSide.left)
+                        {
+                            DifficultyLevel level = _levels[i] - 1;
+                            SetText(level.ToString());
+                        }
+                        foreach (IButton ibutton in _buttons)
+                        {                            
+                            ibutton.GetUIElement().Terminate();
+                        }
+                        _buttons.Clear();
+                        RequestButtons();
+                        break;
+                    }
+                }
+        }
+
+        private void RequestButtons()
+        {
+            for (int i = 0; i < _levels.Count; i++)
+            {
+                if (_levels[i].ToString() == _text.text)
+                {
+
+                    if (i < _levels.Count - 1)
+                    {
+                        RequestButton(ButtonSide.right);
+                    }
+                    if (i > 0)
+                    {
+                        RequestButton(ButtonSide.left);
+                    }
+                    break;
+                }
+            }
+        }
+
+        public void AssignScene(SceneData scene)
+        {
+            _sceneData = scene;
+        }
+
+        public SceneData GetAssignedScene()
+        {
+            return null;
         }
     }
 

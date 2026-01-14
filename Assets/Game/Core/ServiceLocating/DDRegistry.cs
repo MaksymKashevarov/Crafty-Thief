@@ -19,8 +19,13 @@ namespace Game.Core.ServiceLocating
             {
                 Debug.LogAssertion("No Button Set");
                 return null;
-            }
+            }          
             return _ddButton;
+        }
+
+        public void ClearRegirstry()
+        {
+            _ddButton = null;
         }
     }
 

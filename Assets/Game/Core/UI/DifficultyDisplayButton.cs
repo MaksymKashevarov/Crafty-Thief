@@ -49,12 +49,17 @@ namespace Game.Core.UI
 
         public void OnClick()
         {
-
+            _display.SwitchDifficulty(this);
         }
 
         public void SetSide(ButtonSide side)
         {
             _side = side;
+        }
+
+        public ButtonSide GetSide()
+        {
+            return _side;
         }
 
         public void SetAsChild(IUIElement element)

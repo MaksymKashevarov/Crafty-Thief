@@ -19,7 +19,7 @@ namespace Game.Core.UI
         [SerializeField] private DifficultyDisplay _difficultyDisplay;
         private IUIElement _parent;
         private List<IUIElement> _children = new List<IUIElement>();
-        [SerializeField] private List<DifficultyLevel> _levels = new List<DifficultyLevel>();
+
 
         private void Start()
         {
@@ -35,61 +35,24 @@ namespace Game.Core.UI
         {
             IButton display = _controller.BuildButton(_difficultyDisplay, this.transform, this);
             IUIElement displayElement = display.GetUIElement();
-            SetAsChild(displayElement);
-            DifficultyDisplay currentDisplay = Container.Resolve<DifficultyDisplay>();
-            if (currentDisplay == null)
+            if (displayElement == null)
             {
-                Debug.LogAssertion("MIssing Current Display");
+                Debug.LogAssertion("Missing UI Element");
+                displayElement.Terminate();
                 return;
             }
-            _levels = _sceneData.GetDifficulity();
-            display.SetText(_levels[0].ToString());
-            ShowDDButtons(display, currentDisplay);
-            
-            
-        }
-
-        private void ShowDDButtons(IButton display, DifficultyDisplay currentDisplay)
-        {
-            TextMeshProUGUI text = display.GetTextComponent();
-            string stringText = text.text;
-            DifficultyLevel difficultyLevel;
-            foreach (DifficultyLevel level in _levels)
+            ISceneConnected connection = displayElement.GetSceneConnection();           
+            SetAsChild(displayElement);
+            if (connection == null)
             {
-                if (level.ToString() == stringText)
-                {
-                    difficultyLevel = level;
-                    for (int i = 0; i < _levels.Count; i++)
-                    {
-                        if (_levels[i] == difficultyLevel)
-                        {
-                            if (i - 1 >= 0)
-                            {
-                                currentDisplay.ShowButtons(true, false);
-                            }
-                            else
-                            {
-                                Debug.LogWarning("Destroying button");
-                            }
-                            if (i + 1 < _levels.Count)
-                            {
-                                currentDisplay.ShowButtons(false, true);
-                            }
-                            else
-                            {
-                                Debug.LogWarning("Destroying button");
-                            }
-                            break;
-                        }
-
-                    }
-                    break;
-
-                }
+                Debug.LogAssertion("Missing Connection");
+                displayElement.Terminate();
+                return;
             }
-
+            connection.AssignScene(_sceneData);          
         }
-        
+
+
         public void Activate()
         {
             return;
