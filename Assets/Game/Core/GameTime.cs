@@ -4,7 +4,6 @@ namespace Game.Core
 
     public static class GameTime
     {
-
         public static float MinutesPerRealSecond { get; set; } = 1f;
         public static int MinutesSinceMidnight => _minutes;
         public static int Hour => _minutes / 60;

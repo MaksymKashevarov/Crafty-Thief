@@ -10,6 +10,7 @@ namespace Game.Core.UI
         [SerializeField] private UIController _controller;
         [SerializeField] private TextMeshProUGUI _text;
         [SerializeField] private LevelPanel _levelPanel;
+        [SerializeField] private IUIElement _activePanel;
         private IUIElement _parent;
         private List<IUIElement> _children = new();
         public void Activate()
@@ -55,28 +56,37 @@ namespace Game.Core.UI
                 return;
             }
             Debug.Log($"Building: {_levelPanel.name}");
-            IUIElement element = _controller.BuildActiveElement(_levelPanel, null, this);
-            ISceneConnected connectedParent = _parent.GetSceneConnection();
-            if (connectedParent == null)
+            if (_activePanel == null)
             {
-                Debug.LogAssertion("Missing Connected Parent");
-                return;
-            }
-            ISceneConnected connectedElement = element.GetSceneConnection();
-            if (connectedElement == null)
-            {
-                Debug.LogAssertion("Missing Connected Element");
-                return;
-            }
-            SceneData sceneData = connectedParent.GetAssignedScene();
-            if (sceneData == null)
-            {
-                Debug.LogAssertion("Missing SceneData");
-                return;
-            }
+                IUIElement element = _controller.BuildActiveElement(_levelPanel, null, this);
+                ISceneConnected connectedParent = _parent.GetSceneConnection();
+                if (connectedParent == null)
+                {
+                    Debug.LogAssertion("Missing Connected Parent");
+                    _controller.DestroyElementAsParent(element);
+                    return;
+                }
+                ISceneConnected connectedElement = element.GetSceneConnection();
+                if (connectedElement == null)
+                {
+                    Debug.LogAssertion("Missing Connected Element");
+                    _controller.DestroyElementAsParent(element);
+                    return;
+                }
+                SceneData sceneData = connectedParent.GetAssignedScene();
+                if (sceneData == null)
+                {
+                    Debug.LogAssertion("Missing SceneData");
+                    _controller.DestroyElementAsParent(element);
+                    return;
+                }
 
-            connectedElement.AssignScene(sceneData);
-            _children.Add(element);
+                connectedElement.AssignScene(sceneData);
+                _children.Add(element);
+                _activePanel = element;
+                return;
+            }
+            Debug.LogWarning("Panel Already Active");
         }
 
         public void SetAsChild(IUIElement element)
@@ -112,6 +122,10 @@ namespace Game.Core.UI
 
         public void Terminate()
         {
+            if (_activePanel != null)
+            {
+                _activePanel = null;
+            }
             _controller.DestroyElementAsParent(this);
         }
     }
