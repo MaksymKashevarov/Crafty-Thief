@@ -6,27 +6,15 @@ namespace Game.Core.UI
     using TMPro;
     using UnityEngine;
 
-    public class SceneContainer : MonoBehaviour, IUIElement, IButton, ISceneConnected
+    public class DifficultyDisplayButton : MonoBehaviour, IUIElement, IButton
     {
         [SerializeField] private UIController _controller;
-        [SerializeField] private TextMeshProUGUI _mapText;
-        [SerializeField] private SceneData _map;
         private IUIElement _parent;
-        [SerializeField] private MapHolder _mapHolder;
-        [SerializeField] private SceneLoadButton _loadButton;
+        private DifficultyDisplay _display;
+        [SerializeField] private ButtonSide _side;
         public void Activate()
         {
             return;
-        }
-
-        public void AssignScene(SceneData scene)
-        {
-            _map = scene;
-        }
-
-        public SceneData GetAssignedScene()
-        {
-            return _map;
         }
 
         public void CollectChildElements()
@@ -44,15 +32,34 @@ namespace Game.Core.UI
             return gameObject;
         }
 
+        public ISceneConnected GetSceneConnection()
+        {
+            return null;
+        }
+
         public TextMeshProUGUI GetTextComponent()
         {
-            return _mapText;
+            return null;
+        }
+
+        public IUIElement GetUIElement()
+        {
+            return this;
         }
 
         public void OnClick()
         {
-            Debug.Log(_map.name);
-            _mapHolder.SetCurrentLoadButton(_loadButton, this);
+            _display.SwitchDifficulty(this);
+        }
+
+        public void SetSide(ButtonSide side)
+        {
+            _side = side;
+        }
+
+        public ButtonSide GetSide()
+        {
+            return _side;
         }
 
         public void SetAsChild(IUIElement element)
@@ -73,33 +80,29 @@ namespace Game.Core.UI
         public void SetParent(IUIElement element)
         {
             _parent = element;
-            _mapHolder = Container.Resolve<MapHolder>();
-            if (_mapHolder != null )
+            _display = Container.Resolve<DifficultyDisplay>();
+            if (_display == null)
             {
-                Debug.Log($"Recieved: {_mapHolder}");
+                Debug.LogWarning("Missing Display! Terminating... ");
+                Terminate();
+                return;
             }
         }
 
         public void SetText(string text)
         {
-            _mapText.text = text;
+            return;
+        }
+
+        private void Awake()
+        {
+            Container.dDRegistry.RegisterDifficultyButton(this);
         }
 
         public void Terminate()
         {
             _controller.DestroyElement(this);
         }
-
-        public IUIElement GetUIElement()
-        {
-            return this;
-        }
-
-        public ISceneConnected GetSceneConnection()
-        {
-            return this;
-        }
     }
 
 }
-

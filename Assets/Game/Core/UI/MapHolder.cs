@@ -12,6 +12,7 @@ namespace Game.Core.UI
         private IUIElement _parent;
         [SerializeField] private SceneContainer _container;
         [SerializeField] private List<IButton> _buttons = new();
+        [SerializeField] private IButton _loadButton;
         public void Activate()
         {
             Debug.Log("Working");
@@ -21,6 +22,50 @@ namespace Game.Core.UI
         {
             Registry.mSRegistry.Register(this);
             Container.Register(this);
+        }
+
+        public void SetCurrentLoadButton(IButton button, IUIElement buttonElement)
+        {
+            if (button == null)
+            {
+                Debug.LogAssertion("Missing Button");
+                return;
+            }
+            if (_loadButton != null)
+            {
+                TerminateLoadButton();
+            }
+            IUIElement tmpElement = button.GetUIElement();
+            IButton newButton = _controller.BuildButton(tmpElement, _parent.GetObject().transform, buttonElement);
+            _loadButton = newButton;
+            if (_loadButton == null)
+            {
+                Debug.LogAssertion("Button is invalid");
+                return;
+            }
+            ISceneConnected connectedButton = buttonElement.GetSceneConnection();
+            if (connectedButton == null)
+            {
+                Debug.LogWarning("Missing Connection");
+                return;
+            }
+            SceneData data = connectedButton.GetAssignedScene();
+            _loadButton.SetText($"Enter Location: {data.GetSceneName()}");
+        }
+
+        private void TerminateLoadButton()
+        {
+            if (_loadButton != null)
+            {
+                IUIElement element = _loadButton.GetUIElement();
+                if (element == null)
+                {
+                    Debug.LogAssertion("Missing Interface");
+                    return;
+                }
+                element.Terminate();
+                _loadButton = null;
+            }
         }
 
         private void BuildContainers()
@@ -35,21 +80,41 @@ namespace Game.Core.UI
                 Debug.LogWarning($"[{this.name}] Terminating existing display");
                 for (int i = _buttons.Count - 1; i >= 0; i--)
                 {
-                    _buttons[i].Terminate();
+                    IUIElement button = _buttons[i].GetUIElement();
+                    button.Terminate();
                     _buttons.RemoveAt(i);
                 }
             }
             foreach (SceneData sceneData in _sceneData)
             {
-                Debug.LogAssertion($"[{this.name}] Building");
                 IButton button = _controller.BuildButton(_container, gameObject.transform, this);
+                if (button == null)
+                {
+                    Debug.LogAssertion("Missing Button");
+                    break;
+                }
                 _buttons.Add(button);
                 button.SetText(sceneData.GetSceneName());
+                IUIElement element = button.GetUIElement();
+                if (element == null)
+                {
+                    Debug.LogAssertion("Missing element");
+                    break;
+                }
+                ISceneConnected sceneButton = element.GetSceneConnection();
+                if (sceneButton == null)
+                {
+                    Debug.LogAssertion("Missing Scene connection");
+                    break;
+                }
+                sceneButton.AssignScene(sceneData);
+
             }
         }
 
         public void DisplaySelection(List<SceneData> sceneData)
         {
+            TerminateLoadButton();
             Debug.Log("Displaying Data...");
             if (_sceneData.Count > 0)
             {
@@ -92,12 +157,19 @@ namespace Game.Core.UI
         public void SetParent(IUIElement element)
         {
             _parent = element;
+            Debug.LogWarning($"PARENT: {_parent}");
         }
 
         public void Terminate()
         {
             Registry.mSRegistry.Unregister(this);
+            Container.Unregister(this);
             _controller.DestroyElement(this);
+        }
+
+        public ISceneConnected GetSceneConnection()
+        {
+            return null;
         }
     }
 

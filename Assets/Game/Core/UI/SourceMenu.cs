@@ -112,6 +112,10 @@ namespace Game.Core.UI
             }
             _childElements.Add(element);
         }
+        public ISceneConnected GetSceneConnection()
+        {
+            return null;
+        }
     }
 }
 

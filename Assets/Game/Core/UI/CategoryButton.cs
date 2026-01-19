@@ -114,4 +114,14 @@ public class CategoryButton : MonoBehaviour, IUIElement, IButton
         }
         _mapHolder.DisplaySelection(_scenes);
     }
+
+    public ISceneConnected GetSceneConnection()
+    {
+        return null;
+    }
+
+    public IUIElement GetUIElement()
+    {
+        return this;
+    }
 }

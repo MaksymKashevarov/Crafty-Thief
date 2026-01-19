@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controller: {fileID: 0}
+  _sceneData: []
   _container: {fileID: 5499505641488929024, guid: 9f79753e8474c7e47b4a3a8e51559686, type: 3}
 --- !u!114 &2552354091262966246
 MonoBehaviour:

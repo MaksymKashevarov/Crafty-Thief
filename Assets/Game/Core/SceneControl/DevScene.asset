@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: DevScene
   m_EditorClassIdentifier: 
   _scene:
-    m_AssetGUID: 
+    m_AssetGUID: 74b220706d3d0e547924cf9f3408042c
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
-  _sceneName: 
+  _sceneName: DevScene
+  _levelList: 000000000100000002000000
