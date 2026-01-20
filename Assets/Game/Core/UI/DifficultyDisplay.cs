@@ -14,6 +14,7 @@ namespace Game.Core.UI
         [SerializeField] private DifficultyDisplayButton _button;
         [SerializeField] private Transform _rTransform;
         [SerializeField] private Transform _lTransform;
+        [SerializeField] private string _currentLevel;
         private List<IButton> _buttons = new();
         private SceneData _sceneData;
         [SerializeField] private List<DifficultyLevel> _levels = new List<DifficultyLevel>();
@@ -108,6 +109,7 @@ namespace Game.Core.UI
                 return;
             }
             SetText(_levels[0].ToString());
+            _currentLevel = _text.text;
             RequestButtons();
             
         }
@@ -160,9 +162,10 @@ namespace Game.Core.UI
                         {                            
                             ibutton.GetUIElement().Terminate();
                         }
-                        _buttons.Clear();
-                        RequestButtons();
-                        break;
+                    _buttons.Clear();
+                    RequestButtons();                    
+                    _currentLevel = _text.text;
+                    break;
                     }
                 }
         }
