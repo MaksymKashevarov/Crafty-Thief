@@ -116,6 +116,16 @@ namespace Game.Core.UI
         {
             return;
         }
+
+        public ISceneConnected GetSceneConnection()
+        {
+            return null;
+        }
+
+        public IUIElement GetUIElement()
+        {
+            return this;
+        }
     }
 }
 

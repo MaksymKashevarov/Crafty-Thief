@@ -10,6 +10,7 @@ namespace Game.Core.ServiceLocating
         private static readonly Dictionary<Type, object> _services = new();
         public static readonly CElements cElements = new CElements();
         public static readonly TContainer tContainer = new TContainer();
+        public static readonly DDRegistry dDRegistry = new DDRegistry();
 
         public static void Register<T>(T instance)
         {
@@ -28,6 +29,15 @@ namespace Game.Core.ServiceLocating
         public static void Clear()
         {
             _services.Clear();
+        }
+
+        public static void Unregister<T>(T instance)
+        {
+            if ( _services.TryGetValue(typeof(T),out var service))
+            {
+                _services.Remove(typeof(T));
+                return;
+            }
         }
 
     }

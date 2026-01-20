@@ -15,6 +15,7 @@ namespace Game.Core.UI
         void SetParent(IUIElement element);
         void Terminate();
         void SetAsChild(IUIElement element);
+        ISceneConnected GetSceneConnection();
 
     }
 

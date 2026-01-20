@@ -207,7 +207,7 @@ namespace Game.Core.UI
             if (children == null)
             {
                 Debug.LogWarning("Missing Children");
-                element.Terminate();
+                DestroyElement(element);
                 return;
             }
             if (children.Count > 0)
@@ -224,9 +224,10 @@ namespace Game.Core.UI
                     child.Terminate();
 
                 }
-            }
-            element.Terminate();
+            }            
+            DestroyElement(element);
             Debug.Log("DONE");
+
         }
 
     }
