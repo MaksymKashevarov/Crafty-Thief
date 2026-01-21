@@ -119,14 +119,15 @@ namespace Game.Core.UI
 
         private void ReloadLoaderButton()
         {
-            if (_currentLoaderButton == null)
+            if (_currentLoaderButton != null)
             {
-                _currentLoaderButton = _controller.BuildButton(_loaderButton, _parent.GetObject().transform, _parent);
-                return;
+                _currentLoaderButton.GetUIElement().Terminate();
             }
-            _currentLoaderButton.GetUIElement().Terminate();
+
             _currentLoaderButton = _controller.BuildButton(_loaderButton, _parent.GetObject().transform, _parent);
             _parent.SetAsChild(_currentLoaderButton.GetUIElement());
+            ISceneConnected sceneConnected = _currentLoaderButton.GetUIElement().GetSceneConnection();
+            sceneConnected.AssignScene(_sceneData);
         }
 
         private void RequestBuildButton(ButtonSide side, Transform tParent)

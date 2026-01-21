@@ -213,16 +213,11 @@ namespace Game.Core.UI
             if (children.Count > 0)
             {
                 Debug.Log("List detected!");
-                foreach (IUIElement child in children)
+                for (int i = children.Count - 1; i >= 0; i--)
                 {
-                    if (child == null)
-                    {
-                        Debug.LogError($"[{this}] List contains Null!");
-                        break;
-                    }
-                    Debug.Log($"[{this}] Deleting: {child}");
+                    var child = children[i];
+                    if (child == null) continue;
                     child.Terminate();
-
                 }
             }            
             DestroyElement(element);

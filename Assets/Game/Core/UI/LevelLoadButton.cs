@@ -9,6 +9,8 @@ namespace Game.Core.UI
     {
         private UIController _controller;
         private IUIElement _parent;
+        [SerializeField] private SceneData _level;
+        [SerializeField] private TextMeshProUGUI _text;
         public void Activate()
         {
             return;
@@ -16,7 +18,7 @@ namespace Game.Core.UI
 
         public void AssignScene(SceneData scene)
         {
-            return;
+            _level = scene;
         }
 
         public void CollectChildElements()
@@ -26,7 +28,7 @@ namespace Game.Core.UI
 
         public SceneData GetAssignedScene()
         {
-            return null;
+            return _level;
         }
 
         public List<IUIElement> GetChildElements()
@@ -56,7 +58,7 @@ namespace Game.Core.UI
 
         public void OnClick()
         {
-
+            DevLog.elementLog.Log($"Loading level: {_level.GetSceneName()}", this);
         }
 
         public void SetAsChild(IUIElement element)
@@ -81,7 +83,7 @@ namespace Game.Core.UI
 
         public void SetText(string text)
         {
-            return;
+            _text.text = text;
         }
 
         public void Terminate()
