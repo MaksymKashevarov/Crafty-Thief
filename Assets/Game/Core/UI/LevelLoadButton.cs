@@ -59,6 +59,7 @@ namespace Game.Core.UI
         public void OnClick()
         {
             DevLog.elementLog.Log($"Loading level: {_level.GetSceneName()}", this);
+            _controller.RequestSceneSwitch(this);
         }
 
         public void SetAsChild(IUIElement element)

@@ -36,10 +36,10 @@ namespace Game.Core
                 return;
             }
             ReloadSceneContent();
-            _driver.RequestSScreenBuild();
+            _driver.RequestSScreenBuild(); //REFACTOR
         }
 
-        public void SwitchScene(SceneData level)
+        public void SwitchScene(SceneData level) //REFACTOR
         {
             LoadScene(level);
         }
@@ -60,7 +60,7 @@ namespace Game.Core
             {
                 return;
             }
-            ReloadSceneContent();
+            ReloadSceneContent(); //REFACTOR
         }
 
         public void SetDataBase(SceneDatabase database)
