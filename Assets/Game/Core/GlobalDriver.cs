@@ -64,6 +64,10 @@ namespace Game.Core
             activeSC.LoadMenu();
         }
 
+        public void RequestSwitchScene(SceneData level)
+        {
+
+        }
 
         private void Start()
         {
