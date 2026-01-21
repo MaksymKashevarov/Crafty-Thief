@@ -4,7 +4,6 @@ namespace Game.Core.UI
     using Game.Core.ServiceLocating;
     using System.Collections.Generic;
     using TMPro;
-    using Unity.VisualScripting;
     using UnityEngine;
 
     public class DifficultyDisplay : MonoBehaviour, IUIElement, IButton, ISceneConnected
@@ -15,6 +14,8 @@ namespace Game.Core.UI
         [SerializeField] private Transform _rTransform;
         [SerializeField] private Transform _lTransform;
         [SerializeField] private string _currentLevel;
+        [SerializeField] private LevelLoadButton _loaderButton;
+        private IButton _currentLoaderButton;
         private List<IButton> _buttons = new();
         private SceneData _sceneData;
         [SerializeField] private List<DifficultyLevel> _levels = new List<DifficultyLevel>();
@@ -99,6 +100,7 @@ namespace Game.Core.UI
         }
         private void Start()
         {
+            DevLog.elementLog.Log("Difficulty Display Started", this);
             if (_sceneData == null)
             {
                 return;
@@ -111,7 +113,20 @@ namespace Game.Core.UI
             SetText(_levels[0].ToString());
             _currentLevel = _text.text;
             RequestButtons();
-            
+            ReloadLoaderButton();
+
+        }
+
+        private void ReloadLoaderButton()
+        {
+            if (_currentLoaderButton == null)
+            {
+                _currentLoaderButton = _controller.BuildButton(_loaderButton, _parent.GetObject().transform, _parent);
+                return;
+            }
+            _currentLoaderButton.GetUIElement().Terminate();
+            _currentLoaderButton = _controller.BuildButton(_loaderButton, _parent.GetObject().transform, _parent);
+            _parent.SetAsChild(_currentLoaderButton.GetUIElement());
         }
 
         private void RequestBuildButton(ButtonSide side, Transform tParent)
@@ -165,6 +180,7 @@ namespace Game.Core.UI
                     _buttons.Clear();
                     RequestButtons();                    
                     _currentLevel = _text.text;
+                    ReloadLoaderButton();
                     break;
                     }
                 }

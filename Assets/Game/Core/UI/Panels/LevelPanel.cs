@@ -75,7 +75,7 @@ namespace Game.Core.UI
 
         public List<IUIElement> GetChildElements()
         {
-            return null;
+            return _children;
         }
 
         public GameObject GetObject()
@@ -90,6 +90,7 @@ namespace Game.Core.UI
 
         public void SetAsChild(IUIElement element)
         {
+            DevLog.elementLog.Log($"Adding the {element.GetType().Name}", this);
             if (_children.Contains(element))
             {
                 Debug.LogWarning("Already In List");
