@@ -66,7 +66,7 @@ namespace Game.Core
 
         public void RequestSwitchScene(SceneData level)
         {
-
+            _sceneController.SwitchScene(level);
         }
 
         private void Start()

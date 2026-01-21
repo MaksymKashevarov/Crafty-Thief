@@ -39,6 +39,30 @@ namespace Game.Core
             _driver.RequestSScreenBuild();
         }
 
+        public void SwitchScene(SceneData level)
+        {
+            LoadScene(level);
+        }
+
+        private async void LoadScene(SceneData level)
+        {
+            if (level == null)
+            {
+                Debug.LogAssertion("Level data is null");
+                return;
+            }
+            AssetReference sceneReference = level.GetScene();
+            var load = Addressables.LoadSceneAsync(sceneReference, LoadSceneMode.Single);
+            Debug.Log("Waiting!");
+            await load.Task;
+            Debug.Log("Completed!");
+            if (_driver == null)
+            {
+                return;
+            }
+            ReloadSceneContent();
+        }
+
         public void SetDataBase(SceneDatabase database)
         {
             _database = database;
