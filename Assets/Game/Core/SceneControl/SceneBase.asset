@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SceneBase
   m_EditorClassIdentifier: 
   _sourceScene: {fileID: 11400000, guid: 64261f2a6c718b34aa4242dd51f4ef0c, type: 2}
+  _loadingScene: {fileID: 11400000, guid: e065221a9ecec86449e3191b058ea65a, type: 2}
   _devScenes:
   - {fileID: 11400000, guid: c9ec8d2fd3b908e41a720cdc265ee260, type: 2}
   - {fileID: 11400000, guid: 64261f2a6c718b34aa4242dd51f4ef0c, type: 2}

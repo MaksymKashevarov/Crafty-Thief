@@ -51,6 +51,23 @@ namespace Game.Core
                 Debug.LogAssertion("Level data is null");
                 return;
             }
+
+            SceneData _loadingScene = _database.GetLoadingScene();
+            if (_loadingScene == null)
+            {
+                DevLog.LogAssetion("Loading scene is null!");
+                return;
+            }
+
+            SceneType sceneType = level.GetSceneType();
+            if (sceneType == SceneType.Loading)
+            {
+                var loader = Addressables.LoadSceneAsync(_loadingScene.GetScene(), LoadSceneMode.Single);
+                await loader.Task;
+                DevLog.Log(_loadingScene.GetSceneName() + " loaded!");
+                return;
+            }
+
             AssetReference sceneReference = level.GetScene();
             var load = Addressables.LoadSceneAsync(sceneReference, LoadSceneMode.Single);
             Debug.Log("Waiting!");
@@ -82,6 +99,7 @@ namespace Game.Core
             }
             
             _driver.BuildEventSystem();
+
         }
 
     }
