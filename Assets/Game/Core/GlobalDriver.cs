@@ -62,6 +62,7 @@ namespace Game.Core
             activeSC.SetGlobalDriver(this);
             activeSC.SetDataBase(_sceneDatabase);
             activeSC.LoadMenu();
+            _sceneController = activeSC;
         }
 
         public void RequestSwitchScene(SceneData level)

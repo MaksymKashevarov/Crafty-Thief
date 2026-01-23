@@ -9,9 +9,7 @@ namespace Game.Core
 
     public class SceneController : MonoBehaviour
     {
-        [SerializeField] private List<string> _scenes = new();
-        [SerializeField] private string _sourceScene;
-        private SceneDatabase _database;
+        [SerializeField] private SceneDatabase _database;
         private GlobalDriver _driver;
 
         private void Awake()
@@ -49,6 +47,11 @@ namespace Game.Core
             if (level == null)
             {
                 Debug.LogAssertion("Level data is null");
+                return;
+            }
+            if (_database == null)
+            {
+                DevLog.LogAssetion("Scene database is null");
                 return;
             }
 

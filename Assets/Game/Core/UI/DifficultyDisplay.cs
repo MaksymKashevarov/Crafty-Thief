@@ -99,7 +99,7 @@ namespace Game.Core.UI
 
         }
         private void Start()
-        {
+        {           
             DevLog.elementLog.Log("Difficulty Display Started", this);
             if (_sceneData == null)
             {

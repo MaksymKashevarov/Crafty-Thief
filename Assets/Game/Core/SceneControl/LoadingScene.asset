@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: LoadingScene
   m_EditorClassIdentifier: 
   _scene:
-    m_AssetGUID: 
+    m_AssetGUID: 6d3689d5cf1d2664c8cd1785c77d5de7
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
-  _sceneName: 
+  _sceneName: Loading Scene
   _levelList: 
-  _sceneType: 0
+  _sceneType: 2
