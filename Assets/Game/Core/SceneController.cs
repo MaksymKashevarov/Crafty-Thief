@@ -6,6 +6,7 @@ namespace Game.Core
     using UnityEngine;
     using UnityEngine.AddressableAssets;
     using UnityEngine.SceneManagement;
+    using System.Threading.Tasks;
 
     public class SceneController : MonoBehaviour
     {
@@ -42,6 +43,25 @@ namespace Game.Core
             LoadScene(level);
         }
 
+        private Task AssembleScene(SceneData level)
+        {
+            switch (level.GetSceneType())
+            {
+                case SceneType.MainMenu:
+                    //Load source scene
+                    return Task.CompletedTask;
+                case SceneType.Gameplay:
+                    //Load gameplay scene
+                    return Task.CompletedTask;
+                case SceneType.Loading:
+                    //Load loading scene
+                    return Task.CompletedTask;
+                default:
+                    DevLog.LogAssetion("Scene type not recognized!");
+                    return Task.CompletedTask;
+            }
+        }
+
         private async void LoadScene(SceneData level)
         {
             if (level == null)
@@ -62,15 +82,10 @@ namespace Game.Core
                 return;
             }
 
-            SceneType sceneType = level.GetSceneType();
-            if (sceneType == SceneType.Loading)
-            {
-                var loader = Addressables.LoadSceneAsync(_loadingScene.GetScene(), LoadSceneMode.Single);
-                await loader.Task;
-                DevLog.Log(_loadingScene.GetSceneName() + " loaded!");
-                return;
-            }
-
+            await AssembleScene(_loadingScene);
+            DevLog.Log(_loadingScene.GetSceneName() + " loaded!");  
+            //await AssembleScene(level);
+            /*
             AssetReference sceneReference = level.GetScene();
             var load = Addressables.LoadSceneAsync(sceneReference, LoadSceneMode.Single);
             Debug.Log("Waiting!");
@@ -80,7 +95,8 @@ namespace Game.Core
             {
                 return;
             }
-            ReloadSceneContent(); //REFACTOR
+            //ReloadSceneContent(); //REFACTOR
+            */
         }
 
         public void SetDataBase(SceneDatabase database)

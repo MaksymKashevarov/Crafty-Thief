@@ -96,7 +96,6 @@ namespace Game.Core.UI
         private void Awake()
         {
             Container.Register<DifficultyDisplay>(this);
-
         }
         private void Start()
         {           
