@@ -38,31 +38,12 @@ namespace Game.Core
             _driver.RequestSScreenBuild(); //REFACTOR
         }
 
-        public void SwitchScene(SceneData level) //REFACTOR
+        public Task SwitchScene(SceneData level)
         {
-            LoadScene(level);
+            return LoadScene(level);
         }
 
-        private Task AssembleScene(SceneData level)
-        {
-            switch (level.GetSceneType())
-            {
-                case SceneType.MainMenu:
-                    //Load source scene
-                    return Task.CompletedTask;
-                case SceneType.Gameplay:
-                    //Load gameplay scene
-                    return Task.CompletedTask;
-                case SceneType.Loading:
-                    //Load loading scene
-                    return Task.CompletedTask;
-                default:
-                    DevLog.LogAssetion("Scene type not recognized!");
-                    return Task.CompletedTask;
-            }
-        }
-
-        private async void LoadScene(SceneData level)
+        private async Task LoadScene(SceneData level)
         {
             if (level == null)
             {
@@ -75,28 +56,68 @@ namespace Game.Core
                 return;
             }
 
-            SceneData _loadingScene = _database.GetLoadingScene();
-            if (_loadingScene == null)
+            var loadingScene = _database.GetLoadingScene();
+            if (loadingScene == null)
             {
                 DevLog.LogAssetion("Loading scene is null!");
                 return;
             }
 
-            await AssembleScene(_loadingScene);
-            DevLog.Log(_loadingScene.GetSceneName() + " loaded!");  
+            await AssembleScene(loadingScene);
+            await Task.Yield();                
             //await AssembleScene(level);
-            /*
-            AssetReference sceneReference = level.GetScene();
-            var load = Addressables.LoadSceneAsync(sceneReference, LoadSceneMode.Single);
-            Debug.Log("Waiting!");
-            await load.Task;
-            Debug.Log("Completed!");
-            if (_driver == null)
+        }
+
+        private async Task AssembleScene(SceneData level)
+        {
+            switch (level.GetSceneType())
             {
+                case SceneType.Loading:
+                    {
+                        await LoadAddressableScene(level, LoadSceneMode.Single);
+                        PostSceneLoaded();
+                        return;
+                    }
+
+                case SceneType.MainMenu:
+                    {
+                        await LoadAddressableScene(level, LoadSceneMode.Single);
+                        PostSceneLoaded();
+                        return;
+                    }
+
+                case SceneType.Gameplay:
+                    {
+                        await LoadAddressableScene(level, LoadSceneMode.Single);
+                        PostSceneLoaded();
+                        return;
+                    }
+
+                default:
+                    DevLog.LogAssetion("Scene type not recognized!");
+                    return;
+            }
+        }
+
+        private async Task LoadAddressableScene(SceneData level, LoadSceneMode mode)
+        {
+            AssetReference sceneReference = level.GetScene();
+            if (sceneReference == null)
+            {
+                DevLog.LogAssetion("Scene reference is null!");
                 return;
             }
-            //ReloadSceneContent(); //REFACTOR
-            */
+
+            var load = Addressables.LoadSceneAsync(sceneReference, mode);
+            await load.Task;
+        }
+
+        private void PostSceneLoaded()
+        {
+            if (_driver == null) return;
+
+            ReloadSceneContent();
+            //_driver.RequestSScreenBuild();
         }
 
         public void SetDataBase(SceneDatabase database)
