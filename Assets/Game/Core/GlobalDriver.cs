@@ -86,7 +86,7 @@ namespace Game.Core
             BuildSceneController();
         }
 
-        public void RequestSScreenBuild() //REFACTOR
+        public void RequestMenuScreenBuild() //REFACTOR
         {  
             BuildCharacter(null, _ghostPlayerPrefab, false);
             if (_activePlayerInterface == null)

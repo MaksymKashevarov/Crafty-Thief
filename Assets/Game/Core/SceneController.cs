@@ -22,20 +22,14 @@ namespace Game.Core
         {
             SceneData menuScene = _database.GetSourceScene();
             AssetReference sceneReference = menuScene.GetScene();
-            if (menuScene == null)
-            {
-                return;
-            }
-            var load = Addressables.LoadSceneAsync(sceneReference);
-            Debug.Log("Waiting!");
-            await load.Task;
+            await SwitchScene(menuScene);
             Debug.Log("Completed!");
             if (_driver == null)
             {
                 return;
             }
             ReloadSceneContent();
-            _driver.RequestSScreenBuild(); //REFACTOR
+             //REFACTOR
         }
 
         public Task SwitchScene(SceneData level)
@@ -65,7 +59,7 @@ namespace Game.Core
 
             await AssembleScene(loadingScene);
             await Task.Yield();                
-            //await AssembleScene(level);
+            await AssembleScene(level);
         }
 
         private async Task AssembleScene(SceneData level)
@@ -75,21 +69,24 @@ namespace Game.Core
                 case SceneType.Loading:
                     {
                         await LoadAddressableScene(level, LoadSceneMode.Single);
-                        PostSceneLoaded();
+                        DevLog.Log("Loading scene loaded");
+                        PostSceneLoaded(SceneType.Loading);
                         return;
                     }
 
                 case SceneType.MainMenu:
                     {
                         await LoadAddressableScene(level, LoadSceneMode.Single);
-                        PostSceneLoaded();
+                        DevLog.Log("Menu scene loaded");
+                        PostSceneLoaded(SceneType.MainMenu);
                         return;
                     }
 
                 case SceneType.Gameplay:
                     {
                         await LoadAddressableScene(level, LoadSceneMode.Single);
-                        PostSceneLoaded();
+                        DevLog.Log("Gameplay scene loaded");
+                        PostSceneLoaded(SceneType.Gameplay);
                         return;
                     }
 
@@ -112,12 +109,26 @@ namespace Game.Core
             await load.Task;
         }
 
-        private void PostSceneLoaded()
+        private void PostSceneLoaded(SceneType type)
         {
             if (_driver == null) return;
 
             ReloadSceneContent();
-            //_driver.RequestSScreenBuild();
+
+            switch (type)
+            {
+                case SceneType.Loading:
+                    
+                    break;
+                case SceneType.MainMenu:
+                    _driver.RequestMenuScreenBuild();
+                    break;
+                case SceneType.Gameplay:
+                    break;
+                default:
+                    break;
+            }
+            
         }
 
         public void SetDataBase(SceneDatabase database)
