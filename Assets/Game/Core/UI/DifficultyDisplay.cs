@@ -4,7 +4,6 @@ namespace Game.Core.UI
     using Game.Core.ServiceLocating;
     using System.Collections.Generic;
     using TMPro;
-    using Unity.VisualScripting;
     using UnityEngine;
 
     public class DifficultyDisplay : MonoBehaviour, IUIElement, IButton, ISceneConnected
@@ -14,6 +13,9 @@ namespace Game.Core.UI
         [SerializeField] private DifficultyDisplayButton _button;
         [SerializeField] private Transform _rTransform;
         [SerializeField] private Transform _lTransform;
+        [SerializeField] private string _currentLevel;
+        [SerializeField] private LevelLoadButton _loaderButton;
+        private IButton _currentLoaderButton;
         private List<IButton> _buttons = new();
         private SceneData _sceneData;
         [SerializeField] private List<DifficultyLevel> _levels = new List<DifficultyLevel>();
@@ -94,10 +96,10 @@ namespace Game.Core.UI
         private void Awake()
         {
             Container.Register<DifficultyDisplay>(this);
-
         }
         private void Start()
-        {
+        {           
+            DevLog.elementLog.Log("Difficulty Display Started", this);
             if (_sceneData == null)
             {
                 return;
@@ -108,8 +110,23 @@ namespace Game.Core.UI
                 return;
             }
             SetText(_levels[0].ToString());
+            _currentLevel = _text.text;
             RequestButtons();
-            
+            ReloadLoaderButton();
+
+        }
+
+        private void ReloadLoaderButton()
+        {
+            if (_currentLoaderButton != null)
+            {
+                _currentLoaderButton.GetUIElement().Terminate();
+            }
+
+            _currentLoaderButton = _controller.BuildButton(_loaderButton, _parent.GetObject().transform, _parent);
+            _parent.SetAsChild(_currentLoaderButton.GetUIElement());
+            ISceneConnected sceneConnected = _currentLoaderButton.GetUIElement().GetSceneConnection();
+            sceneConnected.AssignScene(_sceneData);
         }
 
         private void RequestBuildButton(ButtonSide side, Transform tParent)
@@ -160,9 +177,11 @@ namespace Game.Core.UI
                         {                            
                             ibutton.GetUIElement().Terminate();
                         }
-                        _buttons.Clear();
-                        RequestButtons();
-                        break;
+                    _buttons.Clear();
+                    RequestButtons();                    
+                    _currentLevel = _text.text;
+                    ReloadLoaderButton();
+                    break;
                     }
                 }
         }

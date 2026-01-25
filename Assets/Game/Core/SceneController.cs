@@ -6,12 +6,11 @@ namespace Game.Core
     using UnityEngine;
     using UnityEngine.AddressableAssets;
     using UnityEngine.SceneManagement;
+    using System.Threading.Tasks;
 
     public class SceneController : MonoBehaviour
     {
-        [SerializeField] private List<string> _scenes = new();
-        [SerializeField] private string _sourceScene;
-        private SceneDatabase _database;
+        [SerializeField] private SceneDatabase _database;
         private GlobalDriver _driver;
 
         private void Awake()
@@ -23,20 +22,116 @@ namespace Game.Core
         {
             SceneData menuScene = _database.GetSourceScene();
             AssetReference sceneReference = menuScene.GetScene();
-            if (menuScene == null)
-            {
-                return;
-            }
-            var load = Addressables.LoadSceneAsync(sceneReference);
-            Debug.Log("Waiting!");
-            await load.Task;
+            await SwitchScene(menuScene);
             Debug.Log("Completed!");
             if (_driver == null)
             {
                 return;
             }
             ReloadSceneContent();
-            _driver.RequestSScreenBuild();
+             //REFACTOR
+        }
+
+        public Task SwitchScene(SceneData level)
+        {
+            return LoadScene(level);
+        }
+
+        private async Task LoadScene(SceneData level)
+        {
+            if (level == null)
+            {
+                Debug.LogAssertion("Level data is null");
+                return;
+            }
+            if (_database == null)
+            {
+                DevLog.LogAssetion("Scene database is null", this);
+                return;
+            }
+
+            var loadingScene = _database.GetLoadingScene();
+            if (loadingScene == null)
+            {
+                DevLog.LogAssetion("Loading scene is null!", this);
+                return;
+            }
+
+            await AssembleScene(loadingScene);
+            await Task.Yield();                
+            await AssembleScene(level);
+        }
+
+        private async Task AssembleScene(SceneData level)
+        {
+            switch (level.GetSceneType())
+            {
+                case SceneType.Loading:
+                    {
+                        await LoadAddressableScene(level, LoadSceneMode.Single);
+                        DevLog.Log("Loading scene loaded", this);
+                        PostSceneLoaded(SceneType.Loading);
+                        return;
+                    }
+
+                case SceneType.MainMenu:
+                    {
+                        await LoadAddressableScene(level, LoadSceneMode.Single);
+                        DevLog.Log("Menu scene loaded", this);
+                        PostSceneLoaded(SceneType.MainMenu);
+                        return;
+                    }
+
+                case SceneType.Gameplay:
+                    {
+                        await LoadAddressableScene(level, LoadSceneMode.Single);
+                        DevLog.Log("Gameplay scene loaded", this);
+                        PostSceneLoaded(SceneType.Gameplay);
+                        return;
+                    }
+
+                default:
+                    DevLog.LogAssetion("Scene type not recognized!", this);
+                    return;
+            }
+        }
+
+        private async Task LoadAddressableScene(SceneData level, LoadSceneMode mode)
+        {
+            AssetReference sceneReference = level.GetScene();
+            if (sceneReference == null)
+            {
+                DevLog.LogAssetion("Scene reference is null!", this);
+                return;
+            }
+
+            var load = Addressables.LoadSceneAsync(sceneReference, mode);
+            await load.Task;
+        }
+
+        private void PostSceneLoaded(SceneType type)
+        {
+            switch (type)
+            {
+                case SceneType.Loading:
+                    ReloadSceneContent();
+                    DevLog.Log("Reloading scene content for loading scene", this);
+                    _driver.RequestCharacterBuild(false, null, null);
+                    break;
+                case SceneType.MainMenu:
+                    _driver.RequestMenuScreenBuild();
+                    DevLog.Log("Requesting menu build", this);
+                    ReloadSceneContent();
+                    break;
+                case SceneType.Gameplay:
+                    ReloadSceneContent();
+                    _driver.RequestCharacterBuild(true, null, null);
+                    DevLog.Log("Reloading scene content for gameplay scene", this);
+                    break;
+                default:
+                    break;
+            }
+            
         }
 
         public void SetDataBase(SceneDatabase database)
@@ -58,6 +153,7 @@ namespace Game.Core
             }
             
             _driver.BuildEventSystem();
+
         }
 
     }

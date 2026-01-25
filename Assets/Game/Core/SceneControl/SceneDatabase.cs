@@ -9,6 +9,7 @@ namespace Game.Core.SceneControl
     public class SceneDatabase : ScriptableObject
     {
         [SerializeField] private SceneData _sourceScene;
+        [SerializeField] private SceneData _loadingScene;
         [SerializeField] private List<SceneData> _devScenes;
         [SerializeField] private List<SceneData> _lowLevels;
 
@@ -37,6 +38,11 @@ namespace Game.Core.SceneControl
                 }
                 Debug.Log($"Bundle contains: {key}");
             }
+        }
+
+        public SceneData GetLoadingScene()
+        {
+            return _loadingScene;
         }
 
         public List<SceneData> GetDevScenes()

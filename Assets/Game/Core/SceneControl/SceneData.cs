@@ -10,12 +10,20 @@ namespace Game.Core.SceneControl
         High
     }
 
+    public enum SceneType
+    {
+        MainMenu,
+        Gameplay,
+        Loading
+    }
+
     [CreateAssetMenu(menuName = "Config/Scene Data")]
     public class SceneData : ScriptableObject
     {
         [SerializeField] private AssetReference _scene;
         [SerializeField] private string _sceneName;
         [SerializeField] private List<DifficultyLevel> _levelList = new();
+        [SerializeField] private SceneType _sceneType;
 
         public AssetReference GetScene()
         {
@@ -36,6 +44,10 @@ namespace Game.Core.SceneControl
             return _levelList;
         }
 
+        public SceneType GetSceneType()
+        {
+            return _sceneType;
+        }
 
     }
 }

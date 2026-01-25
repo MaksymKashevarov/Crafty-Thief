@@ -101,6 +101,25 @@ namespace Game.Core.UI
 
         } 
 
+        public void RequestSceneSwitch(IUIElement element)
+        {
+            DevLog.Log($"Requesting Scene Switch from {element}", this);
+            ISceneConnected sceneConnection = element.GetSceneConnection();
+            if (sceneConnection == null)
+            {
+                DevLog.Log("No Scene Connection present!", this);
+                return;
+            }
+            SceneData targetScene = sceneConnection.GetAssignedScene();
+            if (targetScene == null)
+            {
+                DevLog.Log("No Target Scene present!", this);
+                return;
+            }
+            _currentPlayerInterface.RequestSceneSwitch(targetScene);
+
+        }
+
         public IUIElement BuildActiveElement(IUIElement element, Transform parent = null, IUIElement elementParent = null)
         {
             if (element == null)
@@ -213,16 +232,11 @@ namespace Game.Core.UI
             if (children.Count > 0)
             {
                 Debug.Log("List detected!");
-                foreach (IUIElement child in children)
+                for (int i = children.Count - 1; i >= 0; i--)
                 {
-                    if (child == null)
-                    {
-                        Debug.LogError($"[{this}] List contains Null!");
-                        break;
-                    }
-                    Debug.Log($"[{this}] Deleting: {child}");
+                    var child = children[i];
+                    if (child == null) continue;
                     child.Terminate();
-
                 }
             }            
             DestroyElement(element);

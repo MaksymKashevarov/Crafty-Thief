@@ -276,6 +276,9 @@ MonoBehaviour:
   _button: {fileID: 4125966701049003785, guid: 839101c4ce77a8b40bbd11b8347eb376, type: 3}
   _rTransform: {fileID: 1932907469205411231}
   _lTransform: {fileID: 2674316871778318382}
+  _currentLevel: 
+  _loaderButton: {fileID: 895622212023891684, guid: ecfeae51a0fa14444ae7d68ef0a4f759, type: 3}
+  _levels: 
 --- !u!1 &9136245241871414820
 GameObject:
   m_ObjectHideFlags: 0

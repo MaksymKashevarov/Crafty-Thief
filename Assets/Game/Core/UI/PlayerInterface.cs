@@ -2,6 +2,7 @@ namespace Game.Core.UI
 {
     using Game.Core.Interactable;
     using Game.Core.Player;
+    using Game.Core.SceneControl;
     using NUnit.Framework;
     using System.Collections.Generic;
     using UnityEditor.PackageManager.Requests;
@@ -16,11 +17,13 @@ namespace Game.Core.UI
         private List<IUIElement> _currentStorage = new();
         private int _handsInventorySize;
         private List<string> _activeStealList = new();
-        public PlayerInterface(PlayerCore player,Hands playerHands, UIController controller) 
+        private GlobalDriver _driver;
+        public PlayerInterface(PlayerCore player,Hands playerHands, UIController controller, GlobalDriver driver) 
         { 
             this._player = player;
             this._playerHands = playerHands;
             this._controller = controller;
+            this._driver = driver;
         }
 
         public bool IsItemInList(IInteractable item)
@@ -43,7 +46,16 @@ namespace Game.Core.UI
         public void RequestMenuBuild()
         {
             _controller.DisplayMenu();
+        }
 
+        public void RequestSceneSwitch(SceneData level)
+        {
+            if (level == null)
+            {
+                DevLog.LogAssetion("Level data is null", this);
+                return;
+            }
+            _driver.RequestSwitchScene(level);
         }
 
         public void UpdateActiveList(IInteractable item)
