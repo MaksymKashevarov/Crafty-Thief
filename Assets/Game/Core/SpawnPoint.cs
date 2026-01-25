@@ -10,6 +10,7 @@ namespace Game.Core
             Container.Register(this);
         }
         
+        // REFACTOR
         public Transform GetTransform()
         {
             return transform;
