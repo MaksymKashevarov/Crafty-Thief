@@ -46,14 +46,14 @@ namespace Game.Core
             }
             if (_database == null)
             {
-                DevLog.LogAssetion("Scene database is null");
+                DevLog.LogAssetion("Scene database is null", this);
                 return;
             }
 
             var loadingScene = _database.GetLoadingScene();
             if (loadingScene == null)
             {
-                DevLog.LogAssetion("Loading scene is null!");
+                DevLog.LogAssetion("Loading scene is null!", this);
                 return;
             }
 
@@ -69,7 +69,7 @@ namespace Game.Core
                 case SceneType.Loading:
                     {
                         await LoadAddressableScene(level, LoadSceneMode.Single);
-                        DevLog.Log("Loading scene loaded");
+                        DevLog.Log("Loading scene loaded", this);
                         PostSceneLoaded(SceneType.Loading);
                         return;
                     }
@@ -77,7 +77,7 @@ namespace Game.Core
                 case SceneType.MainMenu:
                     {
                         await LoadAddressableScene(level, LoadSceneMode.Single);
-                        DevLog.Log("Menu scene loaded");
+                        DevLog.Log("Menu scene loaded", this);
                         PostSceneLoaded(SceneType.MainMenu);
                         return;
                     }
@@ -85,13 +85,13 @@ namespace Game.Core
                 case SceneType.Gameplay:
                     {
                         await LoadAddressableScene(level, LoadSceneMode.Single);
-                        DevLog.Log("Gameplay scene loaded");
+                        DevLog.Log("Gameplay scene loaded", this);
                         PostSceneLoaded(SceneType.Gameplay);
                         return;
                     }
 
                 default:
-                    DevLog.LogAssetion("Scene type not recognized!");
+                    DevLog.LogAssetion("Scene type not recognized!", this);
                     return;
             }
         }
@@ -101,7 +101,7 @@ namespace Game.Core
             AssetReference sceneReference = level.GetScene();
             if (sceneReference == null)
             {
-                DevLog.LogAssetion("Scene reference is null!");
+                DevLog.LogAssetion("Scene reference is null!", this);
                 return;
             }
 
@@ -111,19 +111,22 @@ namespace Game.Core
 
         private void PostSceneLoaded(SceneType type)
         {
-            if (_driver == null) return;
-
-            ReloadSceneContent();
-
             switch (type)
             {
                 case SceneType.Loading:
-                    
+                    ReloadSceneContent();
+                    DevLog.Log("Reloading scene content for loading scene", this);
+                    _driver.RequestCharacterBuild(false, null, null);
                     break;
                 case SceneType.MainMenu:
                     _driver.RequestMenuScreenBuild();
+                    DevLog.Log("Requesting menu build", this);
+                    ReloadSceneContent();
                     break;
                 case SceneType.Gameplay:
+                    ReloadSceneContent();
+                    _driver.RequestCharacterBuild(true, null, null);
+                    DevLog.Log("Reloading scene content for gameplay scene", this);
                     break;
                 default:
                     break;

@@ -52,7 +52,7 @@ namespace Game.Core.UI
         {
             if (level == null)
             {
-                DevLog.LogAssetion("Level data is null");
+                DevLog.LogAssetion("Level data is null", this);
                 return;
             }
             _driver.RequestSwitchScene(level);

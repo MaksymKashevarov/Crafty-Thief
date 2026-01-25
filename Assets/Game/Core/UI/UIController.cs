@@ -103,17 +103,17 @@ namespace Game.Core.UI
 
         public void RequestSceneSwitch(IUIElement element)
         {
-            DevLog.Log($"Requesting Scene Switch from {element}");
+            DevLog.Log($"Requesting Scene Switch from {element}", this);
             ISceneConnected sceneConnection = element.GetSceneConnection();
             if (sceneConnection == null)
             {
-                DevLog.Log("No Scene Connection present!");
+                DevLog.Log("No Scene Connection present!", this);
                 return;
             }
             SceneData targetScene = sceneConnection.GetAssignedScene();
             if (targetScene == null)
             {
-                DevLog.Log("No Target Scene present!");
+                DevLog.Log("No Target Scene present!", this);
                 return;
             }
             _currentPlayerInterface.RequestSceneSwitch(targetScene);

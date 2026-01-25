@@ -11,7 +11,7 @@ public class ElementLog
         }
         Debug.Log(
             $"<color=#4CAF50>[ElementLog]</color> " +
-            $"<color=#4CAF50>[{element.GetType().FullName}]</color> " +
+            $"<color=#4CAF50>[{element.GetType().Name}]</color> " +
             $"<color=#FFC107>{message}</color>"
             );
     }

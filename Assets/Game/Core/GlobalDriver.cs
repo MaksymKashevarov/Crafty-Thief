@@ -23,6 +23,7 @@ namespace Game.Core
         [SerializeField] private SceneController _sceneController;
         [SerializeField] private EventSystem _eventSystem;
         [SerializeField] private SceneDatabase _sceneDatabase;
+        private EventSystem _activeEventSystem;
         private PlayerInterface _activePlayerInterface;
         private List<string> _activeStealingList = new();
         private PlayerCore _activePlayer;
@@ -42,7 +43,12 @@ namespace Game.Core
 
         public void BuildEventSystem()
         {
-            Instantiate(_eventSystem);
+            if (_activeEventSystem != null)
+            {
+                DevLog.Log("Event System Valid", this);
+                return;
+            }
+            _activeEventSystem = Instantiate(_eventSystem);
         }
 
         private void BuildSceneController()
@@ -159,6 +165,22 @@ namespace Game.Core
                 }
             }
 
+        }
+
+        public void RequestCharacterBuild(bool Playable, PlayerCore player = null, Transform spawnPoint = null)
+        {
+            if (player == null)
+            {
+                if (Playable)
+                {
+                    player = _playerPrefab;
+                }
+                else
+                {
+                    player = _ghostPlayerPrefab;
+                }
+            }
+            BuildCharacter(spawnPoint, player, Playable);
         }
 
         private void BuildCharacter(Transform spawnPoint, PlayerCore player, bool Playable)
