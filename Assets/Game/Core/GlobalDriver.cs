@@ -103,7 +103,7 @@ namespace Game.Core
             _activePlayerInterface.RequestMenuBuild();
         }
 
-        private void ApplyActiveStealList()
+        private void ApplyActiveStealList() //REFACTOR
         {
             if (_activePlayerInterface != null)
             {
@@ -145,7 +145,7 @@ namespace Game.Core
             ApplyActiveStealList();
         }
 
-        public void MarkItemsToSteal()
+        public void MarkItemsToSteal() //REFACTOR
         {
             if (_activePlayerInterface != null)
             {
@@ -213,7 +213,7 @@ namespace Game.Core
 
             if (playerController == null)
             {
-                Debug.LogError("UI CONTROLLER MISSING ON CANVAS PREFAB!");
+                DevLog.Log("UI CONTROLLER MISSING ON PREFAB!", this);
                 return;
             }
             if (_sceneDatabase == null)
@@ -226,7 +226,7 @@ namespace Game.Core
             playerInstance.SetPlayable(Playable);
         }
 
-        private void GenerateStealingList()
+        private void GenerateStealingList() //REFACTOR
         {
             List<Item> list = new List<Item>(_itemsToSteal);
 
