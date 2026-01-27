@@ -21,6 +21,11 @@ namespace Game.Core.Player
         [SerializeField] private GlobalDriver _globalDriver;
         [SerializeField] private int _handsInventorySize;
         [SerializeField] private Anchor _anchor;
+        [SerializeField] private Animator _animator;
+        [SerializeField] private string _blendParam = "Blend"; 
+        [SerializeField] private float _blendDamp = 10f;
+
+        private float _blendValue;
         private Dictionary<string, float> stats = new();
         private Hands _hands;
         private PlayerInterface _playerInterface;
@@ -186,6 +191,13 @@ namespace Game.Core.Player
             }
 
             transform.Rotate(0f, yawDelta, 0f);
+
+            if (_animator != null)
+            {
+                float targetBlend = (_move.sqrMagnitude > 0.001f) ? 1f : 0f;
+                _blendValue = Mathf.MoveTowards(_blendValue, targetBlend, Time.deltaTime * _blendDamp);
+                _animator.SetFloat(_blendParam, _blendValue);
+            }
         }
 
 

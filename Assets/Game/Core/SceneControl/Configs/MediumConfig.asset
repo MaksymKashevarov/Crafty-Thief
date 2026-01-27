@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55d198de32fca2044a65b89965b75a01, type: 3}
   m_Name: MediumConfig
   m_EditorClassIdentifier: 
-  _difficulty: 0
+  _difficulty: 1

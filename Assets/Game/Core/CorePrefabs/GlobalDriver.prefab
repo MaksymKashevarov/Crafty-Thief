@@ -51,7 +51,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5132cc91f9452674fb78df55a667f7b9, type: 2}
   - {fileID: 11400000, guid: bf8f9084c4b53f945ab41c563e3837ce, type: 2}
   _stealListCount: 3
-  _playerPrefab: {fileID: 6160846651160488542, guid: 7a0b348683fd49648b951da545816b52, type: 3}
+  _playerPrefab: {fileID: 955843049146029973, guid: a75b46469c19b7e488fb15ff4bc2865d, type: 3}
   _ghostPlayerPrefab: {fileID: 6160846651160488542, guid: c4146e8b3b4d77e41882267e450c9d53, type: 3}
   _canvasPrefab: {fileID: 6279072281825238927, guid: 4bfa9fba35349b948ae762695f53c4d7, type: 3}
   _sceneController: {fileID: -5025753333866051306, guid: fd9a18349dd511641b3bcc65f4c6eda3, type: 3}
