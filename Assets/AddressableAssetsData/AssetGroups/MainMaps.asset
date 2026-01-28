@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: MainMaps
+  m_EditorClassIdentifier: 
+  m_GroupName: MainMaps
+  m_GUID: d07eba3f692471e4687d654acf9c7e3e
+  m_SerializeEntries:
+  - m_GUID: 1dce4d5ed84c7e641aa67ca4145e8003
+    m_Address: Assets/Scenes/Vista.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 0bc30b5ad0267064eb561fabf9c967a9, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 348b604dca7a2a544957ed3ef2a5e5a1, type: 2}
+    - {fileID: 11400000, guid: 9d44739a8e357c64fa6c2a0faf18a0e7, type: 2}

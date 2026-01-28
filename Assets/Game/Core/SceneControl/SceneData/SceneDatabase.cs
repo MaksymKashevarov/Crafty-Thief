@@ -10,8 +10,9 @@ namespace Game.Core.SceneControl
     {
         [SerializeField] private SceneData _sourceScene;
         [SerializeField] private SceneData _loadingScene;
+        [Header("Scene Categories")]
         [SerializeField] private List<SceneData> _devScenes;
-        [SerializeField] private List<SceneData> _lowLevels;
+        [SerializeField] private List<SceneData> _coreMaps;
 
         private Dictionary<string, List<SceneData>> _referenceBundle = new();
 
@@ -25,7 +26,7 @@ namespace Game.Core.SceneControl
             Debug.Log("Assembling Scenes!");
             //ASSEMBLE SCENES HERE//
             _referenceBundle["DevScenes"] = _devScenes;
-            _referenceBundle["Low-Risk"] = _lowLevels;
+            _referenceBundle["Zone [VISTA]"] = _coreMaps;
 
             //[BORDER]//
 
