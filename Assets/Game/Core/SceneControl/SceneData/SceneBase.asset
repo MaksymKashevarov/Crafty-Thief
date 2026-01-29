@@ -17,5 +17,6 @@ MonoBehaviour:
   _devScenes:
   - {fileID: 11400000, guid: c9ec8d2fd3b908e41a720cdc265ee260, type: 2}
   - {fileID: 11400000, guid: 64261f2a6c718b34aa4242dd51f4ef0c, type: 2}
+  - {fileID: 11400000, guid: d654e5761eec6104aa5cf80c6d8d43bd, type: 2}
   _coreMaps:
   - {fileID: 11400000, guid: a6981f65abee7c84094f59f0bac8417b, type: 2}

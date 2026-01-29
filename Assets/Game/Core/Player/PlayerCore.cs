@@ -74,12 +74,14 @@ namespace Game.Core.Player
 
         private void OnInteract(InputValue value)
         {
+            DevLog.Log("OnInteract called", this);
             if (value.isPressed == false)
             {
                 return;
             }
             if (!_isPlayable)
             {
+                DevLog.LogAssetion("Player is not playable!", this);
                 return;
             }
 
@@ -91,6 +93,7 @@ namespace Game.Core.Player
 
             if (_anchor != null && _anchor.IsHoldingItem())
             {
+                DevLog.Log("Detaching from anchor", this);
                 _anchor.Detatch();
                 return;
             }
@@ -100,24 +103,39 @@ namespace Game.Core.Player
 
             if (Physics.Raycast(ray, out hit, _interactDistance, _interactMask))
             {
-                Debug.Log("Interact: Ray hit " + hit.collider.name);
+                DevLog.Log("Raycast hit: " + hit.collider.name, this);
                 IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+                if (interactable == null)
+                {
+                    DevLog.LogAssetion("Interactable is null!", this);
+                    return;
+                }
+                bool isInteractable = interactable.IsInteractable();
+                if (isInteractable)
+                {
+                    _hands.Interact(interactable);
+                    return;
+                }
 
 
+                /*
                 if (interactable != null && interactable.IsInteractable())
                 {
+                    DevLog.Log("Interactable found!", this);
                     if (_playerInterface.IsItemInList(interactable))
                     {
-                        Debug.Log("Interact: IInteractable found and is interactable");
+                        
                         _hands.Interact(interactable);
                         _playerInterface.UpdateActiveList(interactable);
                         _globalDriver.CheckListCompletion();
                     }
                     else
                     {
+                        DevLog.Log("Interacting!", this);
                         _hands.Interact(interactable);
                     }
                 }
+                */
             }
         }
 
