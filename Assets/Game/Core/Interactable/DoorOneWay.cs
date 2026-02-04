@@ -6,6 +6,7 @@ namespace Game.Core.Interactable
     public class DoorOneWay : MonoBehaviour, IInteractable
     {
         [SerializeField] private Animator _animator;
+        private bool _isOpen = false;
         public GameObject GetGameObject()
         {
             return this.gameObject;
@@ -28,7 +29,14 @@ namespace Game.Core.Interactable
 
         public void Interact(Hands hands)
         {
+            if (_isOpen)
+            {
+                _animator.SetTrigger("Close");
+                _isOpen = false;
+                return;
+            }
             _animator.SetTrigger("Open");
+            _isOpen = true;
         }
 
         public bool IsInteractable()
