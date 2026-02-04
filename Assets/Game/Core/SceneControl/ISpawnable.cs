@@ -1,10 +1,14 @@
 namespace Game.Core.SceneControl
 {
-    using UnityEngine;
-
-    public class ISpawnable : MonoBehaviour
+    public enum SpawnSize
     {
-
+        Small,
+        Medium,
+        Large
+    }
+    public interface ISpawnable
+    {
+        SpawnSize GetFixedSize();
     }
 
 }

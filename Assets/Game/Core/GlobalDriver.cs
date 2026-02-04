@@ -23,6 +23,8 @@ namespace Game.Core
         [SerializeField] private SceneController _sceneController;
         [SerializeField] private EventSystem _eventSystem;
         [SerializeField] private SceneDatabase _sceneDatabase;
+        [SerializeField] private SpawnableCollection _spawnableCollection;
+        [SerializeField] private SpawnDirector _spawnDirector;
         private EventSystem _activeEventSystem;
         private PlayerInterface _activePlayerInterface;
         private List<string> _activeStealingList = new();
@@ -40,6 +42,18 @@ namespace Game.Core
             Debug.Log("Awake");
         }
 
+        
+        private void BuildSpawnDirector()
+        {
+            if (_spawnDirector == null)
+            {
+                Debug.LogError("Error! Spawn Director is invalid!");
+                return;
+            }
+            SpawnDirector _current = Instantiate(_spawnDirector);
+            _spawnDirector = _current;
+            _spawnDirector.SetCollection(_spawnableCollection);
+        }
 
         public void BuildEventSystem()
         {
@@ -76,6 +90,11 @@ namespace Game.Core
             _sceneController.SwitchScene(level);
         }
 
+        public SpawnDirector GetSpawnDirector()
+        {
+            return _spawnDirector;
+        }
+
         private void Start()
         {
             Debug.Log("Start");
@@ -90,6 +109,7 @@ namespace Game.Core
             }
             _sceneDatabase.AssembleDataBase();
             BuildSceneController();
+            BuildSpawnDirector();
         }
 
         public void RequestMenuScreenBuild() //REFACTOR

@@ -33,4 +33,12 @@ public static class DevLog
             );
     }
 
+    public static void LogWarning(string message, object obj)
+    {
+        Debug.LogWarning(
+            $"<color=#FF5722>[{FixType(obj).Name}]</color> " +
+            $"<color=#FFC107>{message}</color>"
+            );
+    }
+
 }

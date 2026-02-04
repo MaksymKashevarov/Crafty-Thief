@@ -267,6 +267,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9155159395178632435}
+  - component: {fileID: 7177268312352427216}
   m_Layer: 0
   m_Name: FancyCouch1
   m_TagString: Untagged
@@ -292,3 +293,16 @@ Transform:
   - {fileID: 5045866511406879783}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7177268312352427216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5155436127318662985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20a9ef30e1bb1794bb757215cc79df49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fixedSize: 0

@@ -1,17 +1,21 @@
 namespace Game.Core.SceneControl
 {
-   
+    using Game.Core.ServiceLocating;
     using UnityEngine;
-    enum ZoneSize
-    {
-        Small,
-        Medium,
-        Large
-    }
+
     public class PlacementZone : MonoBehaviour
     {
-        [SerializeField] private ZoneSize _zoneSize;
+        [SerializeField] private SpawnSize _zoneSize;
 
+        public SpawnSize GetZoneSize()
+        {
+            return _zoneSize;
+        }
+
+        private void Awake()
+        {
+            Registry.spawnZoneRegistry.Register(this);
+        }
     }
 
 }
