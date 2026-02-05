@@ -13,6 +13,7 @@ namespace Game.Core.ServiceLocating
         public static readonly MenuRegisrtry menuRegisrtry = new MenuRegisrtry();
         public static readonly MSRegistry mSRegistry = new MSRegistry();
         public static readonly ElementRegistry elementRegistry = new ElementRegistry();
+        public static readonly SpawnZoneRegistry spawnZoneRegistry = new SpawnZoneRegistry();
 
         public static List<IInteractable> GetItemList()
         {

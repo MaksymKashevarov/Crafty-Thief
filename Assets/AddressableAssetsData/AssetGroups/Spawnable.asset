@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Spawnable
+  m_EditorClassIdentifier: 
+  m_GroupName: Spawnable
+  m_GUID: 0f064ef51a5375d418dafac75ea3a02e
+  m_SerializeEntries:
+  - m_GUID: 575daf9201fc2f34bbd24a8f63f724da
+    m_Address: Assets/Game/Core/SceneControl/Spawnables/FancyCouch1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - spawnable
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 610cce1a246cc374d9bf1db31d92a863
+    m_Address: Assets/Game/Core/SceneControl/Spawnables/Cactus1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - spawnable
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 66f7fc9925c274a4da2a8e7182c9ddd5
+    m_Address: Assets/Game/Core/SceneControl/Spawnables/FancyChair1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - spawnable
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7d544069b76b0a44a8e350c003d5117f
+    m_Address: Assets/Game/Core/SceneControl/Spawnables/RoundGlassTable1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - spawnable
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a0114d33db862174bbf12b5508b80c41
+    m_Address: Assets/Game/Core/SceneControl/Spawnables/Lamp_with_Lighting.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - spawnable
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a7012167290e18d40a0bed7cec052228
+    m_Address: Assets/Game/Core/SceneControl/Spawnables/GarbageCan1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - spawnable
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: deb1222ec42cdf645837cb33c1202df0
+    m_Address: Assets/Game/Core/SceneControl/Spawnables/Rock.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - spawnable
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eb972d1d2a470bd49bc530670097b90c
+    m_Address: Assets/Game/Core/SceneControl/Spawnables/MinecraftishBed1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - spawnable
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 0bc30b5ad0267064eb561fabf9c967a9, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 7353aa6b195e9b84ebb3c18f9b2268bf, type: 2}
+    - {fileID: 11400000, guid: 3f73f77af2a60824d8e133dc2cc3069c, type: 2}
