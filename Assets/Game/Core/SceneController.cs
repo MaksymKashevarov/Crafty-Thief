@@ -109,22 +109,23 @@ namespace Game.Core
             await load.Task;
         }
 
-        private void PostSceneLoaded(SceneType type)
+        private async void PostSceneLoaded(SceneType type)
         {
             switch (type)
             {
                 case SceneType.Loading:
-                    ReloadSceneContent();
+                    await ReloadSceneContent();
                     DevLog.Log("Reloading scene content for loading scene", this);
                     _driver.RequestCharacterBuild(false, null, null);
                     break;
                 case SceneType.MainMenu:
                     _driver.RequestMenuScreenBuild();
                     DevLog.Log("Requesting menu build", this);
-                    ReloadSceneContent();
+                    await ReloadSceneContent();
                     break;
                 case SceneType.Gameplay:
-                    ReloadSceneContent();
+                    await ReloadSceneContent();
+                    await _driver.GetSpawnDirector().GenInitialize();
                     _driver.RequestCharacterBuild(true, null, null);
                     DevLog.Log("Reloading scene content for gameplay scene", this);
                     break;
@@ -144,16 +145,16 @@ namespace Game.Core
             _driver = driver;
         }
 
-        public void ReloadSceneContent()
+        public Task ReloadSceneContent()
         {
             if (_driver == null)
             {
                 Debug.LogAssertion("Missing Driver!");
-                return;
+                return Task.CompletedTask;
             }
             
             _driver.BuildEventSystem();
-
+            return Task.CompletedTask;
         }
 
     }

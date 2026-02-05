@@ -6,6 +6,7 @@ namespace Game.Core.SceneControl
     public class PlacementZone : MonoBehaviour
     {
         [SerializeField] private SpawnSize _zoneSize;
+        [SerializeField] private Collider _zoneCollider;
 
         public SpawnSize GetZoneSize()
         {

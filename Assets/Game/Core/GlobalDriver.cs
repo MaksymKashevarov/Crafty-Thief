@@ -11,6 +11,7 @@ namespace Game.Core
     using UnityEngine;
     using UnityEngine.EventSystems;
     using UnityEngine.Rendering;
+    using System.Threading.Tasks;
 
     public class GlobalDriver : MonoBehaviour
     {
@@ -63,6 +64,7 @@ namespace Game.Core
                 return;
             }
             _activeEventSystem = Instantiate(_eventSystem);
+            
         }
 
         private void BuildSceneController()
