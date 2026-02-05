@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Game.Core.SceneControl
 {
     public enum SpawnSize
@@ -9,6 +11,7 @@ namespace Game.Core.SceneControl
     public interface ISpawnable
     {
         SpawnSize GetFixedSize();
+        GameObject GetGameObject();
     }
 
 }

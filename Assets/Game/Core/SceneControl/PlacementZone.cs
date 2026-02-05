@@ -13,6 +13,11 @@ namespace Game.Core.SceneControl
             return _zoneSize;
         }
 
+        public Collider GetCollider()
+        {
+            return _zoneCollider;
+        }
+
         private void Awake()
         {
             Registry.spawnZoneRegistry.Register(this);

@@ -9,6 +9,11 @@ namespace Game.Core.SceneControl
         {
             return _fixedSize;
         }
+
+        public GameObject GetGameObject()
+        {
+            return gameObject;
+        }
     }
 }
 
