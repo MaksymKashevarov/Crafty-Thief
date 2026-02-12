@@ -20,7 +20,7 @@ namespace Game.Core.SceneControl
 
         private void Awake()
         {
-            Registry.spawnZoneRegistry.Register(this);
+            Registry.spawnRegistry.Register(this);
         }
     }
 

@@ -1,6 +1,8 @@
-using UnityEngine;
-
-public interface IDoor
+namespace Game.Core.Interactable
 {
-    
+    public interface IDoor
+    {
+        void SelfRegister();
+    }
 }
+

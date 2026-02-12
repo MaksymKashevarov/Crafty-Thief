@@ -26,7 +26,7 @@ namespace Game.Core
         [SerializeField] private EventSystem _eventSystem;
         [Header("Configs/Databases")]
         [SerializeField] private SceneDatabase _sceneDatabase;
-        [SerializeField] private SpawnableCollection _spawnableCollection;
+        //[SerializeField] private SpawnableCollection _spawnableCollection;
         [SerializeField] private LevelConfigContainer _levelConfigContainer;
         [Header("Directors")]
         [SerializeField] private SpawnDirector _spawnDirector;
@@ -57,7 +57,7 @@ namespace Game.Core
             }
             SpawnDirector _current = Instantiate(_spawnDirector);
             _spawnDirector = _current;
-            _spawnDirector.SetCollection(_spawnableCollection);
+            //_spawnDirector.SetCollection(_spawnableCollection);
         }
 
         public void BuildEventSystem()

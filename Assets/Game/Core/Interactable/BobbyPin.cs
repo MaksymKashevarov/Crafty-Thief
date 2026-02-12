@@ -58,4 +58,9 @@ public class BobbyPin : MonoBehaviour, IInteractable
     {
         return gameObject;
     }
+
+    public IDoor GetDoorComponent()
+    {
+        return null;
+    }
 }

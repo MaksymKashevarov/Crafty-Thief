@@ -85,6 +85,11 @@ namespace Game.Core.Interactable
         {
             return false;
         }
+
+        public IDoor GetDoorComponent()
+        {
+            return null;
+        }
     }
 
 }

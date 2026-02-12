@@ -14,7 +14,7 @@ public class SpawnDirector : MonoBehaviour
     {
         DevLog.Log("Initializing Spawn Director", this);
         _spawnZones.Clear();
-        Registry.spawnZoneRegistry.GetZones(_spawnZones);
+        Registry.spawnRegistry.GetZones(_spawnZones);
         DevLog.Log("Spawn Zones Found: " + _spawnZones.Count, this);
 
         if (_spawnZones.Count == 0)
@@ -22,7 +22,7 @@ public class SpawnDirector : MonoBehaviour
             DevLog.LogWarning("No spawn zones found", this);
             return;
         }
-        Registry.spawnZoneRegistry.TerminateRegistry();
+        Registry.spawnRegistry.TerminateRegistry();
         await InitializeSpawnables();
         await GenerateSpawnables();
     }
@@ -94,12 +94,6 @@ public class SpawnDirector : MonoBehaviour
 
         int index = Random.Range(0, candidates.Count);
         return candidates[index];
-    }
-
-    public void SetCollection(SpawnableCollection collection)
-    {
-        //_spawnableCollection = collection;
-        DevLog.LogWarning("Not Implemented", this);
     }
 
     private void Awake()

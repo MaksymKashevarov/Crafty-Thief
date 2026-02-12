@@ -13,6 +13,7 @@ namespace Game.Core.Interactable
         void Interact(Hands hands);
         Rigidbody GetRigidbody();
         GameObject GetGameObject();
+        IDoor GetDoorComponent();
     }
 
 }
