@@ -58,4 +58,5 @@ MonoBehaviour:
   _eventSystem: {fileID: 2056551307487805703, guid: a83144096d3164b4fa448d572507a4cc, type: 3}
   _sceneDatabase: {fileID: 11400000, guid: a577199a8251b2347ade08a6a2bbc08a, type: 2}
   _spawnableCollection: {fileID: 11400000, guid: d42c39f649ed52e478e8d5ff5c2b09d8, type: 2}
+  _levelConfigContainer: {fileID: 11400000, guid: ff770f93266b2d54b8c597dbf38e7c46, type: 2}
   _spawnDirector: {fileID: 3605541030812121703, guid: d1900af8970382a40aabca1f2378227d, type: 3}

@@ -7,6 +7,7 @@ namespace Game.Core.UI
     {
         void AssignScene(SceneData scene);
         SceneData GetAssignedScene();
+        void AssignDifficulty(DifficultyLevel difficulty);  
 
     }
 

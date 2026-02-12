@@ -18,13 +18,17 @@ namespace Game.Core
         private float _logTimer;
         [SerializeField] private List<Item> _itemsToSteal;
         [SerializeField] private int _stealListCount;
+        [Header("Core")]
         [SerializeField] private PlayerCore _playerPrefab;
         [SerializeField] private PlayerCore _ghostPlayerPrefab;
         [SerializeField] private UIController _canvasPrefab;
         [SerializeField] private SceneController _sceneController;
         [SerializeField] private EventSystem _eventSystem;
+        [Header("Configs/Databases")]
         [SerializeField] private SceneDatabase _sceneDatabase;
         [SerializeField] private SpawnableCollection _spawnableCollection;
+        [SerializeField] private LevelConfigContainer _levelConfigContainer;
+        [Header("Directors")]
         [SerializeField] private SpawnDirector _spawnDirector;
         private EventSystem _activeEventSystem;
         private PlayerInterface _activePlayerInterface;
@@ -83,6 +87,7 @@ namespace Game.Core
             SceneController activeSC = Instantiate(_sceneController);
             activeSC.SetGlobalDriver(this);
             activeSC.SetDataBase(_sceneDatabase);
+            activeSC.SetLevelConfigs(_levelConfigContainer);
             activeSC.LoadMenu();
             _sceneController = activeSC;
         }

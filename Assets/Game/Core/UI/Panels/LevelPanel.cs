@@ -115,7 +115,10 @@ namespace Game.Core.UI
             _controller.DestroyElementAsParent(this);
         }
 
-
+        public void AssignDifficulty(DifficultyLevel difficulty)
+        {
+            return;
+        }
     }
 
 }

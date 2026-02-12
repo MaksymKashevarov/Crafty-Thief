@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: MediumConfig
   m_EditorClassIdentifier: 
   _difficulty: 1
+  _IsDoorLocked: 1
+  _maxDoorLocks: 3

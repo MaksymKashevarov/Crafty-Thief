@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: HighConfig
   m_EditorClassIdentifier: 
   _difficulty: 2
+  _IsDoorLocked: 1
+  _maxDoorLocks: 5

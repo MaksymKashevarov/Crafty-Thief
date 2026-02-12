@@ -11,6 +11,7 @@ namespace Game.Core
     public class SceneController : MonoBehaviour
     {
         [SerializeField] private SceneDatabase _database;
+        [SerializeField] private LevelConfigContainer _levelConfigContainer;
         private GlobalDriver _driver;
 
         private void Awake()
@@ -28,8 +29,12 @@ namespace Game.Core
             {
                 return;
             }
-            ReloadSceneContent();
              //REFACTOR
+        }
+
+        public void SetLevelConfigs(LevelConfigContainer container)
+        {
+            _levelConfigContainer = container;
         }
 
         public Task SwitchScene(SceneData level)
@@ -86,6 +91,7 @@ namespace Game.Core
                     {
                         await LoadAddressableScene(level, LoadSceneMode.Single);
                         DevLog.Log("Gameplay scene loaded", this);
+                        await ConfigureDifficulty(level);
                         PostSceneLoaded(SceneType.Gameplay);
                         return;
                     }
@@ -94,6 +100,12 @@ namespace Game.Core
                     DevLog.LogAssetion("Scene type not recognized!", this);
                     return;
             }
+        }
+
+        private Task ConfigureDifficulty(SceneData level)
+        {
+            
+            return Task.CompletedTask;
         }
 
         private async Task LoadAddressableScene(SceneData level, LoadSceneMode mode)

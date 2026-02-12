@@ -99,6 +99,11 @@ namespace Game.Core.UI
         {
             return this;
         }
+
+        public void AssignDifficulty(DifficultyLevel difficulty)
+        {
+            return;
+        }
     }
 
 }

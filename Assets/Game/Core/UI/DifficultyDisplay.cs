@@ -112,11 +112,12 @@ namespace Game.Core.UI
             SetText(_levels[0].ToString());
             _currentLevel = _text.text;
             RequestButtons();
-            ReloadLoaderButton();
+            ReloadLoaderButton(_levels[0]);
 
         }
 
-        private void ReloadLoaderButton()
+
+        private void ReloadLoaderButton(DifficultyLevel difficulty)
         {
             if (_currentLoaderButton != null)
             {
@@ -127,6 +128,7 @@ namespace Game.Core.UI
             _parent.SetAsChild(_currentLoaderButton.GetUIElement());
             ISceneConnected sceneConnected = _currentLoaderButton.GetUIElement().GetSceneConnection();
             sceneConnected.AssignScene(_sceneData);
+            sceneConnected.AssignDifficulty(difficulty);
         }
 
         private void RequestBuildButton(ButtonSide side, Transform tParent)
@@ -167,11 +169,13 @@ namespace Game.Core.UI
                         {
                             DifficultyLevel level = _levels[i] + 1;
                             SetText(level.ToString());
+                            ReloadLoaderButton(level);
                         }
                         if (side == ButtonSide.left)
                         {
                             DifficultyLevel level = _levels[i] - 1;
                             SetText(level.ToString());
+                            ReloadLoaderButton(level);
                         }
                         foreach (IButton ibutton in _buttons)
                         {                            
@@ -180,7 +184,6 @@ namespace Game.Core.UI
                     _buttons.Clear();
                     RequestButtons();                    
                     _currentLevel = _text.text;
-                    ReloadLoaderButton();
                     break;
                     }
                 }
@@ -214,6 +217,11 @@ namespace Game.Core.UI
         public SceneData GetAssignedScene()
         {
             return null;
+        }
+
+        public void AssignDifficulty(DifficultyLevel difficulty)
+        {
+            return;
         }
     }
 

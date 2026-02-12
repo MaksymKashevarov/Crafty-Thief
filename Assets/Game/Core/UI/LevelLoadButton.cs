@@ -10,7 +10,10 @@ namespace Game.Core.UI
         private UIController _controller;
         private IUIElement _parent;
         [SerializeField] private SceneData _level;
+        [SerializeField] private DifficultyLevel _difficulty;
         [SerializeField] private TextMeshProUGUI _text;
+
+
         public void Activate()
         {
             return;
@@ -105,6 +108,11 @@ namespace Game.Core.UI
                 DevLog.elementLog.Log($"{child.GetType().Name}", this);
             }
             _controller.DestroyElement(this);
+        }
+
+        public void AssignDifficulty(DifficultyLevel difficulty)
+        {
+            _difficulty = difficulty;
         }
     }
 
