@@ -13,10 +13,8 @@ MonoBehaviour:
   m_Name: SpawnableCollection
   m_EditorClassIdentifier: 
   _spawnables:
-  - {fileID: 0}
   - {fileID: -251448397675843333, guid: 610cce1a246cc374d9bf1db31d92a863, type: 3}
   - {fileID: -6068081784219293108, guid: 66f7fc9925c274a4da2a8e7182c9ddd5, type: 3}
   - {fileID: 7177268312352427216, guid: 575daf9201fc2f34bbd24a8f63f724da, type: 3}
   - {fileID: 1080635312836740629, guid: a7012167290e18d40a0bed7cec052228, type: 3}
-  - {fileID: 0}
   _collectionFolder: {fileID: 102900000, guid: 28c23aafa496f1e48a6b6b67ea75cb78, type: 3}
