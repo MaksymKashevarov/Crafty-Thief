@@ -1,4 +1,4 @@
-namespace Game.Core
+  namespace Game.Core
 {
     using Game.Core.ServiceLocating;
     using Game.Core.SceneControl;
