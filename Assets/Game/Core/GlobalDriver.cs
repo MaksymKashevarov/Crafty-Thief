@@ -12,6 +12,7 @@ namespace Game.Core
     using UnityEngine.EventSystems;
     using UnityEngine.Rendering;
     using System.Threading.Tasks;
+    using Game.Core.Profile;
 
     public class GlobalDriver : MonoBehaviour
     {
@@ -33,7 +34,10 @@ namespace Game.Core
         private EventSystem _activeEventSystem;
         private PlayerInterface _activePlayerInterface;
         private List<string> _activeStealingList = new();
-        private PlayerCore _activePlayer;
+        private PlayerCore _activePlayer;              
+        // PROFILES //      
+        private PlayerProfile _playerProfile;
+        private ProfileService _profileService;
 
 
         void Update()
@@ -42,7 +46,9 @@ namespace Game.Core
         }
 
         private void Awake()
-        {
+        {            
+            _profileService = new ProfileService();
+            _playerProfile = _profileService.InitializeProfile();
             DontDestroyOnLoad(gameObject);
             Debug.Log("Awake");
         }

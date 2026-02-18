@@ -2,17 +2,17 @@ using System;
 
 namespace Game.Core.Profile 
 {
-    public static class ProfileService
+    public class ProfileService
     {
-        public static PlayerProfile InitializeProfile()
+        public PlayerProfile InitializeProfile()
         {
             return CreateNew();
         }
 
-        private static PlayerProfile CreateNew()
+        private PlayerProfile CreateNew()
         {
             PlayerProfile profile = new PlayerProfile();
-
+            DevLog.Log("Initializing profile....", this);
             profile.ProfileVersion = 1;
             profile.PlayerId = Guid.NewGuid().ToString();
             profile.CreatedAtUtc = DateTime.UtcNow.ToString("o");
