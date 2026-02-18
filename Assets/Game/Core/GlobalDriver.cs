@@ -53,7 +53,11 @@ namespace Game.Core
             Debug.Log("Awake");
         }
 
-        
+        public PlayerProfile GetPlayerProfile()
+        {
+            return _playerProfile;
+        }
+
         private void BuildSpawnDirector()
         {
             if (_spawnDirector == null)

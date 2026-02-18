@@ -11,6 +11,7 @@ namespace Game.Core.UI
     using UnityEngine.UI;
     using static UnityEditor.Rendering.FilterWindow;
     using Game.Core.Factory;
+    using Game.Core.Profile;
 
     public class UIController : MonoBehaviour
     {
@@ -23,7 +24,7 @@ namespace Game.Core.UI
         private GameObject _currentInterface;
         private PlayerInterface _currentPlayerInterface;
         [SerializeField] private List<TextBox> _activeTextBoxes = new();
-
+        private UIProfileController _profileController;
         public void ShowStealList(List<string> stealList, List<string> activeList)
         {
             if (_stealList != null)
@@ -84,9 +85,15 @@ namespace Game.Core.UI
             }
         }
 
+        public void InitializeProfile()
+        {
+            _profileController = new UIProfileController(_currentPlayerInterface, this);
+        }
+
         public void SetPlayerInterface(PlayerInterface playerInterface)
         {
-           _currentPlayerInterface = playerInterface;
+            _currentPlayerInterface = playerInterface;
+            InitializeProfile();
             Debug.Log($"Interface Installed{this.name}");
         }
 
@@ -177,6 +184,8 @@ namespace Game.Core.UI
             }
             return currentElement;
         }
+
+
 
         public IButton BuildButton(IUIElement element, Transform parent = null, IUIElement elementParent = null)
         {

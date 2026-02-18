@@ -2,6 +2,7 @@ namespace Game.Core.UI
 {
     using Game.Core.Interactable;
     using Game.Core.Player;
+    using Game.Core.Profile;
     using Game.Core.SceneControl;
     using NUnit.Framework;
     using System.Collections.Generic;
@@ -41,6 +42,11 @@ namespace Game.Core.UI
                 }
             }
             return false;
+        }
+
+        public PlayerProfile RequestPlayerProfile()
+        {
+            return _driver.GetPlayerProfile();
         }
 
         public void RequestMenuBuild()
