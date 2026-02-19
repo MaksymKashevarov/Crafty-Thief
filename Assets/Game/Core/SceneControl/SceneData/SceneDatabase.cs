@@ -13,6 +13,7 @@ namespace Game.Core.SceneControl
         [Header("Scene Categories")]
         [SerializeField] private List<SceneData> _devScenes;
         [SerializeField] private List<SceneData> _coreMaps;
+        [SerializeField] private List<SceneData> _hotel;
 
         private Dictionary<string, List<SceneData>> _referenceBundle = new();
 
@@ -27,6 +28,7 @@ namespace Game.Core.SceneControl
             //ASSEMBLE SCENES HERE//
             _referenceBundle["DevScenes"] = _devScenes;
             _referenceBundle["Zone [VISTA]"] = _coreMaps;
+            _referenceBundle["Hotel"] = _hotel;
 
             //[BORDER]//
 
