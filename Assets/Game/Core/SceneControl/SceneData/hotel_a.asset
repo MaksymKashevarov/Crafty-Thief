@@ -18,6 +18,7 @@ MonoBehaviour:
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
-  _sceneName: 
-  _levelList: 
-  _sceneType: 0
+  _sceneName: 1F
+  _levelList: 000000000100000002000000
+  _sceneType: 1
+  _levelRequirement: 0

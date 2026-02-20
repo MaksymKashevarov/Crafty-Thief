@@ -12,9 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
   m_Name: Hotel
   m_EditorClassIdentifier: 
-  m_GroupName: Packed Assets
+  m_GroupName: Hotel
   m_GUID: 7519ff4ddab8d8d439fc064880ecc4e0
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 237faba77241c67439747e7a420f7f19
+    m_Address: Assets/Scenes/hotel_a.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 0bc30b5ad0267064eb561fabf9c967a9, type: 2}
   m_SchemaSet:
