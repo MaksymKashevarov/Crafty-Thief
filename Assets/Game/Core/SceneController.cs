@@ -103,10 +103,10 @@
         }
 
         private Task ConfigureDifficulty(SceneData level)
-        {
-            
+        {           
             return Task.CompletedTask;
         }
+
 
         private async Task LoadAddressableScene(SceneData level, LoadSceneMode mode)
         {
@@ -138,7 +138,8 @@
                 case SceneType.Gameplay:
                     await ReloadSceneContent();
                     await _driver.GetSpawnDirector().GenInitialize();
-                    _driver.RequestCharacterBuild(true, null, null);
+                    SpawnPoint spawnPoint = Container.Resolve<SpawnPoint>();
+                    _driver.RequestCharacterBuild(true, null, spawnPoint.transform);
                     DevLog.Log("Reloading scene content for gameplay scene", this);
                     break;
                 default:
