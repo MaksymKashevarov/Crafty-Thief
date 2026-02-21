@@ -1,12 +1,15 @@
 namespace Game.Core.Interactable
 {
     using Game.Core.Player;
+    using Game.Core.SceneControl.Spawnables.Hotel;
     using Game.Core.ServiceLocating;
     using UnityEngine;
 
     public class DoorOneWay : MonoBehaviour, IInteractable, IDoor
     {
         [SerializeField] private Animator _animator;
+        [SerializeField] private ModuleAnchor _anchor;
+        [SerializeField] private bool _isInversed;
         private bool _isOpen = false;
 
         public IDoor GetDoorComponent()
@@ -40,6 +43,12 @@ namespace Game.Core.Interactable
             {
                 _animator.SetTrigger("Close");
                 _isOpen = false;
+                return;
+            }
+            if (_isInversed)
+            {
+                _animator.SetTrigger("Open_Inversed");
+                _isOpen = true;
                 return;
             }
             _animator.SetTrigger("Open");
