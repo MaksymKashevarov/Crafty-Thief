@@ -5,7 +5,7 @@ namespace Game.Core.Interactable
     using Game.Core.ServiceLocating;
     using UnityEngine;
 
-    public class DoorOneWay : MonoBehaviour, IInteractable, IDoor
+    public class Door : MonoBehaviour, IInteractable, IDoor
     {
         [SerializeField] private Animator _animator;
         [SerializeField] private ModuleAnchor _anchor;

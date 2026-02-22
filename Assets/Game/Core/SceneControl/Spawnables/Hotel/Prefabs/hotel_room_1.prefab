@@ -1065,6 +1065,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4440060010544494313}
+  - component: {fileID: 8855845470401232880}
   m_Layer: 0
   m_Name: hotel_room_1
   m_TagString: Untagged
@@ -1103,6 +1104,19 @@ Transform:
   - {fileID: 1423756910961661802}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8855845470401232880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2754994507786994062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c642123b37c6104088acef13da4bafe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _anchor: {fileID: 5187679034574539138}
 --- !u!1 &3277968505390328439
 GameObject:
   m_ObjectHideFlags: 0
@@ -4501,6 +4515,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1423756910961661802}
+  - component: {fileID: 5187679034574539138}
   m_Layer: 0
   m_Name: RoomAnchor
   m_TagString: Untagged
@@ -4523,6 +4538,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4440060010544494313}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5187679034574539138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6620120692120257770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e05259d779be81b49b06781cd8fb6c43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6708990974798507939
 GameObject:
   m_ObjectHideFlags: 0
