@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 0fe31141ca472fc4d8d3a6b99f1f6abd
   m_currentHash:
     serializedVersion: 2
-    Hash: aceb00ea8aed709053e8c4c1472f716a
+    Hash: 8932d7a52f6d6b61fc4a87346fd44ca7
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -61,6 +61,7 @@ MonoBehaviour:
   m_GroupAssets:
   - {fileID: 11400000, guid: bc27f5f2804d0a54d89b136264cabcb7, type: 2}
   - {fileID: 11400000, guid: b3d75aed29f9823488230a842e074ea0, type: 2}
+  - {fileID: 11400000, guid: cfe72338104b69948803f26a27f940d8, type: 2}
   - {fileID: 11400000, guid: 9e59854d30cfcb5479b324a753516e87, type: 2}
   - {fileID: 11400000, guid: ec73958b69a352b4ab1b4cdb29319155, type: 2}
   - {fileID: 11400000, guid: 7fa96979980f67c46b7537ae5cd47410, type: 2}
@@ -108,6 +109,7 @@ MonoBehaviour:
     - default
     - spawnable
     - hotel_room
+    - hotel_module
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 9c26c87187bfd6845b563bf02bf151dc, type: 2}

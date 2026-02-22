@@ -2,16 +2,24 @@ namespace Game.Core.SceneControl.Spawnables.Hotel
 {
     using System.Collections.Generic;
     using Game.Core.Interactable;
+    using Game.Core.ServiceLocating;
     using UnityEngine;
 
     public class Module : MonoBehaviour, IModule
     {
         [SerializeField] private List<ModuleAnchor> _anchors = new List<ModuleAnchor>();
         [SerializeField] private List<HotelDoor> _doors = new List<HotelDoor>();
+        private string _moduleName;
 
         public List<ModuleAnchor> GetAnchors()
         {
             return _anchors;
+        }
+
+        public void Awake()
+        {
+            Registry.hotelRegistry.Register(this);
+            _moduleName = gameObject.name;
         }
 
         public void InitializeModule()
@@ -27,6 +35,10 @@ namespace Game.Core.SceneControl.Spawnables.Hotel
             }
         }
 
+        public string GetModuleName()
+        {
+            return _moduleName;
+        }
     }
 
 }

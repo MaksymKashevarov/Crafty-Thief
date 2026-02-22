@@ -44,6 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 057e1cc2edb53dc44914094837a1fc83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scenes:
-  - Test1
-  _sourceScene: SourceScene
+  _availableGameModes: 0000000001000000

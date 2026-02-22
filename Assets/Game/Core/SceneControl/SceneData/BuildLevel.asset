@@ -21,3 +21,5 @@ MonoBehaviour:
   _sceneName: BuildLevel
   _levelList: 00000000
   _sceneType: 1
+  _levelRequirement: 0
+  _gameMode: 1

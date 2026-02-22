@@ -29,7 +29,7 @@ public class SpawnDirector : MonoBehaviour
 
     private async Task InitializeSpawnables()
     {
-        _spawnables = await AssetTransformer.ConvertSpawnablesAsync(SpawnableType.spawnable);
+        _spawnables = await AssetTransformer.ConvertSpawnablesAsync(AssetType.spawnable);
 
         DevLog.Log("Spawnables Loaded: " + _spawnables.Count, this);
     }

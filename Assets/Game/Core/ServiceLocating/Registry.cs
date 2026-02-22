@@ -14,6 +14,7 @@ namespace Game.Core.ServiceLocating
         public static readonly MSRegistry mSRegistry = new MSRegistry();
         public static readonly ElementRegistry elementRegistry = new ElementRegistry();
         public static readonly SpawnRegistry spawnRegistry = new SpawnRegistry();
+        public static readonly HotelRegistry hotelRegistry = new HotelRegistry();
 
         public static List<IInteractable> GetItemList()
         {

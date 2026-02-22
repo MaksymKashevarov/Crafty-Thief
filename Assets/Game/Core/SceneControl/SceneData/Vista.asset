@@ -21,3 +21,5 @@ MonoBehaviour:
   _sceneName: Vista
   _levelList: 000000000100000002000000
   _sceneType: 1
+  _levelRequirement: 0
+  _gameMode: 1

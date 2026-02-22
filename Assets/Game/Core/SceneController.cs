@@ -10,13 +10,16 @@
 
     public class SceneController : MonoBehaviour
     {
-        [SerializeField] private SceneDatabase _database;
-        [SerializeField] private LevelConfigContainer _levelConfigContainer;
+        private SceneDatabase _database;
+        private LevelConfigContainer _levelConfigContainer;
+        [SerializeField] private List<GameMode> _availableGameModes = new List<GameMode>();
         private GlobalDriver _driver;
+        private GameModeController _gameModeController;
 
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
+            _gameModeController = new GameModeController(_driver, this);
         }
 
         public async void LoadMenu()
@@ -92,6 +95,7 @@
                         await LoadAddressableScene(level, LoadSceneMode.Single);
                         DevLog.Log("Gameplay scene loaded", this);
                         await ConfigureDifficulty(level);
+                        await _gameModeController.DefineGameMode(level);
                         PostSceneLoaded(SceneType.Gameplay);
                         return;
                     }

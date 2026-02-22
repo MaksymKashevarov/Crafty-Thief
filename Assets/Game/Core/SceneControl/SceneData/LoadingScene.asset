@@ -21,3 +21,5 @@ MonoBehaviour:
   _sceneName: Loading Scene
   _levelList: 
   _sceneType: 2
+  _levelRequirement: 0
+  _gameMode: 1

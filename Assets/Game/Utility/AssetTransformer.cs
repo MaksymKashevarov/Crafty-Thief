@@ -6,10 +6,10 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public enum SpawnableType
+public enum AssetType
 {
     spawnable,
-    Hotel_spawnable_rooms
+    hotel_module,
 }
 
 namespace Game.Utility
@@ -17,7 +17,7 @@ namespace Game.Utility
     public static class AssetTransformer
     {
 
-        public static async Task<List<IModule>> ConvertModulesAsync(SpawnableType type)
+        public static async Task<List<IModule>> ConvertModulesAsync(AssetType type)
         {
             List<IModule> result = new List<IModule>();
             AsyncOperationHandle<IList<GameObject>> handle = Addressables.LoadAssetsAsync<GameObject>(type.ToString(), null);
@@ -45,7 +45,7 @@ namespace Game.Utility
             return result;
         }
         
-        public static async Task<List<ISpawnable>> ConvertSpawnablesAsync(SpawnableType type)
+        public static async Task<List<ISpawnable>> ConvertSpawnablesAsync(AssetType type)
         {
             List<ISpawnable> result = new List<ISpawnable>();
 

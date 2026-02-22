@@ -20,3 +20,6 @@ MonoBehaviour:
     m_EditorAssetChanged: 0
   _sceneName: TestScene
   _levelList: 0000000001000000
+  _sceneType: 0
+  _levelRequirement: 0
+  _gameMode: 1

@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Hotel_Maps
+  m_EditorClassIdentifier: 
+  m_GroupName: Hotel_Maps
+  m_GUID: 7519ff4ddab8d8d439fc064880ecc4e0
+  m_SerializeEntries:
+  - m_GUID: 237faba77241c67439747e7a420f7f19
+    m_Address: Assets/Scenes/hotel_a.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 0bc30b5ad0267064eb561fabf9c967a9, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: c77c77c719d84054fa03c3a484e68765, type: 2}
+    - {fileID: 11400000, guid: e66dd8e99d16b2945a9519af6e309eaf, type: 2}

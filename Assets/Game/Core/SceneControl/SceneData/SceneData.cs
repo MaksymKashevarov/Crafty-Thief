@@ -25,6 +25,7 @@ namespace Game.Core.SceneControl
         [SerializeField] private List<DifficultyLevel> _levelList = new();
         [SerializeField] private SceneType _sceneType;
         [SerializeField] private int _levelRequirement;
+        [SerializeField] private GameMode _gameMode;
 
         public AssetReference GetScene()
         {
@@ -34,6 +35,11 @@ namespace Game.Core.SceneControl
         public string GetSceneName()
         {
             return _sceneName;
+        }
+
+        public GameMode GetGameMode()
+        {
+            return _gameMode;
         }
 
         public List<DifficultyLevel> GetDifficulity()
