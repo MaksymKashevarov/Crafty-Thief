@@ -20,6 +20,7 @@
         {
             DontDestroyOnLoad(gameObject);
             _gameModeController = new GameModeController(_driver, this);
+            //_gameModeController.Initialize(_database.GetSourceScene());
         }
 
         public async void LoadMenu()

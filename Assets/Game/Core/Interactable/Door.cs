@@ -11,6 +11,7 @@ namespace Game.Core.Interactable
         [SerializeField] private ModuleAnchor _anchor;
         [SerializeField] private bool _isInversed;
         private bool _isOpen = false;
+        private IGameModeExtension _gameModeExtension;
 
         public IDoor GetDoorComponent()
         {
@@ -49,10 +50,12 @@ namespace Game.Core.Interactable
             {
                 _animator.SetTrigger("Open_Inversed");
                 _isOpen = true;
+                _gameModeExtension.Tick();
                 return;
             }
             _animator.SetTrigger("Open");
             _isOpen = true;
+            _gameModeExtension.Tick();
         }
 
         public bool IsInteractable()

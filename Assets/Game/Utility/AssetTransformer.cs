@@ -10,6 +10,7 @@ public enum AssetType
 {
     spawnable,
     hotel_module,
+    hotel_room,
 }
 
 namespace Game.Utility
@@ -17,34 +18,61 @@ namespace Game.Utility
     public static class AssetTransformer
     {
 
-        public static async Task<List<IModule>> ConvertModulesAsync(AssetType type)
+        //public static async Task<List<IModule>> ConvertModulesAsync(AssetType type)
+        //{
+        //    List<IModule> result = new List<IModule>();
+        //    AsyncOperationHandle<IList<GameObject>> handle = Addressables.LoadAssetsAsync<GameObject>(type.ToString(), null);
+
+        //    await handle.Task;
+
+        //    IList<GameObject> prefabs = handle.Result;
+        //    if (prefabs == null)
+        //    {
+        //        return result;
+        //    }
+        //    foreach (GameObject prefab in prefabs)
+        //    {
+        //        if (prefab == null)
+        //        {
+        //            continue;
+        //        }
+        //        IModule module = prefab.GetComponent<IModule>();
+        //        if (module == null)
+        //        {
+        //            continue;
+        //        }
+        //        result.Add(module);
+        //    }
+        //    return result;
+        //}
+
+        public static async Task<List<IHotelRoomModule>> ConvertHotelRoomsAsync(AssetType type)
         {
-            List<IModule> result = new List<IModule>();
+            List<IHotelRoomModule> result = new List<IHotelRoomModule>();
             AsyncOperationHandle<IList<GameObject>> handle = Addressables.LoadAssetsAsync<GameObject>(type.ToString(), null);
-
             await handle.Task;
-
             IList<GameObject> prefabs = handle.Result;
             if (prefabs == null)
             {
                 return result;
             }
-            foreach (GameObject prefab in prefabs)
+            for (int i = 0; i < prefabs.Count; i++)
             {
+                GameObject prefab = prefabs[i];
                 if (prefab == null)
                 {
                     continue;
                 }
-                IModule module = prefab.GetComponent<IModule>();
-                if (module == null)
+                IHotelRoomModule hotelRoom = prefab.GetComponent<IHotelRoomModule>();
+                if (hotelRoom == null)
                 {
                     continue;
                 }
-                result.Add(module);
+                result.Add(hotelRoom);
             }
             return result;
         }
-        
+
         public static async Task<List<ISpawnable>> ConvertSpawnablesAsync(AssetType type)
         {
             List<ISpawnable> result = new List<ISpawnable>();

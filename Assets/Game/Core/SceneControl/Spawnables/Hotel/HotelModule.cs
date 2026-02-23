@@ -5,10 +5,11 @@ namespace Game.Core.SceneControl.Spawnables.Hotel
     using Game.Core.ServiceLocating;
     using UnityEngine;
 
-    public class Module : MonoBehaviour, IModule
+    public class HotelModule : MonoBehaviour, IModule
     {
         [SerializeField] private List<ModuleAnchor> _anchors = new List<ModuleAnchor>();
         [SerializeField] private List<HotelDoor> _doors = new List<HotelDoor>();
+        private List<IHotelRoomModule> _possibleRooms = new List<IHotelRoomModule>();
         private string _moduleName;
 
         public List<ModuleAnchor> GetAnchors()
@@ -22,6 +23,20 @@ namespace Game.Core.SceneControl.Spawnables.Hotel
             _moduleName = gameObject.name;
         }
 
+        public void TickCallBack(HotelDoor door)
+        {
+            if (_doors.Contains(door))
+            {
+                if (door.IsRoomInstalled())
+                {
+                    return;
+                }
+
+            }
+
+
+        }
+
         public void InitializeModule()
         {
             if (_doors.Count == 0)
@@ -31,6 +46,7 @@ namespace Game.Core.SceneControl.Spawnables.Hotel
             }
             foreach (HotelDoor door in _doors)
             {
+                DevLog.Log("Setting parent module for door: " + door.gameObject.name, this);
                 door.SetParentModule(this);
             }
         }
