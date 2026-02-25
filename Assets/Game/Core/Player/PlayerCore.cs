@@ -81,7 +81,7 @@ namespace Game.Core.Player
             }
             if (!_isPlayable)
             {
-                DevLog.LogAssetion("Player is not playable!", this);
+                DevLog.LogAssertion("Player is not playable!", this);
                 return;
             }
 
@@ -107,7 +107,7 @@ namespace Game.Core.Player
                 IInteractable interactable = hit.collider.GetComponent<IInteractable>();
                 if (interactable == null)
                 {
-                    DevLog.LogAssetion("Interactable is null!", this);
+                    DevLog.LogAssertion("Interactable is null!", this);
                     return;
                 }
                 bool isInteractable = interactable.IsInteractable();

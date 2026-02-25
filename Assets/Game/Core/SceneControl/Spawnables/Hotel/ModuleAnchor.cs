@@ -11,6 +11,11 @@ namespace Game.Core.SceneControl.Spawnables.Hotel
         {
             return _isLocked;
         }
+
+        public Transform GetTransform()
+        {
+            return this.transform;
+        }
     }
 
 }

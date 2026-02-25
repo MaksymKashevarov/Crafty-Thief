@@ -40,7 +40,7 @@ namespace Game.Core.ServiceLocating
             DevLog.Log($"Returning list of {_doors.Count} doors.", this);
             if (doors == null)
             {
-                DevLog.LogAssetion("Provided list is null. Returning internal list.", this);
+                DevLog.LogAssertion("Provided list is null. Returning internal list.", this);
                 return null;
             }
             foreach (IDoor door in _doors)
@@ -67,7 +67,7 @@ namespace Game.Core.ServiceLocating
             DevLog.Log($"Returning list of {_zones.Count} spawn zones.", this);
             if (zones == null)
             {
-                DevLog.LogAssetion("Provided list is null. Returning internal list.", this);
+                DevLog.LogAssertion("Provided list is null. Returning internal list.", this);
                 return null;
             }
             foreach (PlacementZone zone in _zones)

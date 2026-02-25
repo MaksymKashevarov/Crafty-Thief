@@ -1,6 +1,7 @@
 namespace Game.Core.SceneControl.Spawnables.Hotel 
 {
     using System.Collections.Generic;
+    using Game.Core.Factory;
     using Game.Core.Interactable;
     using Game.Core.ServiceLocating;
     using UnityEngine;
@@ -11,6 +12,7 @@ namespace Game.Core.SceneControl.Spawnables.Hotel
         [SerializeField] private List<HotelDoor> _doors = new List<HotelDoor>();
         private List<IHotelRoomModule> _possibleRooms = new List<IHotelRoomModule>();
         private string _moduleName;
+        private GameModeController _controller;
 
         public List<ModuleAnchor> GetAnchors()
         {
@@ -31,17 +33,25 @@ namespace Game.Core.SceneControl.Spawnables.Hotel
                 {
                     return;
                 }
+                _controller.GetHotelRoomModules(_possibleRooms);
+                if (_possibleRooms.Count == 0)
+                {
+                    DevLog.LogAssertion("No possible rooms to install for door: " + door.gameObject.name, this);
+                    return;
+                }
+                int randomIndex = Random.Range(0, _possibleRooms.Count);
+                IHotelRoomModule selectedRoom = _possibleRooms[randomIndex];
+                IHotelRoomModule currentRoom = HotelModuleFactory.BuildHotelRoomModule(selectedRoom, door.GetAnchor().GetTransform());
 
             }
-
-
         }
 
-        public void InitializeModule()
+        public void InitializeModule(GameModeController controller)
         {
+            _controller = controller;
             if (_doors.Count == 0)
             {
-                DevLog.LogAssetion("Doors Missing....", this);
+                DevLog.LogAssertion("Doors Missing....", this);
                 return;
             }
             foreach (HotelDoor door in _doors)
@@ -55,6 +65,7 @@ namespace Game.Core.SceneControl.Spawnables.Hotel
         {
             return _moduleName;
         }
+
     }
 
 }

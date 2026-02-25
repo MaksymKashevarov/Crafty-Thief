@@ -6,7 +6,10 @@ namespace Game.Core.SceneControl.Spawnables.Hotel
     {
         [SerializeField] private HotelRoomModuleAnchor _anchor;
 
-
+        public GameObject GetRoomPrefab()
+        {
+            return gameObject;
+        }
     }
 
 }

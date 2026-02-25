@@ -17,6 +17,7 @@ namespace Game.Utility
 {
     public static class AssetTransformer
     {
+        private static readonly Dictionary<AssetType, AsyncOperationHandle<IList<GameObject>>> _handles = new();
 
         //public static async Task<List<IModule>> ConvertModulesAsync(AssetType type)
         //{
@@ -48,29 +49,43 @@ namespace Game.Utility
 
         public static async Task<List<IHotelRoomModule>> ConvertHotelRoomsAsync(AssetType type)
         {
-            List<IHotelRoomModule> result = new List<IHotelRoomModule>();
-            AsyncOperationHandle<IList<GameObject>> handle = Addressables.LoadAssetsAsync<GameObject>(type.ToString(), null);
-            await handle.Task;
-            IList<GameObject> prefabs = handle.Result;
-            if (prefabs == null)
+            if (!_handles.TryGetValue(type, out var handle) || !handle.IsValid())
             {
-                return result;
+                handle = Addressables.LoadAssetsAsync<GameObject>(type.ToString(), null);
+                _handles[type] = handle;
             }
+
+            if (!handle.IsDone)
+                await handle.Task;
+
+            var result = new List<IHotelRoomModule>();
+            var prefabs = handle.Result;
+
+            if (prefabs == null)
+                return result;
+
             for (int i = 0; i < prefabs.Count; i++)
             {
-                GameObject prefab = prefabs[i];
-                if (prefab == null)
-                {
-                    continue;
-                }
-                IHotelRoomModule hotelRoom = prefab.GetComponent<IHotelRoomModule>();
-                if (hotelRoom == null)
-                {
-                    continue;
-                }
-                result.Add(hotelRoom);
+                var prefab = prefabs[i];
+                if (prefab == null) continue;
+
+                var room = prefab.GetComponent<IHotelRoomModule>();
+                if (room == null) continue;
+
+                result.Add(room);
             }
+
             return result;
+        }
+
+
+        public static void Release(AssetType type)
+        {
+            if (_handles.TryGetValue(type, out var handle) && handle.IsValid())
+            {
+                Addressables.Release(handle);
+            }
+            _handles.Remove(type);
         }
 
         public static async Task<List<ISpawnable>> ConvertSpawnablesAsync(AssetType type)

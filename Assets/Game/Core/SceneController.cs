@@ -55,14 +55,14 @@
             }
             if (_database == null)
             {
-                DevLog.LogAssetion("Scene database is null", this);
+                DevLog.LogAssertion("Scene database is null", this);
                 return;
             }
 
             var loadingScene = _database.GetLoadingScene();
             if (loadingScene == null)
             {
-                DevLog.LogAssetion("Loading scene is null!", this);
+                DevLog.LogAssertion("Loading scene is null!", this);
                 return;
             }
 
@@ -102,7 +102,7 @@
                     }
 
                 default:
-                    DevLog.LogAssetion("Scene type not recognized!", this);
+                    DevLog.LogAssertion("Scene type not recognized!", this);
                     return;
             }
         }
@@ -118,7 +118,7 @@
             AssetReference sceneReference = level.GetScene();
             if (sceneReference == null)
             {
-                DevLog.LogAssetion("Scene reference is null!", this);
+                DevLog.LogAssertion("Scene reference is null!", this);
                 return;
             }
 
