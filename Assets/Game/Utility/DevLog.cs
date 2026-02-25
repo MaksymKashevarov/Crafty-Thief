@@ -25,7 +25,7 @@ public static class DevLog
         return type;
     }
 
-    public static void LogAssetion(string message, object obj)
+    public static void LogAssertion(string message, object obj)
     {
         Debug.LogAssertion(
             $"<color=#F44336>[{FixType(obj).Name}]</color> " +

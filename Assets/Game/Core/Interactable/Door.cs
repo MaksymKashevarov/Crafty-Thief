@@ -8,7 +8,6 @@ namespace Game.Core.Interactable
     public class Door : MonoBehaviour, IInteractable, IDoor
     {
         [SerializeField] private Animator _animator;
-        [SerializeField] private ModuleAnchor _anchor;
         [SerializeField] private bool _isInversed;
         private bool _isOpen = false;
         private IGameModeExtension _gameModeExtension;

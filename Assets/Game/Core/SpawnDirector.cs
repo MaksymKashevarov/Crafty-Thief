@@ -43,7 +43,7 @@ public class SpawnDirector : MonoBehaviour
             ISpawnable chosen = GetRandomBySize(size);
             if (chosen == null)
             {
-                DevLog.LogAssetion("No spawnable found for size: " + size, this);
+                DevLog.LogAssertion("No spawnable found for size: " + size, this);
                 break;
             }
             SpawnInZone(zone, chosen.GetGameObject());

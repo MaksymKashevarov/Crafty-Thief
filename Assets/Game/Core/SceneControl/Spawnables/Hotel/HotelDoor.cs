@@ -10,11 +10,17 @@ namespace Game.Core.SceneControl.Spawnables.Hotel
         [Header("Main")]
         [SerializeField] private Door _door;
         [SerializeField] private HotelModule _parentModule;
+        [SerializeField] private ModuleAnchor _anchor;
         private bool _isRoomInstalled = false;
 
         public void SetParentModule(HotelModule module)
         {
             _parentModule = module;
+        }
+
+        public ModuleAnchor GetAnchor()
+        {
+            return _anchor;
         }
 
         public bool IsRoomInstalled()

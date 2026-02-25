@@ -32,36 +32,64 @@ namespace Game.Core
             _menuScene = _level;
             if (_menuScene == null)
             {
-                DevLog.LogAssetion("Menu scene data is null. Please assign a valid SceneData asset to the GameModeController.", this);
+                DevLog.LogAssertion("Menu scene data is null. Please assign a valid SceneData asset to the GameModeController.", this);
                 return;
             }
             DevLog.Log("Menu: " + _menuScene.GetSceneName(), this);
 
         }
 
+        public void GetHotelRoomModules(List<IHotelRoomModule> roomModules)
+        {
+            if (_hotelRoomModules.Count == 0)
+            {
+                DevLog.LogAssertion("No hotel room modules found. Please ensure that hotel room modules are properly defined and assigned.", this);
+                return;
+            }
+            foreach (IHotelRoomModule module in _hotelRoomModules)
+            {
+                roomModules.Add(module);
+            }
+        }
+
         public Task DefineGameMode(SceneData sceneData)
         {
             GameMode gameMode = sceneData.GetGameMode();
-            switch (gameMode)
+            switch (sceneData.GetGameMode())
             {
                 case GameMode.hotel:
-                    Registry.hotelRegistry.Resolve(_hotelModules);
-                    //_hotelRoomModules = AssetTransformer.ConvertHotelRoomsAsync(AssetType.hotel_room).Result;
-                    if (_hotelModules.Count == 0)
-                    {
-                        DevLog.LogAssetion("No hotel modules found for hotel game mode", this);
-                        break;
-                    }
-                    foreach (IModule module in _hotelModules)
-                    {
-                        DevLog.Log("Initializing hotel module: " + module.GetType().Name, this);
-                        DevLog.Log("Module name: " + module.GetModuleName(), this);
-                        module.InitializeModule();
-                    }
-                    break;
+                    return DefineHotelMode(sceneData);
+
+                default:
+                    return Task.CompletedTask;
+            }
+        }
+
+        private async Task DefineHotelMode(SceneData sceneData)
+        {
+            Registry.hotelRegistry.Resolve(_hotelModules);
+            _hotelRoomModules = await AssetTransformer.ConvertHotelRoomsAsync(AssetType.hotel_room);
+
+            if (_hotelRoomModules.Count == 0)
+            {
+                DevLog.LogAssertion("No hotel room modules found for hotel game mode", this);
+                return;
             }
 
-            return Task.CompletedTask;
+            DevLog.Log("Hotel room modules found: " + _hotelRoomModules.Count, this);
+
+            if (_hotelModules.Count == 0)
+            {
+                DevLog.LogAssertion("No hotel modules found for hotel game mode", this);
+                return;
+            }
+
+            foreach (IModule module in _hotelModules)
+            {
+                DevLog.Log("Initializing hotel module: " + module.GetModuleName(), this);
+                module.InitializeModule(this);
+            }
+                
         }
 
     }

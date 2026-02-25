@@ -160,6 +160,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3719373550156661759}
     - target: {fileID: 618454708642115413, guid: a36c295aa854e3a43af25e6ee5eeafe7, type: 3}
+      propertyPath: _anchor
+      value: 
+      objectReference: {fileID: 1817137750776857495}
+    - target: {fileID: 618454708642115413, guid: a36c295aa854e3a43af25e6ee5eeafe7, type: 3}
       propertyPath: _isExtensionActivated
       value: 1
       objectReference: {fileID: 0}
@@ -357,6 +361,10 @@ PrefabInstance:
       propertyPath: _door
       value: 
       objectReference: {fileID: 6699125661913100886}
+    - target: {fileID: 618454708642115413, guid: a36c295aa854e3a43af25e6ee5eeafe7, type: 3}
+      propertyPath: _anchor
+      value: 
+      objectReference: {fileID: 4847397948042552031}
     - target: {fileID: 618454708642115413, guid: a36c295aa854e3a43af25e6ee5eeafe7, type: 3}
       propertyPath: _isExtensionActivated
       value: 1
