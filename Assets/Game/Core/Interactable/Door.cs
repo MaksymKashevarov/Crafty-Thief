@@ -12,6 +12,11 @@ namespace Game.Core.Interactable
         private bool _isOpen = false;
         private IGameModeExtension _gameModeExtension;
 
+        public void InstallExtension(IGameModeExtension extension)
+        {
+            _gameModeExtension = extension;
+        }
+
         public IDoor GetDoorComponent()
         {
             return this;

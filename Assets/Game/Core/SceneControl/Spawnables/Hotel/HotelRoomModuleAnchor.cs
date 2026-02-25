@@ -4,8 +4,10 @@ namespace Game.Core.SceneControl.Spawnables.Hotel
 
     public class HotelRoomModuleAnchor : MonoBehaviour
     {
-
-
+        public Transform GetTransform()
+        {
+            return transform;
+        }
     }
 
 }

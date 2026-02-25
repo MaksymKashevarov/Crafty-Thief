@@ -18,7 +18,8 @@ MonoBehaviour:
   - m_GUID: 06dc06f8928ea73408dbfc3269d1f5ef
     m_Address: Assets/Scenes/SourceScene.unity
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Backup/Source
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 0bc30b5ad0267064eb561fabf9c967a9, type: 2}

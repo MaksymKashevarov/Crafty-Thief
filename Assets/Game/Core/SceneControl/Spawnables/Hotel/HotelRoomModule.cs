@@ -10,6 +10,16 @@ namespace Game.Core.SceneControl.Spawnables.Hotel
         {
             return gameObject;
         }
+
+        public HotelRoomModuleAnchor GetAnchor()
+        {
+            return _anchor;
+        }
+
+        public Transform GetTransform()
+        {
+            return transform;
+        }
     }
 
 }

@@ -13,6 +13,14 @@ namespace Game.Core.SceneControl.Spawnables.Hotel
         [SerializeField] private ModuleAnchor _anchor;
         private bool _isRoomInstalled = false;
 
+        private void Awake()
+        {
+            if (_isExtensionActivated)
+            {
+                _door.InstallExtension(this);
+            }
+        }
+
         public void SetParentModule(HotelModule module)
         {
             _parentModule = module;
@@ -26,6 +34,11 @@ namespace Game.Core.SceneControl.Spawnables.Hotel
         public bool IsRoomInstalled()
         {
             return _isRoomInstalled;
+        }
+
+        public void SetRoomInstalled(bool value)
+        {
+            _isRoomInstalled = value;
         }
 
         public void Tick()
