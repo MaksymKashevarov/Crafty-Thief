@@ -15,6 +15,12 @@ MonoBehaviour:
   m_GroupName: Hotel_spawnable_rooms
   m_GUID: 79981db06cae20f498f20c8206e0a5b3
   m_SerializeEntries:
+  - m_GUID: 7567cf3e9c22f9e48b134217530c0246
+    m_Address: Assets/Game/Core/SceneControl/Spawnables/Hotel/Prefabs/ActiveModules/Utility/hotel_utility_room_1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotel_room_utility
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 945d946681f28804d973b12420d12a9f
     m_Address: Assets/Game/Core/SceneControl/Spawnables/Hotel/Prefabs/hotel_room_1.prefab
     m_ReadOnly: 0

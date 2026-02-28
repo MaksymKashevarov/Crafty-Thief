@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 0fe31141ca472fc4d8d3a6b99f1f6abd
   m_currentHash:
     serializedVersion: 2
-    Hash: 00000000000000000000000000000000
+    Hash: c6ba31e2b65a73024ac4f6a4f3f12127
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -111,6 +111,7 @@ MonoBehaviour:
     - hotel_room
     - hotel_module
     - Backup/Source
+    - hotel_room_utility
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 9c26c87187bfd6845b563bf02bf151dc, type: 2}

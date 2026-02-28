@@ -21,6 +21,7 @@ namespace Game.Core
         private SceneData _menuScene;
         List<IModule> _hotelModules = new List<IModule>();
         List<IHotelRoomModule> _hotelRoomModules = new List<IHotelRoomModule>();
+        List<IHotelRoomModule> _utilityRooms = new List<IHotelRoomModule>();
         public GameModeController(GlobalDriver globalDriver, SceneController sceneController)
         {
             _globalDriver = globalDriver;
@@ -49,6 +50,19 @@ namespace Game.Core
             foreach (IHotelRoomModule module in _hotelRoomModules)
             {
                 roomModules.Add(module);
+            }
+        }
+
+        public void GetUtilityRooms(List<IHotelRoomModule> utilityRooms)
+        {
+            if (_utilityRooms.Count == 0)
+            {
+                DevLog.LogWarning("No utility rooms found. This may be intentional if your game design does not include utility rooms, but please verify that this is the expected behavior.", this);
+                return;
+            }
+            foreach (IHotelRoomModule module in _utilityRooms)
+            {
+                utilityRooms.Add(module);
             }
         }
 
@@ -89,7 +103,14 @@ namespace Game.Core
                 DevLog.Log("Initializing hotel module: " + module.GetModuleName(), this);
                 module.InitializeModule(this);
             }
-                
+
+            Registry.hotelRegistry.ResolveUtilityModules(_utilityRooms);
+
+            if (_utilityRooms.Count == 0)
+            {
+                DevLog.LogWarning("No utility rooms found for hotel game mode. This may be intentional if your game design does not include utility rooms, but please verify that this is the expected behavior.", this);
+            }
+
         }
 
     }

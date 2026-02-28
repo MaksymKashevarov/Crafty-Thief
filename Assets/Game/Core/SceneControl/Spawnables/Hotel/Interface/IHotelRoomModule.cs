@@ -7,6 +7,7 @@ namespace Game.Core.SceneControl.Spawnables.Hotel
         GameObject GetRoomPrefab();
         HotelRoomModuleAnchor GetAnchor();
         Transform GetTransform();
+        Collider GetBoundaries();
     }
 
 }
