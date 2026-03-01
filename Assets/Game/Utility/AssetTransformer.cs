@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Game.Core.SceneControl;
 using Game.Core.SceneControl.Spawnables.Hotel;
+using Game.Core.ServiceLocating;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -11,6 +12,7 @@ public enum AssetType
     spawnable,
     hotel_module,
     hotel_room,
+    hotel_room_utility,
 }
 
 namespace Game.Utility
@@ -47,6 +49,32 @@ namespace Game.Utility
         //    return result;
         //}
 
+        private static async Task GetUtilityRooms(AssetType type) 
+        { 
+            if (!_handles.TryGetValue(type, out var handle) || !handle.IsValid())
+            {
+                handle = Addressables.LoadAssetsAsync<GameObject>(type.ToString(), null);
+                _handles[type] = handle;
+            }
+            if (!handle.IsDone)
+                await handle.Task;
+
+            var result = new List<IHotelRoomModule>();
+            var prefabs = handle.Result;
+
+            for (int i = 0; i < prefabs.Count; i++)
+            {
+                var prefab = prefabs[i];
+                if (prefab == null) continue;
+
+                var room = prefab.GetComponent<IHotelRoomModule>();
+                if (room == null) continue;
+
+                Registry.hotelRegistry.RegisterAsUtilityModule(room);
+            }
+
+        }
+
         public static async Task<List<IHotelRoomModule>> ConvertHotelRoomsAsync(AssetType type)
         {
             if (!_handles.TryGetValue(type, out var handle) || !handle.IsValid())
@@ -74,6 +102,9 @@ namespace Game.Utility
 
                 result.Add(room);
             }
+
+            await GetUtilityRooms(AssetType.hotel_room_utility);
+
 
             return result;
         }
