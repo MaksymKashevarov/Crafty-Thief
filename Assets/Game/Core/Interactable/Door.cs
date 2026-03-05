@@ -10,6 +10,7 @@ namespace Game.Core.Interactable
         [SerializeField] private Animator _animator;
         [SerializeField] private bool _isInversed;
         private bool _isOpen = false;
+        [SerializeField] private bool _isLocked;
         private IGameModeExtension _gameModeExtension;
 
         public void InstallExtension(IGameModeExtension extension)
@@ -25,6 +26,11 @@ namespace Game.Core.Interactable
         public GameObject GetGameObject()
         {
             return this.gameObject;
+        }
+
+        public void SetLock(bool flag)
+        {
+            _isLocked = flag;
         }
 
         public Item GetItem()
@@ -44,6 +50,12 @@ namespace Game.Core.Interactable
 
         public void Interact(Hands hands)
         {
+            _gameModeExtension.Tick();
+            if (_isLocked)
+            {
+                DevLog.LogWarning("Door won't budge", this);
+                return;
+            }
             if (_isOpen)
             {
                 _animator.SetTrigger("Close");
@@ -59,7 +71,6 @@ namespace Game.Core.Interactable
             }
             _animator.SetTrigger("Open");
             _isOpen = true;
-            _gameModeExtension.Tick();
         }
 
         public bool IsInteractable()

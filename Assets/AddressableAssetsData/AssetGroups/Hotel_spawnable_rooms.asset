@@ -33,6 +33,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - hotel_room
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ddc7e378e871a2f44a2cc0daca3ba901
+    m_Address: Assets/Game/Core/SceneControl/Spawnables/Hotel/Prefabs/ActiveModules/Utility/hotel_base_room.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotel_room_utility
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 0bc30b5ad0267064eb561fabf9c967a9, type: 2}
   m_SchemaSet:

@@ -31,6 +31,8 @@ namespace Game.Core.Player
         private PlayerInterface _playerInterface;
         private bool IsInteracting;
         private bool _isPlayable;
+        private bool _isMoving;
+        private bool _isSprinting;
 
         private Vector2 _move;
         private Vector2 _look;
@@ -46,9 +48,26 @@ namespace Game.Core.Player
             return IsInteracting;
         }
 
+        private void OnSprint(InputValue value)
+        {
+            if (value.isPressed)
+            {
+                if (_isSprinting)
+                {
+                    _isSprinting = false;
+                }
+                else
+                {
+                    _isSprinting = true;
+                }
+            }
+            
+        }
+
         private void OnMove(InputValue value)
         {
             _move = value.Get<Vector2>();
+            _isMoving = _move.sqrMagnitude > 0.001f;
         }
 
         private void OnLook(InputValue value)
@@ -191,6 +210,16 @@ namespace Game.Core.Player
 
         private void LookUpdate()
         {
+            if (_isSprinting)
+            {
+                _moveSpeed = 8f;
+            }
+            else
+            {
+                _moveSpeed = 5f;
+            }
+            //DevLog.Log($"Movespeed: {_moveSpeed}", this);
+            //DevLog.Log($"IsSprinting: {_isSprinting}", this);
             Vector3 right = transform.right * _move.x;
             Vector3 forward = transform.forward * _move.y;
             Vector3 dir = right + forward;
