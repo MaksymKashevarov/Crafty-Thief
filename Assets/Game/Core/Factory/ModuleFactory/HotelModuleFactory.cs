@@ -2,10 +2,11 @@ namespace Game.Core.Factory
 {
     using Game.Core.SceneControl.Spawnables.Hotel;
     using UnityEngine;
+    using System.Threading.Tasks;
 
     public static class HotelModuleFactory
     {
-        public static IHotelRoomModule BuildHotelRoomModule(IHotelRoomModule roomModule, Transform parent)
+        public static Task<IHotelRoomModule> BuildHotelRoomModule(IHotelRoomModule roomModule, Transform parent)
         {
             if (roomModule == null)
             {
@@ -26,7 +27,7 @@ namespace Game.Core.Factory
                 return null;
             }
             Debug.Log($"Hotel Room Module Created: [{hotelRoomModule}]");
-            return hotelRoomModule;
+            return Task.FromResult(hotelRoomModule);
         }
 
     }

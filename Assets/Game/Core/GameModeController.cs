@@ -83,6 +83,7 @@ namespace Game.Core
         {
             Registry.hotelRegistry.Resolve(_hotelModules);
             _hotelRoomModules = await AssetTransformer.ConvertHotelRoomsAsync(AssetType.hotel_room);
+            _utilityRooms = await AssetTransformer.ConvertHotelRoomsAsync(AssetType.hotel_room_utility);
 
             if (_hotelRoomModules.Count == 0)
             {
@@ -101,7 +102,7 @@ namespace Game.Core
             foreach (IModule module in _hotelModules)
             {
                 DevLog.Log("Initializing hotel module: " + module.GetModuleName(), this);
-                module.InitializeModule(this);
+                await module.InitializeModule(this);
             }
 
             Registry.hotelRegistry.ResolveUtilityModules(_utilityRooms);

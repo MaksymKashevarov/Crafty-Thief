@@ -1,6 +1,7 @@
 ﻿namespace Game.Core.SceneControl.Spawnables.Hotel 
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Game.Core.Factory;
     using Game.Core.Interactable;
     using Game.Core.ServiceLocating;
@@ -28,28 +29,31 @@
             _moduleName = gameObject.name;
         }
 
-        private bool IsOverlapping(IHotelRoomModule room)
+        private Task<bool> IsOverlapping(IHotelRoomModule room)
         {
             Collider c = room.GetBoundaries();
             if (c == null)
-                return false;
+                return Task.FromResult(false);
 
             int mask = LayerMask.GetMask("RoomBounds");
 
             Collider[] hits = Physics.OverlapBox(c.bounds.center, c.bounds.extents, c.transform.rotation, mask, QueryTriggerInteraction.Collide);
 
-            return hits.Length > 1;
+            DevLog.Log("Checking overlap for: " + room.GetRoomPrefab().name + " | hits: " + hits.Length, this);
+            if (hits.Length > 1)
+            {
+                return Task.FromResult(true);
+            }
+            return Task.FromResult(false);
         }
 
-        private void FitRoom(HotelDoor door)
+        private async Task<bool> TryMainRooms(HotelDoor door)
         {
-            if (_possibleRooms.Count == 0)
-            {
-                DevLog.LogAssertion("No possible rooms to install for door: " + door.gameObject.name, this);
-                return;
-            }
             List<int> usedIndexes = new List<int>();
-
+            foreach (IHotelRoomModule room in _possibleRooms)
+            {
+                DevLog.Log("Possible Room: " + room.GetRoomPrefab().name, this);
+            }
             // MAIN rooms
             for (int i = 0; i < _possibleRooms.Count; i++)
             {
@@ -58,49 +62,48 @@
                 {
                     randomIndex = Random.Range(0, _possibleRooms.Count);
                 }
-
                 usedIndexes.Add(randomIndex);
-
                 IHotelRoomModule roomModule = _possibleRooms[randomIndex];
                 if (roomModule == null)
                 {
                     DevLog.LogAssertion("Missing Module", this);
                     continue;
                 }
-
-                IHotelRoomModule room = HotelModuleFactory.BuildHotelRoomModule(roomModule, door.GetAnchor().GetTransform());
-
+                IHotelRoomModule room = await HotelModuleFactory.BuildHotelRoomModule(roomModule, door.GetAnchor().GetTransform());
                 if (room == null)
                 {
                     DevLog.LogAssertion("Failed to build room module: " + roomModule.GetRoomPrefab().name, this);
                     continue;
                 }
-
-                ConnectModule(room, door.GetAnchor().GetTransform());
+                await ConnectModule(room, door.GetAnchor().GetTransform());
                 Physics.SyncTransforms();
-
-                if (IsOverlapping(room))
+                bool result = await IsOverlapping(room);
+                DevLog.Log("Overlap result for room: " + room.GetRoomPrefab().name + " is: " + result, this);
+                if (result)
                 {
                     DevLog.LogWarning("Room overlaps with existing colliders, trying another room...", this);
+                    Collider c = room.GetBoundaries();
+                    if (c != null)
+                        c.enabled = false;
+
                     Destroy(room.GetRoomPrefab());
                     continue;
                 }
                 DevLog.Log("Successfully installed room: " + room.GetRoomPrefab().name + " for door: " + door.gameObject.name, this);
                 door.SetRoomInstalled(true);
-                return;
+                return true;
             }
+            DevLog.LogWarning("No main rooms could be fitted for door: " + door.gameObject.name, this);
+            return false;
+        }
 
-            if (_utilityRooms.Count == 0)
-            {
-                DevLog.LogAssertion("No utility rooms to install for door: " + door.gameObject.name, this);
-                return;
-            }
-
+        private async Task<bool> TryUtilityRooms(HotelDoor door)
+        {
             List<int> usedUtilityIndexes = new List<int>();
 
-            foreach(IHotelRoomModule hotelRoomModule in _utilityRooms)
+            foreach (IHotelRoomModule room in _utilityRooms)
             {
-                DevLog.Log("Utility Room option: " + hotelRoomModule.GetRoomPrefab().name, this);
+                DevLog.Log("Utility Room: " + room.GetRoomPrefab().name, this);
             }
 
             // UTILITY rooms
@@ -115,13 +118,14 @@
                 usedUtilityIndexes.Add(randomIndex);
 
                 IHotelRoomModule roomModule = _utilityRooms[randomIndex];
+
                 if (roomModule == null)
                 {
                     DevLog.LogAssertion("Missing Utility Module", this);
                     continue;
                 }
 
-                IHotelRoomModule room = HotelModuleFactory.BuildHotelRoomModule(roomModule, door.GetAnchor().GetTransform());
+                IHotelRoomModule room = await HotelModuleFactory.BuildHotelRoomModule(roomModule, door.GetAnchor().GetTransform());
 
                 if (room == null)
                 {
@@ -129,26 +133,50 @@
                     continue;
                 }
 
-                ConnectModule(room, door.GetAnchor().GetTransform());
-                Physics.SyncTransforms();
+                await ConnectModule(room, door.GetAnchor().GetTransform());
 
-                if (IsOverlapping(room))
+                bool result = await IsOverlapping(room);
+                DevLog.Log("Overlap result for utility room: " + room.GetRoomPrefab().name + " is: " + result, this);
+
+                if (result)
                 {
                     DevLog.LogWarning("Utility Room overlaps with existing colliders, trying another utility room...", this);
+                    Collider c = room.GetBoundaries();
+                    if (c != null)
+                        c.enabled = false;
+
                     Destroy(room.GetRoomPrefab());
                     continue;
                 }
                 DevLog.Log("Successfully installed utility room: " + room.GetRoomPrefab().name + " for door: " + door.gameObject.name, this);
                 door.SetRoomInstalled(true);
-                return;
-            }
+                return true;
 
-            DevLog.LogWarning("No room can be installed for door: " + door.gameObject.name, this);
-            door.RequestDoorLock(true);
-            door.SetRoomInstalled(true);
+            }
+            DevLog.LogWarning("No utility rooms could be fitted for door: " + door.gameObject.name, this);
+            return false;
         }
 
-        public void TickCallBack(HotelDoor door)
+        private async Task FitRoom(HotelDoor door)
+        {
+            bool mainResult = await TryMainRooms(door);
+            DevLog.Log(mainResult.ToString(), this);
+            if (!mainResult)
+            {
+                bool utilityResult = await TryUtilityRooms(door);
+                DevLog.Log(utilityResult.ToString(), this);
+                if (!utilityResult)
+                {
+                    DevLog.LogWarning("No rooms could be fitted for door: " + door.gameObject.name, this);
+                    door.RequestDoorLock(true);
+                    door.SetRoomInstalled(true);
+                    return;
+                }
+            }
+              
+        }
+
+        public async void TickCallBack(HotelDoor door)
         {
             if (!_doors.Contains(door))
                 return;
@@ -156,25 +184,22 @@
             if (door.IsRoomInstalled())
                 return;
 
-            _controller.GetHotelRoomModules(_possibleRooms);
-            _controller.GetUtilityRooms(_utilityRooms);
-
             if (_possibleRooms.Count == 0 && _utilityRooms.Count == 0)
             {
                 DevLog.LogAssertion("No possible rooms to install for door: " + door.gameObject.name, this);
                 door.RequestDoorLock(true);
                 return;
             }
-            FitRoom(door);
+            await FitRoom(door);
 
         }
 
-        private void ConnectModule(IHotelRoomModule roomModule, Transform moduleAnchor)
+        private Task ConnectModule(IHotelRoomModule roomModule, Transform moduleAnchor)
         {
             if (roomModule == null && moduleAnchor == null)
             {
                 DevLog.LogAssertion("ConnectModule failed: roomModule or moduleAnchor is null", this);
-                return;
+                return Task.CompletedTask;
             }
 
             Transform roomRoot = roomModule.GetTransform();
@@ -188,22 +213,30 @@
 
             Vector3 offset = moduleAnchor.position - roomAnchor.position;
             roomRoot.position += offset;
+            return Task.CompletedTask;
 
         }
 
-        public void InitializeModule(GameModeController controller)
+        public Task InitializeModule(GameModeController controller)
         {
             _controller = controller;
             if (_doors.Count == 0)
             {
                 DevLog.LogAssertion("Doors Missing....", this);
-                return;
+                return Task.CompletedTask;
             }
             foreach (HotelDoor door in _doors)
             {
                 DevLog.Log("Setting parent module for door: " + door.gameObject.name, this);
                 door.SetParentModule(this);
             }
+            _controller.GetHotelRoomModules(_possibleRooms);
+            _controller.GetUtilityRooms(_utilityRooms);
+            if (_utilityRooms.Count == 0)
+            {
+                DevLog.LogWarning("No utility rooms found for module: " + _moduleName, this);
+            }
+            return Task.CompletedTask;
         }
 
         public string GetModuleName()
