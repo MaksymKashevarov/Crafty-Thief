@@ -44,7 +44,7 @@
             {
                 return Task.FromResult(true);
             }
-            return Task.FromResult(false);
+            return Task.FromResult(false);     
         }
 
         private async Task<bool> TryMainRooms(HotelDoor door)

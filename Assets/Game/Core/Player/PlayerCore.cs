@@ -12,7 +12,8 @@ namespace Game.Core.Player
     {
         [SerializeField] private CharacterController _cc;
         [SerializeField] private Transform _cameraPivot;
-        [SerializeField] private float _moveSpeed = 5f;
+        [SerializeField] private float _walkSpeed = 5f;
+        [SerializeField] private float _sprintSpeed = 8f;
         [SerializeField] private float _lookSensitivity = 200f;
         [SerializeField] private NpcStats _stats;
         [SerializeField] private float _interactDistance = 3f;
@@ -158,6 +159,16 @@ namespace Game.Core.Player
             }
         }
 
+        private float GetCurrentMoveSpeed()
+        {
+            if (_isSprinting)
+            {
+                return _sprintSpeed;
+            }
+
+            return _walkSpeed;
+        }
+
         public void SetPlayable(bool value)
         {
             _isPlayable = value;
@@ -210,21 +221,14 @@ namespace Game.Core.Player
 
         private void LookUpdate()
         {
-            if (_isSprinting)
-            {
-                _moveSpeed = 8f;
-            }
-            else
-            {
-                _moveSpeed = 5f;
-            }
             //DevLog.Log($"Movespeed: {_moveSpeed}", this);
             //DevLog.Log($"IsSprinting: {_isSprinting}", this);
             Vector3 right = transform.right * _move.x;
             Vector3 forward = transform.forward * _move.y;
             Vector3 dir = right + forward;
 
-            _cc.SimpleMove(dir * _moveSpeed);
+            float speed = GetCurrentMoveSpeed();
+            _cc.SimpleMove(dir * speed);
 
             float yawDelta = _look.x * _lookSensitivity * Time.deltaTime / 100f;
             float pitchDelta = _look.y * _lookSensitivity * Time.deltaTime / 100f;
