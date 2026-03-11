@@ -12,12 +12,14 @@ namespace Game.Core.Player
     {
         [SerializeField] private CharacterController _cc;
         [SerializeField] private Transform _cameraPivot;
+        [Header("Player Core Configuration")]
         [SerializeField] private float _walkSpeed = 5f;
         [SerializeField] private float _sprintSpeed = 8f;
         [SerializeField] private float _lookSensitivity = 200f;
         [SerializeField] private NpcStats _stats;
         [SerializeField] private float _interactDistance = 3f;
         [SerializeField] private LayerMask _interactMask;
+        [Header("Dependecies")]
         [SerializeField] private UIController _controller;
         [SerializeField] private GlobalDriver _globalDriver;
         [SerializeField] private int _handsInventorySize;
@@ -25,6 +27,14 @@ namespace Game.Core.Player
         [SerializeField] private Animator _animator;
         [SerializeField] private string _blendParam = "Blend"; 
         [SerializeField] private float _blendDamp = 10f;
+        [Header("Camera Movement Control")]
+        [SerializeField] private float _standControllerHeight = 1.8f;
+        [SerializeField] private float _crouchControllerHeight = 1.0f;
+        [SerializeField] private float _standControllerCenterY = 0.9f;
+        [SerializeField] private float _crouchControllerCenterY = 0.5f;
+        [SerializeField] private float _crouchCameraLocalY = 1.1f;
+        [SerializeField] private float _crouchLerpSpeed = 6f;
+        private Vector3 _standCameraLocalPosition;
 
         private float _blendValue;
         private Dictionary<string, float> stats = new();
@@ -34,6 +44,7 @@ namespace Game.Core.Player
         private bool _isPlayable;
         private bool _isMoving;
         private bool _isSprinting;
+        private bool _isCrouching;
 
         private Vector2 _move;
         private Vector2 _look;
@@ -53,6 +64,11 @@ namespace Game.Core.Player
         {
             if (value.isPressed)
             {
+                if (_isCrouching)
+                {
+                    _isSprinting = false;
+                    return;
+                }
                 if (_isSprinting)
                 {
                     _isSprinting = false;
@@ -159,11 +175,69 @@ namespace Game.Core.Player
             }
         }
 
+        private void OnCrouch(InputValue value)
+        {
+            if (value.isPressed)
+            {
+                if (_isSprinting)
+                {
+                    _isCrouching = false;
+                    return;
+                }
+                if (_isCrouching)
+                {
+                    _isCrouching = false;
+                }
+                else
+                {
+                    _isCrouching = true;
+                }
+            }
+            DevLog.Log($"Crouch state: {_isCrouching}", this);
+        }
+
+        private void UpdateCrouchState()
+        {
+            if (_cc != null)
+            {
+                if (_isCrouching)
+                {
+                    _cc.height = _crouchControllerHeight;
+                    _cc.center = new Vector3(_cc.center.x, _crouchControllerCenterY, _cc.center.z);
+                }
+                else
+                {
+                    _cc.height = _standControllerHeight;
+                    _cc.center = new Vector3(_cc.center.x, _standControllerCenterY, _cc.center.z);
+                }
+            }
+
+            if (_cameraPivot != null)
+            {
+                Vector3 localPosition = _cameraPivot.localPosition;
+
+                if (_isCrouching)
+                {
+                    localPosition.y = Mathf.Lerp(localPosition.y, _crouchCameraLocalY, Time.deltaTime * _crouchLerpSpeed);
+                }
+                else
+                {
+                    localPosition.y = Mathf.Lerp(localPosition.y, _standCameraLocalPosition.y, Time.deltaTime * _crouchLerpSpeed);
+                }
+
+                _cameraPivot.localPosition = localPosition;
+            }
+        }
+
         private float GetCurrentMoveSpeed()
         {
             if (_isSprinting)
             {
                 return _sprintSpeed;
+            }
+            if (_isCrouching)
+            {
+                return _walkSpeed * 0.5f;
             }
 
             return _walkSpeed;
@@ -217,6 +291,10 @@ namespace Game.Core.Player
             }
             _playerInterface.SetInventorySize(_handsInventorySize);
             Container.Register(this);
+            if (_cameraPivot != null)
+            {
+                _standCameraLocalPosition = _cameraPivot.localPosition;
+            }
         }
 
         private void LookUpdate()
@@ -248,6 +326,9 @@ namespace Game.Core.Player
                 float targetBlend = (_move.sqrMagnitude > 0.001f) ? 1f : 0f;
                 _blendValue = Mathf.MoveTowards(_blendValue, targetBlend, Time.deltaTime * _blendDamp);
                 _animator.SetFloat(_blendParam, _blendValue);
+
+                _animator.SetBool("IsCrouching", _isCrouching);
+                UpdateCrouchState();
             }
         }
 
