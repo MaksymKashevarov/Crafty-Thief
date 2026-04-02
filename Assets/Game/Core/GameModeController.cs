@@ -21,6 +21,7 @@ namespace Game.Core
         private SceneData _menuScene;
         List<IModule> _hotelModules = new List<IModule>();
         List<IHotelRoomModule> _hotelRoomModules = new List<IHotelRoomModule>();
+        List<IHotelRoomModule> _utilityRooms = new List<IHotelRoomModule>();
         public GameModeController(GlobalDriver globalDriver, SceneController sceneController)
         {
             _globalDriver = globalDriver;
@@ -52,6 +53,19 @@ namespace Game.Core
             }
         }
 
+        public void GetUtilityRooms(List<IHotelRoomModule> utilityRooms)
+        {
+            if (_utilityRooms.Count == 0)
+            {
+                DevLog.LogWarning("No utility rooms found. This may be intentional if your game design does not include utility rooms, but please verify that this is the expected behavior.", this);
+                return;
+            }
+            foreach (IHotelRoomModule module in _utilityRooms)
+            {
+                utilityRooms.Add(module);
+            }
+        }
+
         public Task DefineGameMode(SceneData sceneData)
         {
             GameMode gameMode = sceneData.GetGameMode();
@@ -69,6 +83,7 @@ namespace Game.Core
         {
             Registry.hotelRegistry.Resolve(_hotelModules);
             _hotelRoomModules = await AssetTransformer.ConvertHotelRoomsAsync(AssetType.hotel_room);
+            _utilityRooms = await AssetTransformer.ConvertHotelRoomsAsync(AssetType.hotel_room_utility);
 
             if (_hotelRoomModules.Count == 0)
             {
@@ -87,9 +102,16 @@ namespace Game.Core
             foreach (IModule module in _hotelModules)
             {
                 DevLog.Log("Initializing hotel module: " + module.GetModuleName(), this);
-                module.InitializeModule(this);
+                await module.InitializeModule(this);
             }
-                
+
+            Registry.hotelRegistry.ResolveUtilityModules(_utilityRooms);
+
+            if (_utilityRooms.Count == 0)
+            {
+                DevLog.LogWarning("No utility rooms found for hotel game mode. This may be intentional if your game design does not include utility rooms, but please verify that this is the expected behavior.", this);
+            }
+
         }
 
     }

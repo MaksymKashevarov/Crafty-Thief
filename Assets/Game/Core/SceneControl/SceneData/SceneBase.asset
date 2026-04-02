@@ -20,5 +20,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d654e5761eec6104aa5cf80c6d8d43bd, type: 2}
   _coreMaps:
   - {fileID: 11400000, guid: a6981f65abee7c84094f59f0bac8417b, type: 2}
+  - {fileID: 11400000, guid: 3ef3c25aa1ed3b048a98ba192562f782, type: 2}
   _hotel:
   - {fileID: 11400000, guid: d6773aed997245d4bbd54361ab232c4d, type: 2}

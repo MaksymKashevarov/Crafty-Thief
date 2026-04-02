@@ -1,8 +1,10 @@
+using System.Threading.Tasks;
+
 namespace Game.Core.SceneControl.Spawnables.Hotel
 {
     public interface IModule
     {
-        void InitializeModule(GameModeController controller);
+        Task InitializeModule(GameModeController controller);
         string GetModuleName();
 
     }

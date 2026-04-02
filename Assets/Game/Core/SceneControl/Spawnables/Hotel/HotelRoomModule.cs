@@ -5,11 +5,18 @@ namespace Game.Core.SceneControl.Spawnables.Hotel
     public class HotelRoomModule : MonoBehaviour, IHotelRoomModule
     {
         [SerializeField] private HotelRoomModuleAnchor _anchor;
+        [SerializeField] private Collider _boundaries;
 
         public GameObject GetRoomPrefab()
         {
             return gameObject;
         }
+
+        public Collider GetBoundaries()
+        {
+            return _boundaries;
+        }
+
 
         public HotelRoomModuleAnchor GetAnchor()
         {

@@ -13,6 +13,11 @@ namespace Game.Core.SceneControl.Spawnables.Hotel
         [SerializeField] private ModuleAnchor _anchor;
         private bool _isRoomInstalled = false;
 
+        public void RequestDoorLock(bool flag)
+        {
+            _door.SetLock(flag);
+        }
+
         private void Awake()
         {
             if (_isExtensionActivated)

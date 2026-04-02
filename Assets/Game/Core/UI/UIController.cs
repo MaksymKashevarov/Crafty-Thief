@@ -154,6 +154,7 @@ namespace Game.Core.UI
             currentElement.Activate();
 
             List<IUIElement> children = currentElement.GetChildElements();
+
             if (children == null)
             {
                 Debug.LogWarning("No children list present");
